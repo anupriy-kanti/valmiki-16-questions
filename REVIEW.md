@@ -79,9 +79,18 @@ Echo layer and the nine themes with their descriptions: unchanged from the artef
 - **Goldman per-block page numbers**: one range for all blocks.
 - **GP 13a, 14a, 20b in the CE apparatus or appendix**: unchecked, so the site says only "not in the constituted text".
 
-## 5. Not done (MVP)
+## 5. Not done, and deviations from the polish and motion requests
 
-- Lighthouse audit not run. Checked by script only: all six routes render with no console errors at 375px and 1440px with no horizontal scroll. Dimmed verses in spotlight mode (45% opacity) may fail contrast.
-- No dark mode, no print styles, no per-verse deep links (`#/answers` scrolls to top).
-- Fonts load from Google Fonts at run time.
-- Node 20 deprecation warnings in Actions (harmless now).
+Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differently from the request:
+
+- **Spotlight dimming is by colour, not opacity.** The request said opacity around 0.45. At 0.45 body text falls to 2.7:1 and muted text to 1.95:1, so WCAG AA cannot be met that way. Dimmed verses now use #5c4f42 text (7.3:1), no card fill and a dashed border.
+- **No animated thread from question card to answer words.** On All the card and the answering verses are far apart, and Answers shows no cards, so a drawn line would cross much of the page. For a projected talk this seemed gimmicky. The echo words glow instead (gold, 1.6s) when a question is selected. Say if you still want the thread.
+- **Tooltips show verse-level English, not word-level.** No data aligns English words to Sanskrit words, and picking them would be a new interpretive claim. The tooltip shows the question, the echo type, and the verse's Debroy and Gita Press English side by side.
+- **Devanāgarī echo marks** cover whole akṣara clusters (1.1.17 marks त्प्रियदर्शनः, one extra consonant from the sandhi). At 1.1.8 (द्युतिमान्धृ…) and 1.1.14 (स्मृतिमान्प्र…) only the IAST is marked, because a mark would break a conjunct.
+- **Route change is a fade-in (200ms), not a true cross-fade.** The old page is not kept on screen while the new one fades in. A true cross-fade needs the View Transitions API with a React Router data router, which is a larger change.
+- **Progress rail** shows from 1024px up only. Below that there is no room beside the text.
+- **Present mode** shows Sanskrit, tags, Gita Press-only lines and the Debroy and Gita Press English. It does not show Goldman's paragraphs, which are too long for one screen, or the notes and pattern cards. It needs a test on the projector and clicker you will use. Most clickers send PageDown/PageUp or arrow keys, which work.
+- **Lighthouse** was run locally on `vite preview`, not on the live site: mobile performance 97, desktop 99–100, accessibility 100 (All and Answers). Patterns, Sources and About were not audited separately. Run it on the live URL once.
+- **The hero preload** is in `index.html`, so pages other than All also fetch the hero (54 kB on phones). Small cost, kept for the landing page's speed.
+- **Fonts swap in.** Text first shows in fallback fonts, then switches to EB Garamond, Tiro and DM Sans.
+- **Not done:** dark mode, self-hosted fonts. Node 20 deprecation warnings in Actions are harmless for now.
