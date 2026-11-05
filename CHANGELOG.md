@@ -1,5 +1,9 @@
 # Changelog
 
+## Site v1.1 (polish, Nov 2026)
+
+- **Spotlight contrast.** Dimmed verses no longer use opacity. Opacity 0.45 drops body text to 2.7:1, below WCAG AA. They now use a muted text colour (#5c4f42, 7.3:1 on the page), no card fill and a dashed border. Badges keep their colours.
+
 ## Site v1 (MVP, Nov 2026)
 
 GitHub Pages site built from artefact v6. Critical Edition Sanskrit as primary, CE numbering, Goldman added as a third translation, Gita Press-only half-lines in separate boxes. See `REVIEW.md`.

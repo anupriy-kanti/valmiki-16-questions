@@ -100,7 +100,7 @@ function Verse({ v, layers, q, setQ, spotlight }) {
       className={
         'my-4 rounded-lg border bg-card p-4 transition-opacity ' +
         (lit ? 'border-accent shadow-md' : 'border-line') +
-        (dim ? ' opacity-45' : '')
+        (dim ? ' dimmed' : '')
       }
     >
       <header className="mb-2 flex flex-wrap items-baseline gap-2 font-sans">
