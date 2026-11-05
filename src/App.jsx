@@ -105,7 +105,7 @@ export default function App() {
       <Nav over={pathname === '/'} />
       <SideByline />
       {pathname === '/' && <><Pager /><BottomLine /></>}
-      {pathname === '/' && <Hero onNext={() => { const m = document.getElementById('main'); window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY, behavior: document.documentElement.classList.contains('motion') ? 'smooth' : 'auto' }) }} />}
+      {pathname === '/' && <Hero />}
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <div key={pathname} className="route-fade">
         <Routes>
