@@ -269,7 +269,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
       </header>
 
       {[0, 1].map(i => (
-        <div key={i} className="rv mb-1" style={{ '--i': i + 1 }}>
+        <div key={i} className="rv mb-1" data-line={i + 1} style={{ '--i': i + 1 }}>
           <p lang="sa-Deva" className="deva text-xl">
             {markEchoes(v.dev[i], v.echoes, 'dev', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="dev" v={v} />)}
           </p>
@@ -552,6 +552,83 @@ const TITLES = {
   patterns: ['Patterns', 'The notable findings from mapping the questions to the answer, and a checklist of where each question is answered.'],
 }
 
+const STOPS = [
+  { key: 'frame', label: 'Frame', range: '1.1.1–5', sel: '#v1', depth: 0 },
+  { key: 'questions', label: 'Questions', range: '1.1.2–4', sel: '#v2', depth: 1 },
+  { key: 'answer', label: 'Answer', range: '1.1.6–19', sel: '#v6', depth: 0 },
+  { key: 'pivot', label: 'Pivot', range: '1.1.19b', sel: '#v19 [data-line="2"]', depth: 0 },
+]
+
+// Which stop holds verse n (and line), for the active marker.
+const stopFor = (n, line) => (n >= 2 && n <= 4 ? 'questions' : n <= 5 ? 'frame' : n === 19 && line === 2 ? 'pivot' : 'answer')
+
+function ProgressRail({ mode }) {
+  const [state, setState] = useState({ progress: 0, active: null })
+  const [stops, setStops] = useState([])
+  useEffect(() => {
+    setStops(STOPS.filter(st => document.querySelector(st.sel)))
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const arts = [...document.querySelectorAll('article[id^="v"]')]
+      if (!arts.length) return
+      const startY = arts[0].getBoundingClientRect().top + window.scrollY
+      const endY = arts[arts.length - 1].getBoundingClientRect().bottom + window.scrollY
+      const mid = window.scrollY + window.innerHeight * 0.4
+      const progress = Math.max(0, Math.min(1, (mid - startY) / (endY - startY)))
+      let active = null
+      for (const a of arts) {
+        const r = a.getBoundingClientRect()
+        if (r.top > window.innerHeight * 0.4) break
+        const n = Number(a.id.slice(1))
+        const l2 = a.querySelector('[data-line="2"]')
+        active = stopFor(n, l2 && l2.getBoundingClientRect().top < window.innerHeight * 0.4 ? 2 : 1)
+      }
+      setState(prev => (prev.progress === progress && prev.active === active ? prev : { progress, active }))
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    update()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(frame)
+    }
+  }, [mode])
+  if (stops.length < 2) return null
+  const jump = st => {
+    const el = document.querySelector(st.sel)
+    const top = el.getBoundingClientRect().top + window.scrollY - 72
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' })
+  }
+  return (
+    <nav aria-label="Reading progress" className="no-print fixed top-1/2 z-10 hidden -translate-y-1/2 lg:block" style={{ left: 'max(12px, calc(50% - 380px - 150px))' }}>
+      <div className="relative pl-4">
+        <div aria-hidden="true" className="absolute bottom-1 left-0 top-1 w-[3px] rounded bg-line">
+          <div className="rail-fill w-full rounded bg-gold" style={{ height: `${(state.progress * 100).toFixed(1)}%` }} />
+        </div>
+        <ol className="space-y-3 font-sans text-xs">
+          {stops.map(st => (
+            <li key={st.key} style={{ paddingLeft: st.depth * 12 }}>
+              <button
+                type="button"
+                onClick={() => jump(st)}
+                aria-current={state.active === st.key ? 'step' : undefined}
+                className={'block rounded px-1 text-left leading-tight hover:bg-accent-soft ' + (state.active === st.key ? 'font-semibold text-accent' : 'text-muted')}
+              >
+                {st.label}
+                <span className="block text-[11px] font-normal">{st.range}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </nav>
+  )
+}
+
 export default function Reading({ mode }) {
   const [params, setParams] = useSearchParams()
   const q = params.get('q')
@@ -599,6 +676,7 @@ export default function Reading({ mode }) {
 
   return (
     <div className="py-2">
+      <ProgressRail mode={mode} />
       {mode === 'all' ? (
         <>
           <Hero />
