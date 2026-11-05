@@ -100,3 +100,32 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 ### To check
 
 - **Goldman verse split (item 5).** Check the 19 pieces in `data/goldman-aligned-draft.json` against print pp. 51–52. Each piece is verbatim and the build confirms they join back into Goldman's paragraphs, but where each verse starts and ends is MYT's reading. Once checked, remove the draft note at the top of Sources & method (`src/Sources.jsx`) and the word "draft" from the key (`src/Reading.jsx`, Legend).
+- **Hero crop on phones (item 1).** The brief says "centred". On a portrait phone the centred crop of the wide image shows the vīṇā and hands but neither sage in full. Say if you want the crop shifted (for example towards the sage with the vīṇā).
+- **Hero image resolution.** The largest hero file is 1024px wide. Filling a 1440px screen with `cover` stretches it to about 1600px, so it looks a little soft on large monitors and projectors. A 2000px source would fix this. `og.jpg` (1200×630) is also made from the 1024px image.
+- **Byline fades out** on the way to the second fold, as the milestone says. Say if you would rather it stays with the title.
+- **Sanskrit label (item 4)** reads "Sanskrit · Critical Edition (GRETIL)" and links to GRETIL, as asked. The Devanāgarī comes from John Smith's file, not GRETIL. The new Sources paragraph says so, but the label alone credits GRETIL for both scripts. Consider "Sanskrit · Critical Edition" with the link kept.
+
+### Your mid-session rulings (these replace parts of `MILESTONE-02.md` §1)
+
+1. The first fold fades to **black**, not the page colour. A band below the hero takes black to paper, and it stays dark while the title arrives, so the light colour comes only on further scroll.
+2. Nav tabs and metadata sit on the dark: light tab text over the image, and the "Rāmāyaṇa · Bālakāṇḍa · Sarga 1" label moved from the top of the introduction into the dark band (milestone §2 put it at the top of the second fold).
+3. Desktop tabs spread out. The current tab has a gold underline, not a pill (on every page and width, not only desktop).
+4. A lighter overlay behind the title, with a text shadow.
+5. Link previews use a new `og.jpg` with the title set over the image. The page that rendered it is not in the repo. If the title changes, the image must be made again.
+
+### Judgement calls
+
+- **Introduction (item 2).** The milestone names the two paragraphs. The third, small note (CE numbering, IAST, the three translations, how to use the menu) is kept after a small divider, because nothing else on the page explains "1.1.8" now that the key is tucked away.
+- **Old hero lines.** "Beginning of the Bālakāṇḍa" and the old byline under the hero are gone. The new subtitle and the byline in the hero replace them.
+- **Hero motion.** The image keeps a slow drift and a zoom of up to 6% while scrolling (it was up to about 17%). Off under reduced motion.
+- **Nav states on All.** Transparent over the image, a dark scrim once the reader scrolls (so the tabs stay readable over the picture), paper and solid after the dark band.
+- **Key (item 3).** The tab shows on All, Questions, Answers and Patterns, not on Sources or About. "Closed on load" is read as the default: a reader who left it open sees it open on the next visit, as "remember open or closed" requires. On All the tab and panel wait until the reader leaves the hero. At 1024–1279px the panel overlaps the right edge of the column (there is no room beside it). On phones the vertical tab covers about 8px of the text edge at mid-screen. The key no longer prints (it used to print on All).
+- **Progress rail.** It now has a paper backing so it reads over the dark band, and waits until the reader leaves the hero.
+- **Goldman (item 5).** The 1.1.16–24 disclosure shows the paragraph only to the end of 1.1.19, with a line saying it continues. The data file holds that paragraph only part way into 1.1.20 (and not proof-read), so "the whole paragraph" is not available. The Goldman piece comes first of the three translations, matching the toggle order. In Present mode the three translations sit in three columns from 1280px, two below that.
+- **REVIEW §5 is partly out of date:** Present mode now shows Goldman (the piece for each verse).
+
+### Checks (local `vite preview` only; the live site was not checked from this session)
+
+- All six routes, deep links `#/answers?v=1.1.14` and `#/questions?v=1.1.3&q=Q4` (verse scrolled to and ringed), and Present mode (arrows, Escape returns to the last verse) work at 375px and 1440px, with and without reduced motion. No sideways scroll and no console errors on any route.
+- Lighthouse 12.2.1, accessibility: 100 on all six routes (mobile). Patterns was 98 (pattern titles h3 under h1, from before this milestone), fixed.
+- Lighthouse mobile performance: All 92–96 (one first run after a rebuild gave 86), Answers 95–97. LCP 2.1–2.4 s, CLS 0. Desktop: All and Answers 100 performance, 100 accessibility.
