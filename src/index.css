@@ -117,3 +117,22 @@ button.echo-glow { background-color: rgb(168 120 42 / .12); }
 .rail.is-off { opacity: 0; visibility: hidden; transition: opacity 300ms ease, visibility 0s 300ms; }
 @keyframes slide-in { from { opacity: 0 } to { opacity: 1 } }
 .present-slide { animation: slide-in 300ms ease-out both; }
+
+/* Key sidebar. Closed it is hidden from screen readers and the tab order. */
+.key-tab { top: 58%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); transition: opacity 250ms ease, visibility 0s; }
+.key-tab.is-off { opacity: 0; visibility: hidden; transition: opacity 250ms ease, visibility 0s 250ms; }
+.key-panel {
+  inset: auto 0 0 0; max-height: 70vh; max-height: 70svh;
+  border-top-width: 1px; border-radius: 0.75rem 0.75rem 0 0;
+  transform: translateY(100%); visibility: hidden;
+  transition: transform 320ms cubic-bezier(.2,.7,.2,1), visibility 0s 320ms;
+}
+.key-panel.is-open { transform: none; visibility: visible; transition: transform 320ms cubic-bezier(.2,.7,.2,1), visibility 0s; }
+@media (min-width: 1024px) {
+  .key-panel {
+    inset: 49px 0 0 auto; max-height: none; border-top-width: 0; border-left-width: 1px; border-radius: 0;
+    /* Fits the margin beside the 760px column where there is room. */
+    width: min(360px, max(288px, calc((100vw - 760px) / 2 - 24px)));
+    transform: translateX(100%);
+  }
+}

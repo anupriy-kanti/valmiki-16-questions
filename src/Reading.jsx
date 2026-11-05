@@ -447,8 +447,7 @@ function Legend() {
     ? { name: CATS[open].label, ...CATS[open] }
     : { name: `${ECHO_STYLE[open].sym} ${ECHO_STYLE[open].tag} echo`, ...ECHO_STYLE[open] })
   return (
-    <section aria-labelledby="key" className="my-6 space-y-2 rounded-lg border border-line bg-card p-4">
-      <h2 id="key" className="text-lg font-semibold">Key</h2>
+    <div className="space-y-2">
       <p className="font-sans text-xs text-muted">Tap any chip to see what it means.</p>
       <div className="flex flex-wrap gap-1.5">
         {Object.entries(CATS).map(([k, c]) => (
@@ -478,7 +477,74 @@ function Legend() {
       <p className="font-sans text-xs italic text-muted">
         The nine themes are one way of grouping the questions for this experience, not a classification from the text itself.
       </p>
-    </section>
+    </div>
+  )
+}
+
+const KEY_STORE = 'v16q-key-open'
+const readKeyOpen = () => { try { return localStorage.getItem(KEY_STORE) === '1' } catch { return false } }
+
+// The key as a tuck-away sidebar: a vertical tab on the right edge opens it.
+// From 1024px it slides in from the right, in the page margin where there is
+// room. Below that it is a bottom sheet. Open or closed is remembered per reader.
+function KeyPanel({ mode }) {
+  const [open, setOpen] = useState(readKeyOpen)
+  const [past, setPast] = useState(mode !== 'all')
+  const tab = useRef(null)
+  const closeBtn = useRef(null)
+  const moved = useRef(false)
+  useEffect(() => {
+    try { localStorage.setItem(KEY_STORE, open ? '1' : '0') } catch { /* storage blocked */ }
+    if (!moved.current) return
+    if (open) closeBtn.current?.focus()
+    else tab.current?.focus()
+  }, [open])
+  useEffect(() => {
+    if (mode !== 'all') return setPast(true)
+    // On All the key waits until the reader has left the hero.
+    const update = () => setPast(window.scrollY > window.innerHeight * 0.75)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
+  }, [mode])
+  const shown = open && past
+  useEffect(() => {
+    if (!shown) return
+    const onKey = e => {
+      if (e.key !== 'Escape' || document.querySelector('[aria-modal="true"], [role="tooltip"]')) return
+      moved.current = true
+      setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [shown])
+  const set = v => { moved.current = true; setOpen(v) }
+  return (
+    <div className="no-print">
+      <button
+        ref={tab}
+        type="button"
+        onClick={() => set(!open)}
+        aria-expanded={shown}
+        aria-controls="key-panel"
+        className={'key-tab fixed right-0 z-30 rounded-l-md border border-r-0 border-gold bg-card px-1.5 py-3 font-sans text-xs font-semibold uppercase tracking-widest text-gold-ink shadow' + (past ? '' : ' is-off')}
+      >
+        Key
+      </button>
+      <section
+        id="key-panel"
+        aria-labelledby="key"
+        className={'key-panel fixed z-30 overflow-y-auto border-line bg-card p-4 shadow-xl' + (shown ? ' is-open' : '')}
+      >
+        <div className="mb-2 flex items-center justify-between">
+          <h2 id="key" className="text-lg font-semibold">Key</h2>
+          <button ref={closeBtn} type="button" onClick={() => set(false)} className="rounded-full border border-line px-3 py-1 font-sans text-sm hover:bg-accent-soft">
+            Close <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <Legend />
+      </section>
+    </div>
   )
 }
 
@@ -660,6 +726,7 @@ export default function Reading({ mode }) {
       <div className="py-6">
         <h1 className="text-4xl font-semibold">{TITLES.patterns[0]}</h1>
         <p className="mt-2 text-muted">{TITLES.patterns[1]}</p>
+        <KeyPanel mode={mode} />
         {PATTERNS.map(p => <PatternCard key={p.id} p={p} />)}
         <Coverage />
       </div>
@@ -672,13 +739,13 @@ export default function Reading({ mode }) {
   return (
     <div className="py-2">
       <ProgressRail mode={mode} />
+      <KeyPanel mode={mode} />
       {presenting && (
         <Present nums={nums} start={typeof presenting === 'number' ? presenting : nums[0]} layers={layers} q={q} markLine={markLine} onClose={endPresent} />
       )}
       {mode === 'all' ? (
         <>
           <Intro />
-          <Legend />
         </>
       ) : (
         <div className="py-6">
