@@ -569,45 +569,6 @@ function KeyPanel({ mode }) {
   )
 }
 
-// Second fold on All: a calm, centred introduction that fades in once.
-function Intro() {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!('IntersectionObserver' in window)) return el.classList.add('revealed')
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { el.classList.add('revealed'); io.disconnect() }
-    }, { rootMargin: '0px 0px -12% 0px' })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <section ref={ref} id="part-frame" aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-4 sm:pb-10 sm:pt-8">
-      <div className="space-y-4 text-lg leading-relaxed sm:text-xl">
-        <p className="rv" style={{ '--i': 1 }}>
-          The Rāmāyaṇa opens with a question. Before the story begins, the sage Vālmīki asks the sage Nārada
-          whether any truly complete person is alive in the world right now, and lists sixteen qualities such
-          a person would have. Nārada answers yes: a prince named Rāma, whom he then describes at length. This
-          site places those sixteen questions beside Nārada’s answer, so you can see which quality is answered where.
-        </p>
-        <p className="rv" style={{ '--i': 3 }}>
-          Reading the opening this way turns it into a piece of design you can inspect. Some qualities are
-          answered many times over, one is never answered directly, and in the Sanskrit the answer sometimes
-          repeats the exact word of the question. These patterns show how carefully the epic’s first lines are built.
-        </p>
-      </div>
-      <p aria-hidden="true" className="rv my-8 text-center text-gold" style={{ '--i': 5 }}>· · ·</p>
-      <p className="rv font-sans text-sm text-muted" style={{ '--i': 5 }}>
-        Each verse appears in the Sanskrit of the Critical Edition (CE), in Devanāgarī and in Roman letters
-        (IAST), with three English translations to compare: Robert P. Goldman’s and Bibek Debroy’s (both of the
-        CE) and the Gita Press edition’s. A <i>śloka</i> is a verse, and “1.1.8” means Bālakāṇḍa, sarga 1,
-        verse 8 in the Critical Edition. Use the menu above to read only the Questions, only the Answers, or
-        the Patterns.
-      </p>
-    </section>
-  )
-}
-
 const TITLES = {
   questions: ['Questions', 'The sixteen qualities, grouped by the three verses they come from, with the frame verses around them.'],
   answers: ['Answers', 'Nārada’s reply, read verse by verse. The coloured tags mark which of the sixteen questions each verse answers. Tap a tag to spotlight it.'],
@@ -693,7 +654,7 @@ function ProgressRail({ mode }) {
   )
 }
 
-export default function Reading({ mode, noIntro }) {
+export default function Reading({ mode }) {
   const [params, setParams] = useSearchParams()
   const q = params.get('q')
   const target = params.get('v')
@@ -763,14 +724,10 @@ export default function Reading({ mode, noIntro }) {
       {presenting && (
         <Present nums={nums} start={typeof presenting === 'number' ? presenting : nums[0]} layers={layers} q={q} markLine={markLine} onClose={endPresent} />
       )}
-      {mode === 'all' ? (
-        !noIntro && <Intro />
-      ) : (
-        <div className="py-6">
-          <h1 className="text-4xl font-semibold">{TITLES[mode][0]}</h1>
-          <p className="mt-2 text-muted">{TITLES[mode][1]}</p>
-        </div>
-      )}
+      <div className="py-6">
+        <h1 className="text-4xl font-semibold">{TITLES[mode][0]}</h1>
+        <p className="mt-2 text-muted">{TITLES[mode][1]}</p>
+      </div>
 
       <fieldset className="no-print z-10 -mx-4 sm:sticky sm:top-[49px] my-4 flex flex-wrap items-center gap-2 bg-paper/95 px-4 py-2 font-sans text-sm backdrop-blur">
         <legend className="sr-only">English translations to show</legend>
