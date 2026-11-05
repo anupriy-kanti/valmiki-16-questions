@@ -1,0 +1,108 @@
+import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
+const A = ({ href, children }) => (
+  <a className="text-accent underline" href={href}>{children}</a>
+)
+
+const ROWS = [
+  ['GP 1–12', 'CE 1.1.1–12', 'Same numbers'],
+  ['GP 13a', '—', 'Not in the CE constituted text'],
+  ['GP 13b', 'CE 1.1.13a', ''],
+  ['GP 14a', '—', 'Not in the CE constituted text'],
+  ['GP 14b', 'CE 1.1.13b', ''],
+  ['GP 15–19', 'CE 1.1.14–18', 'Shifted by one'],
+  ['GP 20a', 'CE 1.1.19a', 'CE reads śreṣṭhaguṇair for jyeṣṭhaguṇair'],
+  ['GP 20b', '—', 'Not in the CE constituted text'],
+  ['GP 21a', 'CE 1.1.19b', ''],
+]
+
+export default function Sources() {
+  const [params] = useSearchParams()
+  const ref = params.get('ref')
+  useEffect(() => {
+    if (ref) document.getElementById(ref)?.scrollIntoView({ block: 'center' })
+  }, [ref])
+
+  const item = (id, children) => (
+    <li id={id} className={'rounded p-2 ' + (ref === id ? 'bg-accent-soft' : '')}>{children}</li>
+  )
+
+  return (
+    <div className="space-y-8 py-6">
+      <h1 className="text-4xl font-semibold">Sources &amp; method</h1>
+
+      <section>
+        <h2 className="text-2xl font-semibold">Bibliography</h2>
+        <h3 className="mt-4 font-sans text-sm font-semibold uppercase tracking-wide text-muted">Sanskrit</h3>
+        <ul className="space-y-2">
+          {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
+          {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}
+          {item('deva', <>John Smith, <i>Vālmīki Rāmāyaṇa</i>, Devanāgarī e-text, <A href="https://bombay.indology.info/ramayana/">bombay.indology.info/ramayana</A> (Bālakāṇḍa file dated 21 Oct 2021). Source of the Devanāgarī text.</>)}
+        </ul>
+        <h3 className="mt-4 font-sans text-sm font-semibold uppercase tracking-wide text-muted">Translations</h3>
+        <ul className="space-y-2">
+          {item('goldman', <>Robert P. Goldman et al., trans., <i>The Rāmāyaṇa of Vālmīki: The Complete English Translation</i>, revised and edited by Robert P. Goldman and Sally J. Sutherland Goldman (Princeton: Princeton University Press, 2021), 51–52. Bālakāṇḍa translated by Robert P. Goldman. <A href="https://press.princeton.edu/">Publisher’s page</A>.</>)}
+          {item('debroy', <>Bibek Debroy, trans., <i>The Valmiki Ramayana</i>, vol. 1 (Gurgaon: Penguin Random House India, 2017). <A href="https://www.penguin.co.in/">Publisher’s page</A>.</>)}
+          {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī in the “Gita Press reading” boxes is transcribed verbatim from the Gita Press pages.</>)}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold">Rights</h2>
+        <p>
+          Translations are quoted for scholarly commentary and comparison. Copyright remains with the
+          translators and publishers. To request removal, write to{' '}
+          <A href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</A>.
+        </p>
+        <p className="mt-2">
+          The Sanskrit e-texts are credited above under their own licences. This site is non-commercial,
+          as the CC BY-NC-SA 4.0 licence of the GRETIL text requires.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold">Gita Press to Critical Edition</h2>
+        <p>
+          The original version of this mapping was keyed to Gita Press verse numbers. This site uses the
+          Critical Edition numbers (1.1.n) as primary. The concordance for the verses shown here:
+        </p>
+        <div className="overflow-x-auto">
+          <table className="mt-3 w-full border-collapse font-sans text-sm">
+            <thead>
+              <tr className="border-b border-line text-left">
+                <th className="py-1 pr-2">Gita Press</th>
+                <th className="py-1 pr-2">Critical Edition</th>
+                <th className="py-1">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ROWS.map(r => (
+                <tr key={r[0]} className="border-b border-line/60">
+                  <td className="py-1 pr-2">{r[0]}</td>
+                  <td className="py-1 pr-2">{r[1]}</td>
+                  <td className="py-1">{r[2]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-sm text-muted">
+          “Not in the CE” here means not in the constituted text. Whether these half-lines appear in the
+          Critical Edition’s apparatus or appendix has not been checked.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold">How the mapping was made</h2>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>The sixteen questions are the qualities Vālmīki names in CE 1.1.2–4, numbered Q1 to Q16 in the order the verses give them.</li>
+          <li>A question badge on an answer verse marks a verse that repeats the question’s word, or a member of its compound. This is a string match, not a reading of meaning.</li>
+          <li>Goldman translates in paragraphs that cover groups of verses. Each paragraph appears once, at the head of its group. The last paragraph is cut at the end of CE 1.1.19, where this site ends.</li>
+          <li>Debroy translates the Critical Edition. The Gita Press English follows the vulgate. Both are placed at the CE verse that holds the matching half-line.</li>
+          <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>
+        </ul>
+      </section>
+    </div>
+  )
+}
