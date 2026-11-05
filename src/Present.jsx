@@ -58,7 +58,7 @@ export default function Present({ nums, start, layers, q, markLine, onClose }) {
         <span className="ml-auto text-muted" aria-hidden="true">{i + 1} / {nums.length}</span>
         <button type="button" onClick={() => go(-1)} disabled={i === 0} className="rounded border border-line px-2 py-1 disabled:opacity-40" aria-label="Previous verse">←</button>
         <button type="button" onClick={() => go(1)} disabled={i === nums.length - 1} className="rounded border border-line px-2 py-1 disabled:opacity-40" aria-label="Next verse">→</button>
-        <button type="button" onClick={close} className="rounded bg-accent px-3 py-1 text-white">Exit</button>
+        <button type="button" onClick={close} className="caps rounded border border-gold px-3 py-1 text-xs text-gold-bright">Exit</button>
       </div>
 
       <div key={v.n} className="present-slide mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center overflow-y-auto px-5 py-6 sm:px-10">
@@ -69,7 +69,7 @@ export default function Present({ nums, start, layers, q, markLine, onClose }) {
               const on = q === id
               return (
                 <span key={id} title={QUESTIONS.find(x => x.id === id)?.label}
-                  style={{ background: on ? c.text : c.bg, color: on ? '#fff' : c.text, borderColor: c.border }}
+                  style={{ background: on ? c.text : c.bg, color: on ? c.bg : c.text, borderColor: c.border }}
                   className="rounded-full border px-3 py-0.5 text-sm font-semibold sm:text-base">{id}</span>
               )
             })}
@@ -84,17 +84,17 @@ export default function Present({ nums, start, layers, q, markLine, onClose }) {
         ))}
         {v.gpOnly && (
           <div className="mb-4 rounded bg-gp p-3 text-muted" style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.25rem)' }}>
-            <p className="font-sans text-xs font-semibold uppercase tracking-wide">Gita Press reading, not in the CE constituted text</p>
+            <p className="caps text-[11px] font-semibold">Gita Press reading, not in the CE constituted text</p>
             {v.gpOnly.map(r => <p key={r.gp}><span className="font-sans text-xs font-semibold">{r.gp}</span> <span lang="sa-Deva" className="deva">{r.dev}</span> · <i lang="sa-Latn">{r.iast}</i></p>)}
           </div>
         )}
         <div className="grid gap-6 border-t border-line pt-4 md:grid-cols-2 xl:grid-cols-3" style={{ fontSize: 'clamp(1rem, 1.6vw, 1.4rem)' }}>
           {layers.goldman && <GoldmanPiece v={v} className="" />}
           {layers.debroy && v.debroy && (
-            <div><p className="font-sans text-xs font-semibold uppercase tracking-wide text-muted">Debroy (CE)</p><p>{v.debroy}</p></div>
+            <div><p className="caps text-[11px] font-semibold text-muted">Debroy (CE)</p><p>{v.debroy}</p></div>
           )}
           {layers.gp && v.gita && (
-            <div><p className="font-sans text-xs font-semibold uppercase tracking-wide text-muted">Gita Press (vulgate)</p><p>{v.gita}</p></div>
+            <div><p className="caps text-[11px] font-semibold text-muted">Gita Press (vulgate)</p><p>{v.gita}</p></div>
           )}
         </div>
       </div>

@@ -47,7 +47,7 @@ function Nav({ over }) {
     : 'sticky border-b border-line bg-paper/95 backdrop-blur'
   return (
     <nav aria-label="Main" className={'no-print top-0 z-20 ' + cls}>
-      <ul className="mx-auto flex max-w-[760px] gap-4 overflow-x-auto px-4 py-2 font-sans text-sm lg:max-w-[1040px] lg:justify-between lg:gap-8 lg:px-8 lg:text-base">
+      <ul className="mx-auto flex max-w-[760px] gap-4 overflow-x-auto px-4 py-2 caps text-xs lg:max-w-[1040px] lg:justify-between lg:gap-8 lg:px-8 lg:text-[13px]">
         {NAV.map(([to, label, keepQ]) => (
           <li key={to} className="shrink-0">
             <NavLink

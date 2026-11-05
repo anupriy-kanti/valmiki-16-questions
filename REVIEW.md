@@ -129,3 +129,10 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - All six routes, deep links `#/answers?v=1.1.14` and `#/questions?v=1.1.3&q=Q4` (verse scrolled to and ringed), and Present mode (arrows, Escape returns to the last verse) work at 375px and 1440px, with and without reduced motion. No sideways scroll and no console errors on any route.
 - Lighthouse 12.2.1, accessibility: 100 on all six routes (mobile). Patterns was 98 (pattern titles h3 under h1, from before this milestone), fixed.
 - Lighthouse mobile performance: All 92–96 (one first run after a rebuild gave 86), Answers 95–97. LCP 2.1–2.4 s, CLS 0. Desktop: All and Answers 100 performance, 100 accessibility.
+
+## 7. Milestone 03 (c.v16q-03, 5 Nov 2026)
+
+### Judgement calls
+
+- **Item 1 · small text.** DM Sans is dropped, so every small note that used it (verse notes, cite links, tooltips, the key) is now EB Garamond, not Cinzel. Cinzel is kept for titles, eyebrows, labels, badges and the nav, as the brief lists. Spaced Cinzel capitals for whole notes would be hard to read.
+- **Item 1 · dimmed verses** (spotlight on Answers) use #8d7f71 text on the dark page (4.6:1, AA).

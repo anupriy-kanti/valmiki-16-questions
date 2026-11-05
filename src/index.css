@@ -2,29 +2,45 @@
 
 @theme {
   --font-serif: "EB Garamond", Georgia, serif;
-  --font-sans: "DM Sans", system-ui, sans-serif;
+  /* DM Sans is dropped. Small reading text that used it is now EB Garamond.
+     Labels, eyebrows, titles and nav use Cinzel (.caps and h1–h3). */
+  --font-sans: "EB Garamond", Georgia, serif;
+  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
   --font-deva: "Tiro Devanagari Sanskrit", serif;
-  --color-paper: #faf5ec;
-  --color-card: #fffdf8;
-  --color-ink: #2b2118;
-  --color-muted: #6b5d4f;
-  --color-line: #e6dccb;
-  --color-accent: #9a3f1c;
-  --color-accent-soft: #f3e1d3;
-  --color-gold: #a8782a;
-  --color-gold-ink: #7f5c1c;
-  --color-gp: #f1ede6;
+  /* One dark palette, from the Mahābhārata site. */
+  --color-paper: #1a1410;
+  --color-card: #211912;
+  --color-ink: #f0e8d8;
+  --color-muted: #a8998a;
+  --color-line: rgb(201 168 92 / .35);
+  --color-accent: #e8c87a;
+  --color-accent-soft: #3a2d1a;
+  --color-gold: #c9a85c;
+  --color-gold-bright: #e8c87a;
+  --color-gold-ink: #c9a85c;
+  --color-gp: #261d16;
+  --color-unlit: #5a5048;
+  /* EB Garamond sets small, so the two smallest steps are a touch larger. */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
 }
 
-html { --hero-dark: #0c0907; background: var(--color-paper); color: var(--color-ink); }
-body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
+html { --hero-dark: #0c0907; background: var(--color-paper); color: var(--color-ink); color-scheme: dark; }
+body {
+  font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6;
+  background: radial-gradient(ellipse 80% 60% at 50% 45%, #2a2018 0, rgb(42 32 24 / 0) 70%) fixed, var(--color-paper);
+  min-height: 100vh;
+}
+h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 600; letter-spacing: .04em; }
+.caps { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .16em; }
 .deva { font-family: var(--font-deva); line-height: 1.9; }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: rgb(201 168 92 / .4); color: #fff; }
+:focus-visible { outline: 2px solid var(--color-gold-bright); outline-offset: 2px; }
 
 /* Spotlight: verses outside the selected question. Colour, not opacity,
-   so all text stays at WCAG AA (#5c4f42 on paper is 7.3:1). */
-.dimmed { background: var(--color-paper); border-style: dashed; box-shadow: none; }
-.dimmed p:not([style]), .dimmed .deva, .dimmed i { color: #5c4f42; }
+   so all text stays at WCAG AA (#8d7f71 on the dark page is 4.6:1). */
+.dimmed { background: transparent; border-style: dashed; box-shadow: none; }
+.dimmed p:not([style]), .dimmed .deva, .dimmed i { color: #8d7f71; }
 
 /* Print: no nav or hero, all three translations, black on white. */
 .print-only { display: none; }
@@ -32,7 +48,7 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
   @page { margin: 18mm 16mm; }
   .no-print { display: none !important; }
   .print-only { display: block !important; }
-  html, body { background: #fff !important; }
+  html, body { background: #fff !important; color-scheme: light; }
   * { color: #000 !important; background: transparent !important; box-shadow: none !important; text-shadow: none !important; }
   main { max-width: none !important; padding: 0 !important; }
   article, aside, li { break-inside: avoid; }
@@ -72,7 +88,7 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 }
 .hero-text h1, .hero-text p { text-shadow: 0 1px 2px rgb(0 0 0 / .6), 0 2px 18px rgb(0 0 0 / .65); }
 /* Below the hero, black turns into the page colour as the reader scrolls. */
-.hero-fade { height: 80vh; height: 80svh; background: linear-gradient(to bottom, var(--hero-dark) 0, var(--hero-dark) 45%, #3a2e24 62%, #b9ab97 86%, var(--color-paper) 100%); }
+.hero-fade { height: 80vh; height: 80svh; background: linear-gradient(to bottom, var(--hero-dark) 0, var(--hero-dark) 45%, var(--color-paper) 100%); }
 .motion .hero-overlay { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 40%)); }
 .motion .hero-t1 { opacity: var(--t1, 0); transform: translateY(calc((1 - var(--t1, 0)) * 14px)); }
 .motion .hero-t2 { opacity: var(--t2, 0); transform: translateY(calc((1 - var(--t2, 0)) * 14px)); }
@@ -88,7 +104,7 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 .nav-over .nav-tab[aria-current] { color: #fff; border-color: #e3c98f; }
 .nav-over .nav-tab:not([aria-current]):hover { border-color: rgb(243 233 218 / .45); }
 .nav-over.is-scrim { background: rgb(12 9 7 / .78); }
-.nav-over.is-solid { background: rgb(250 245 236 / .95); border-color: var(--color-line); }
+.nav-over.is-solid { background: rgb(26 20 16 / .94); border-color: var(--color-line); }
 .nav-over.is-solid .nav-tab { color: var(--color-ink); }
 .nav-over.is-solid .nav-tab[aria-current] { border-color: var(--color-gold); }
 .nav-over.is-solid .nav-tab:not([aria-current]):hover { border-color: var(--color-line); }
@@ -116,13 +132,13 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 .verse p, .verse .deva, .verse i { transition: color 300ms ease; }
 .echo-word { border-bottom: 1px dotted currentColor; border-radius: 2px; }
 @keyframes echo-glow {
-  0% { background-color: rgb(168 120 42 / 0); box-shadow: 0 0 0 0 rgb(168 120 42 / 0); }
-  25% { background-color: rgb(168 120 42 / .28); box-shadow: 0 0 0 3px rgb(168 120 42 / .18); }
-  100% { background-color: rgb(168 120 42 / .12); box-shadow: 0 0 0 0 rgb(168 120 42 / 0); }
+  0% { background-color: rgb(201 168 92 / 0); box-shadow: 0 0 0 0 rgb(201 168 92 / 0); }
+  25% { background-color: rgb(201 168 92 / .28); box-shadow: 0 0 0 3px rgb(201 168 92 / .18); }
+  100% { background-color: rgb(201 168 92 / .12); box-shadow: 0 0 0 0 rgb(201 168 92 / 0); }
 }
-.echo-glow { border-bottom: 2px solid var(--color-gold); background-color: rgb(168 120 42 / .12); animation: echo-glow 1600ms ease-out both; }
+.echo-glow { border-bottom: 2px solid var(--color-gold); background-color: rgb(201 168 92 / .12); animation: echo-glow 1600ms ease-out both; }
 button.echo-word { font: inherit; color: inherit; cursor: help; padding: 0; background: none; }
-button.echo-glow { background-color: rgb(168 120 42 / .12); }
+button.echo-glow { background-color: rgb(201 168 92 / .12); }
 @keyframes tip-in { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
 .echo-tip { animation: tip-in 160ms ease-out both; max-height: 60vh; overflow-y: auto; }
 @media print { .echo-tip { display: none !important; } }

@@ -37,7 +37,7 @@ export default function Sources() {
 
       <section>
         <h2 className="text-2xl font-semibold">Bibliography</h2>
-        <h3 className="mt-4 font-sans text-sm font-semibold uppercase tracking-wide text-muted">Sanskrit</h3>
+        <h3 className="mt-4 caps text-xs font-semibold text-gold-ink">Sanskrit</h3>
         <p className="my-2">
           The primary Sanskrit on every verse is the Baroda Critical Edition (constituted text), in IAST from
           GRETIL and in Devanāgarī from John Smith’s Unicode file. The Gita Press Sanskrit is the vulgate
@@ -48,7 +48,7 @@ export default function Sources() {
           {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}
           {item('deva', <>John Smith, <i>Vālmīki Rāmāyaṇa</i>, Devanāgarī e-text, <A href="https://bombay.indology.info/ramayana/">bombay.indology.info/ramayana</A> (Bālakāṇḍa file dated 21 Oct 2021). Source of the Devanāgarī text.</>)}
         </ul>
-        <h3 className="mt-4 font-sans text-sm font-semibold uppercase tracking-wide text-muted">Translations</h3>
+        <h3 className="mt-4 caps text-xs font-semibold text-gold-ink">Translations</h3>
         <ul className="space-y-2">
           {item('goldman', <>Robert P. Goldman et al., trans., <i>The Rāmāyaṇa of Vālmīki: The Complete English Translation</i>, revised and edited by Robert P. Goldman and Sally J. Sutherland Goldman (Princeton: Princeton University Press, 2021), 51–52. Bālakāṇḍa translated by Robert P. Goldman. <A href="https://press.princeton.edu/">Publisher’s page</A>.</>)}
           {item('debroy', <>Bibek Debroy, trans., <i>The Valmiki Ramayana</i>, vol. 1 (Gurgaon: Penguin Random House India, 2017). <A href="https://www.penguin.co.in/">Publisher’s page</A>.</>)}

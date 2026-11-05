@@ -1,5 +1,10 @@
 # Changelog
 
+## Site v2.0 (milestone 03, c.v16q-03, Nov 2026)
+
+Built by `cloud-myt-v16q • 03` (c.v16q-03) from `MILESTONE-03.md`. Judgement calls and open points are in `REVIEW.md` §7.
+
+- **c.v16q-03 item 1 · Dark only, new type.** The light theme is gone. One dark palette from the Mahābhārata site: background #1a1410 with a soft warm radial glow (#2a2018 at the centre), text #f0e8d8, muted #a8998a (6.6:1), gold #c9a85c for labels, rules and frames, bright gold #e8c87a for links, focus and lit words, frame lines in gold at 35%. The nine category colours and the three echo colours each have a dark version: the same hue as a deep tinted fill, light text (8.5–9.4:1 on the fill) and a brighter dot. Active question badges invert (light fill, dark text). Dimmed verses use #8d7f71 (4.6:1). Type: Cinzel (400/600/700) for titles, eyebrows, labels and the nav, in spaced capitals. EB Garamond, with italics, for all reading text (the two smallest text sizes are a touch larger, as Garamond sets small). Tiro Devanagari Sanskrit for Devanāgarī. DM Sans is dropped. Print stays black on white.
 ## Site v1.3 (milestone 02, c.v16q-02, Nov 2026)
 
 Built by `cloud-myt-v16q • 02` (c.v16q-02) from `MILESTONE-02.md`. Open points are in `REVIEW.md` §6.

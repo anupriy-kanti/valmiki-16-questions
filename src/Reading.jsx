@@ -13,7 +13,7 @@ const LAYERS = [
 ]
 
 const Label = ({ children, className = '' }) => (
-  <p className={'font-sans text-xs font-semibold uppercase tracking-wide ' + className}>{children}</p>
+  <p className={'caps text-[11px] font-semibold ' + className}>{children}</p>
 )
 
 function Cite({ id }) {
@@ -34,10 +34,10 @@ function QBadge({ id, active, onClick }) {
       title={QUESTIONS.find(q => q.id === id)?.label}
       style={{
         background: active ? c.text : c.bg,
-        color: active ? '#fff' : c.text,
+        color: active ? c.bg : c.text,
         borderColor: c.border,
       }}
-      className="rounded-full border px-2 py-0.5 font-sans text-xs font-semibold"
+      className="caps rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-[.08em]"
     >
       {id}
     </button>
@@ -83,7 +83,7 @@ export function GoldmanPiece({ v, off, className = 'mt-3 border-t border-line pt
 // Names the primary Sanskrit and links to its source entry.
 export function SanskritLabel({ className = '', style }) {
   return (
-    <p className={'font-sans text-[11px] font-semibold uppercase tracking-wide ' + className} style={style}>
+    <p className={'caps text-[10px] font-semibold ' + className} style={style}>
       <Link to="/sources?ref=gretil" className="text-gold-ink hover:underline">Sanskrit · Critical Edition (GRETIL)</Link>
     </p>
   )
@@ -331,7 +331,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
       {lines?.note && <p className="mt-3 font-sans text-sm text-muted">{lines.note}</p>}
       {v.note && <p className="mt-3 border-l-2 border-line pl-3 font-sans text-sm text-muted">{v.note}</p>}
       {v.divergenceNote && (
-        <div className="mt-3 rounded border border-[#fca5a5] bg-[#fee2e2] p-3 font-sans text-sm text-[#7f1d1d]">
+        <div className="mt-3 rounded border border-[#8e1f1d] bg-[#451815] p-3 font-sans text-sm text-[#f3b3b3]">
           <Label className="mb-1">Edition divergence ⚠</Label>
           {v.divergenceNote}
         </div>
@@ -400,7 +400,7 @@ function QuestionCards({ q, setQ }) {
                         key={n}
                         to={`/answers?q=${x.id}`}
                         style={{ color: c.text, borderColor: c.border }}
-                        className="rounded border bg-white/60 px-2 py-0.5 font-semibold"
+                        className="rounded border bg-black/20 px-2 py-0.5 font-semibold"
                       >
                         1.1.{n}
                       </Link>
@@ -547,7 +547,7 @@ function KeyPanel({ mode }) {
         onClick={() => set(!open)}
         aria-expanded={shown}
         aria-controls="key-panel"
-        className={'key-tab fixed right-0 z-30 rounded-l-md border border-r-0 border-gold bg-card px-1.5 py-3 font-sans text-xs font-semibold uppercase tracking-widest text-gold-ink shadow' + (past ? '' : ' is-off')}
+        className={'key-tab fixed right-0 z-30 rounded-l-md border border-r-0 border-gold bg-card px-1.5 py-3 caps text-[11px] font-semibold text-gold-ink shadow' + (past ? '' : ' is-off')}
       >
         Key
       </button>
@@ -672,7 +672,7 @@ function ProgressRail({ mode }) {
         <div aria-hidden="true" className="absolute bottom-3 left-1 top-3 w-[3px] rounded bg-line">
           <div className="rail-fill w-full rounded bg-gold" style={{ height: `${(state.progress * 100).toFixed(1)}%` }} />
         </div>
-        <ol className="space-y-3 font-sans text-xs">
+        <ol className="space-y-3 font-sans text-sm">
           {stops.map(st => (
             <li key={st.key} style={{ paddingLeft: st.depth * 12 }}>
               <button
@@ -782,12 +782,12 @@ export default function Reading({ mode }) {
               type="checkbox"
               checked={layers[k]}
               onChange={() => setLayers({ ...layers, [k]: !layers[k] })}
-              className="accent-[#9a3f1c]"
+              className="accent-[#c9a85c]"
             />
             {label}
           </label>
         ))}
-        <button type="button" onClick={startPresent} className="ml-auto rounded-full bg-ink px-3 py-1 text-paper" aria-haspopup="dialog">
+        <button type="button" onClick={startPresent} className="caps ml-auto rounded-full border border-gold px-3 py-1 text-xs text-gold-bright hover:bg-accent-soft" aria-haspopup="dialog">
           Present
         </button>
         {q && (

@@ -12,23 +12,25 @@ export const Q_CAT = {
   Q9: 'intellectual', Q10: 'intellectual', Q11: 'aesthetic',
   Q12: 'inner', Q13: 'inner', Q14: 'radiance', Q15: 'radiance', Q16: 'cosmic',
 }
+// Dark-page versions of the artefact's nine colours: same hue, deep tinted fill,
+// light text (all at least 8.5:1 on their fill), brighter dot.
 export const CATS = {
-  excellence: { label: 'Excellence', dot: '#d97706', bg: '#fef3c7', text: '#92400e', border: '#fcd34d', desc: 'The big summary qualities: being brave, and being complete in every virtue. The other themes are pieces of these two.' },
-  dharmic: { label: 'Dharmic Knowledge', dot: '#2563eb', bg: '#dbeafe', text: '#1e3a8a', border: '#93c5fd', desc: 'Knowing what is right (dharma), and being mindful of what others have done for you.' },
-  commitment: { label: 'Word & Vow', dot: '#16a34a', bg: '#dcfce7', text: '#14532d', border: '#86efac', desc: 'Speaking the truth, and keeping firmly to one’s promises.' },
-  social: { label: 'Social Conduct', dot: '#0d9488', bg: '#ccfbf1', text: '#134e4a', border: '#5eead4', desc: 'Behaving well, and caring for the welfare of every living being.' },
-  intellectual: { label: 'Learning & Skill', dot: '#7c3aed', bg: '#ede9fe', text: '#4c1d95', border: '#c4b5fd', desc: 'Being learned, and being capable or powerful.' },
-  aesthetic: { label: 'Beauty', dot: '#db2777', bg: '#fce7f3', text: '#831843', border: '#f9a8d4', desc: 'Having a pleasing, lovable appearance.' },
-  inner: { label: 'Inner Mastery', dot: '#ea580c', bg: '#ffedd5', text: '#7c2d12', border: '#fdba74', desc: 'Being in control of oneself, and having mastered anger.' },
-  radiance: { label: 'Radiance & Purity', dot: '#ca8a04', bg: '#fef9c3', text: '#713f12', border: '#fde047', desc: 'Shining with splendour, and being free of jealousy or fault-finding.' },
-  cosmic: { label: 'Cosmic Power', dot: '#dc2626', bg: '#fee2e2', text: '#7f1d1d', border: '#fca5a5', desc: 'The battle-power so great that even the gods fear it when his anger rises.' },
+  excellence: { label: 'Excellence', dot: '#e19238', bg: '#442a0e', text: '#f2cfa8', border: '#8d4f0a', desc: 'The big summary qualities: being brave, and being complete in every virtue. The other themes are pieces of these two.' },
+  dharmic: { label: 'Dharmic Knowledge', dot: '#5182ef', bg: '#1c2540', text: '#b3c8f8', border: '#214393', desc: 'Knowing what is right (dharma), and being mindful of what others have done for you.' },
+  commitment: { label: 'Word & Vow', dot: '#45b56e', bg: '#19331d', text: '#addfc0', border: '#186a33', desc: 'Speaking the truth, and keeping firmly to one’s promises.' },
+  social: { label: 'Social Conduct', dot: '#3da9a0', bg: '#17302a', text: '#aadad5', border: '#126158', desc: 'Behaving well, and caring for the welfare of every living being.' },
+  intellectual: { label: 'Learning & Skill', dot: '#9661f1', bg: '#301c41', text: '#d1baf9', border: '#552b95', desc: 'Being learned, and being capable or powerful.' },
+  aesthetic: { label: 'Beauty', dot: '#e25292', bg: '#441827', text: '#f2b3cf', border: '#8e1f4e', desc: 'Having a pleasing, lovable appearance.' },
+  inner: { label: 'Inner Mastery', dot: '#ee793d', bg: '#48230f', text: '#f8c5aa', border: '#973d0e', desc: 'Being in control of oneself, and having mastered anger.' },
+  radiance: { label: 'Radiance & Purity', dot: '#d5a136', bg: '#412e0d', text: '#ecd6a7', border: '#845b09', desc: 'Shining with splendour, and being free of jealousy or fault-finding.' },
+  cosmic: { label: 'Cosmic Power', dot: '#e35151', bg: '#451815', text: '#f3b3b3', border: '#8e1f1d', desc: 'The battle-power so great that even the gods fear it when his anger rises.' },
 }
 export const catOf = id => CATS[Q_CAT[id]]
 
 export const ECHO_STYLE = {
-  verbatim: { bg: '#e0e7ff', text: '#3730a3', border: '#a5b4fc', sym: '↺', tag: 'verbatim', desc: 'The answer uses the very same Sanskrit word that the question used.' },
-  inverted: { bg: '#fef3c7', text: '#92400e', border: '#fcd34d', sym: '⇄', tag: 'inverted', desc: 'The answer reuses the question’s word, but turns its meaning around.' },
-  adjacency: { bg: '#f1f5f9', text: '#475569', border: '#cbd5e1', sym: '≈', tag: 'adjacency', desc: 'The answer uses a word close in meaning — near the question, but not a real answer to it.' },
+  verbatim: { bg: '#2a2642', text: '#c8c9fa', border: '#464597', sym: '↺', tag: 'verbatim', desc: 'The answer uses the very same Sanskrit word that the question used.' },
+  inverted: { bg: '#442a0e', text: '#f2cfa8', border: '#8d4f0a', sym: '⇄', tag: 'inverted', desc: 'The answer reuses the question’s word, but turns its meaning around.' },
+  adjacency: { bg: '#353335', text: '#dadfe6', border: '#636a75', sym: '≈', tag: 'adjacency', desc: 'The answer uses a word close in meaning — near the question, but not a real answer to it.' },
 }
 
 export const PHASE_LABELS = {
