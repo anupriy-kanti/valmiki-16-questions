@@ -16,7 +16,7 @@ const NAV = [
 function Nav() {
   const { search } = useLocation()
   return (
-    <nav aria-label="Main" className="sticky top-0 z-20 border-b border-line bg-paper/95 backdrop-blur">
+    <nav aria-label="Main" className="no-print sticky top-0 z-20 border-b border-line bg-paper/95 backdrop-blur">
       <ul className="mx-auto flex max-w-[760px] gap-1 overflow-x-auto px-4 py-2 font-sans text-sm">
         {NAV.map(([to, label, keepQ]) => (
           <li key={to} className="shrink-0">
@@ -63,7 +63,7 @@ export default function App() {
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
-      <button type="button" onClick={() => document.getElementById('main')?.focus()} className="sr-only focus:not-sr-only">Skip to content</button>
+      <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
       <Nav />
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <Routes>

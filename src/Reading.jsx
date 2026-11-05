@@ -58,11 +58,11 @@ function EchoPill({ echo, withVerse }) {
   )
 }
 
-function GoldmanBlock({ start }) {
+function GoldmanBlock({ start, off }) {
   const b = GOLDMAN.blocks.find(x => x.start === start)
   if (!b) return null
   return (
-    <aside className="my-4 rounded-lg border-l-4 border-gold bg-card p-4">
+    <aside className={'my-4 rounded-lg border-l-4 border-gold bg-card p-4' + (off ? ' print-only' : '')}>
       <Label className="mb-1 text-gold">
         Goldman, {b.range}
         {b.range !== b.label && <span className="normal-case"> (paragraph {b.label}, cut at 1.1.19)</span>}
@@ -73,13 +73,13 @@ function GoldmanBlock({ start }) {
   )
 }
 
-function Translation({ v, kind }) {
+function Translation({ v, kind, off }) {
   const text = kind === 'debroy' ? v.debroy : v.gita
   if (!text) return null
   const name = kind === 'debroy' ? 'Debroy (CE)' : 'Gita Press (vulgate)'
   const gpNote = kind === 'gp' && (v.gitaNote || (v.gpLabel && `Gita Press ${v.gpLabel.replace('GP ', '')}`))
   return (
-    <div className="mt-3 border-t border-line pt-2">
+    <div className={'mt-3 border-t border-line pt-2' + (off ? ' print-only' : '')}>
       <Label className="text-muted">
         {name}
         {gpNote && <span className="font-normal normal-case"> · {gpNote}</span>}
@@ -179,8 +179,8 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
         </div>
       )}
 
-      {layers.debroy && <Translation v={v} kind="debroy" />}
-      {layers.gp && <Translation v={v} kind="gp" />}
+      <Translation v={v} kind="debroy" off={!layers.debroy} />
+      <Translation v={v} kind="gp" off={!layers.gp} />
 
       {lines?.note && <p className="mt-3 font-sans text-sm text-muted">{lines.note}</p>}
       {v.note && <p className="mt-3 border-l-2 border-line pl-3 font-sans text-sm text-muted">{v.note}</p>}
@@ -362,7 +362,7 @@ function Hero() {
         width="1024"
         height="572"
         alt="At dusk in a forest hermitage, the sage Vālmīki sits with a vīṇā and speaks with the elder sage Nārada, who listens with folded hands."
-        className="-mx-4 block h-auto w-[calc(100%+2rem)] max-w-none sm:mx-0 sm:mt-6 sm:w-full sm:rounded-xl"
+        className="no-print -mx-4 block h-auto w-[calc(100%+2rem)] max-w-none sm:mx-0 sm:mt-6 sm:w-full sm:rounded-xl"
       />
       <p className="mt-6 font-sans text-sm uppercase tracking-widest text-gold">Rāmāyaṇa · Bālakāṇḍa · sarga 1</p>
       <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Vālmīki’s 16 Questions</h1>
@@ -444,7 +444,7 @@ export default function Reading({ mode }) {
         </div>
       )}
 
-      <fieldset className="z-10 -mx-4 sm:sticky sm:top-[49px] my-4 flex flex-wrap items-center gap-2 bg-paper/95 px-4 py-2 font-sans text-sm backdrop-blur">
+      <fieldset className="no-print z-10 -mx-4 sm:sticky sm:top-[49px] my-4 flex flex-wrap items-center gap-2 bg-paper/95 px-4 py-2 font-sans text-sm backdrop-blur">
         <legend className="sr-only">English translations to show</legend>
         <span className="text-muted" aria-hidden="true">English:</span>
         {LAYERS.map(([k, label]) => (
@@ -476,7 +476,7 @@ export default function Reading({ mode }) {
             {n === 1 && <h2 className="mt-8 text-3xl font-semibold">Vālmīki asks</h2>}
             {n === 6 && <h2 className="mt-10 text-3xl font-semibold">Nārada answers</h2>}
             {phaseHead && <Label className="mt-6 text-gold">{phaseHead}</Label>}
-            {layers.goldman && <GoldmanBlock start={n} />}
+            <GoldmanBlock start={n} off={!layers.goldman} />
             <Verse v={v} layers={layers} q={q} setQ={setQ} spotlight={mode !== 'questions'} target={target === v.ce} />
             {mode === 'all' && PATTERNS.filter(p => p.after === n).map(p => <PatternCard key={p.id} p={p} />)}
             {n === 5 && mode !== 'answers' && <QuestionCards q={q} setQ={setQ} />}

@@ -24,3 +24,18 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
    so all text stays at WCAG AA (#5c4f42 on paper is 7.3:1). */
 .dimmed { background: var(--color-paper); border-style: dashed; box-shadow: none; }
 .dimmed p:not([style]), .dimmed .deva, .dimmed i { color: #5c4f42; }
+
+/* Print: no nav or hero, all three translations, black on white. */
+.print-only { display: none; }
+@media print {
+  @page { margin: 18mm 16mm; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  html, body { background: #fff !important; }
+  * { color: #000 !important; background: transparent !important; box-shadow: none !important; text-shadow: none !important; }
+  main { max-width: none !important; padding: 0 !important; }
+  article, aside, li { break-inside: avoid; }
+  article, aside, .dimmed { border: 1px solid #999 !important; border-style: solid !important; }
+  h1, h2, h3 { break-after: avoid; }
+  a { text-decoration: none !important; }
+}
