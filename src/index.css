@@ -70,3 +70,14 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 }
 .motion .revealed .rv { opacity: 1; transform: none; }
 @media print { .rv { opacity: 1 !important; transform: none !important; } }
+
+/* Spotlight easing and echo words. */
+.verse { transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease; }
+.verse p, .verse .deva, .verse i { transition: color 300ms ease; }
+.echo-word { border-bottom: 1px dotted currentColor; border-radius: 2px; }
+@keyframes echo-glow {
+  0% { background-color: rgb(168 120 42 / 0); box-shadow: 0 0 0 0 rgb(168 120 42 / 0); }
+  25% { background-color: rgb(168 120 42 / .28); box-shadow: 0 0 0 3px rgb(168 120 42 / .18); }
+  100% { background-color: rgb(168 120 42 / .12); box-shadow: 0 0 0 0 rgb(168 120 42 / 0); }
+}
+.echo-glow { border-bottom: 2px solid var(--color-gold); background-color: rgb(168 120 42 / .12); animation: echo-glow 1600ms ease-out both; }

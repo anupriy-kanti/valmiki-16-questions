@@ -120,6 +120,49 @@ function VerseLink({ v }) {
   )
 }
 
+// Devanāgarī stems for the artefact's echo words, used only to find the word in the line.
+const ECHO_DEV = {
+  dyutimān: 'द्युतिमान्', dharmajña: 'धर्मज्ञ', smṛtimān: 'स्मृतिमान्',
+  priyadarśana: 'प्रियदर्शन', vīrya: 'वीर्य', krodha: 'क्रोध',
+}
+
+const COMBINING = /[\u0900-\u0903\u093A-\u094F\u0951-\u0957\u0962\u0963]/
+
+// Splits a line into plain text and echo words. `script` is 'iast' or 'dev'.
+function markEchoes(line, echoes, script, render) {
+  if (!echoes?.length) return line
+  const hits = []
+  for (const e of echoes) {
+    let stem = script === 'dev' ? ECHO_DEV[e.word] : e.word
+    let at = stem ? line.indexOf(stem) : -1
+    if (at < 0 && script === 'iast') { stem = e.word.slice(0, -1); at = line.indexOf(stem) }
+    if (at < 0) continue
+    let end = at + stem.length
+    if (script === 'dev') {
+      // Keep whole akṣara clusters so no conjunct is split across elements.
+      while (at > 0 && line[at - 1] === '\u094D') at -= 2
+      while (end < line.length && COMBINING.test(line[end])) end++
+      if (line[end - 1] === '\u094D' && /[\u0915-\u0939]/.test(line[end] || '')) continue
+    }
+    hits.push({ at, end, e })
+  }
+  hits.sort((a, b) => a.at - b.at)
+  const out = []
+  let pos = 0
+  hits.forEach((h, k) => {
+    if (h.at < pos) return
+    out.push(line.slice(pos, h.at), render(line.slice(h.at, h.end), h.e, k))
+    pos = h.end
+  })
+  out.push(line.slice(pos))
+  return out
+}
+
+function EchoWord({ text, echo, glow, script }) {
+  const cls = 'echo-word' + (glow ? ' echo-glow' : '')
+  return <span key={glow ? 'g' : 'n'} className={cls} data-echo={echo.type} lang={script === 'dev' ? 'sa-Deva' : 'sa-Latn'}>{text}</span>
+}
+
 function Verse({ v, layers, q, setQ, spotlight, target }) {
   const lit = q && v.answers.includes(q)
   const dim = spotlight && q && !lit
@@ -128,7 +171,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
     <article
       id={`v${v.n}`}
       className={
-        'my-4 scroll-mt-16 rounded-lg border bg-card p-4 transition-opacity ' +
+        'verse my-4 scroll-mt-16 rounded-lg border bg-card p-4 ' +
         (lit ? 'border-accent shadow-md' : 'border-line') +
         (dim ? ' dimmed' : '') +
         (target ? ' ring-2 ring-gold ring-offset-2 ring-offset-paper' : '')
@@ -147,8 +190,12 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
 
       {[0, 1].map(i => (
         <div key={i} className="rv mb-1" style={{ '--i': i + 1 }}>
-          <p lang="sa-Deva" className="deva text-xl">{v.dev[i]}</p>
-          <p lang="sa-Latn" className="italic text-muted">{v.iast[i]}</p>
+          <p lang="sa-Deva" className="deva text-xl">
+            {markEchoes(v.dev[i], v.echoes, 'dev', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="dev" />)}
+          </p>
+          <p lang="sa-Latn" className="italic text-muted">
+            {markEchoes(v.iast[i], v.echoes, 'iast', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="iast" />)}
+          </p>
           {lines && (
             <p className="mt-1 flex flex-wrap gap-1">
               {lines.lines[i].map(id => (
