@@ -97,3 +97,15 @@ This is the centre of the milestone. The reference is three frames in Anupriy's 
 - The All story works end to end at 375px, 1024px, 1440px and 1920px, and with reduced motion. Deep links (`#/answers?v=1.1.14`) and the reference tabs still work.
 - `REVIEW.md` §7 lists every judgement call, every deviation from this brief, and every placeholder (the author photo especially).
 - Final message: what was done, what was not, and what Anupriy must decide.
+
+## 2b. Hero revision (Anupriy's feedback on the in-progress build, 5 Nov 2026). This replaces the title-band part of §2.
+
+- **Remove the eyebrow** "Rāmāyaṇa · Bālakāṇḍa · Sarga 1" from the hero. Each verse carries its own citation ("VĀLMĪKI RĀMĀYAṆA 1.1.n · CRITICAL EDITION").
+- **First fold = the image alone**, whole and uncropped with faded edges, vertically centred in the viewport (on phones too, so the vertical space is used), the caption under it and the scroll cue at the bottom. No title over the image.
+- **Second beat (on scroll, hero pinned for about one extra screen):** a uniform dark overlay (about 60% black) fades over the whole image, then the title block fades in, **centred horizontally and vertically in the viewport**: title, subtitle, byline. Then the hero releases into the introduction. Same pattern on desktop and phone. On a phone the title block sits centred over the image band and the dark space around it.
+- **Contrast:** title and subtitle in `#f0e8d8` on the overlay, with a soft shadow. Must pass AA against the darkened image.
+- **Line breaks:**
+  - Title: one line on desktop. On phones, exactly "Vālmīki's 16 / Questions".
+  - Subtitle: never wider than the title. Wrap title and subtitle in a `width: fit-content` block, give the subtitle `max-inline-size: 100%` and `text-wrap: balance`. On desktop, if it is still wider, break it as "The question that sets / the Rāmāyaṇa in motion".
+  - Caption: two deliberate lines, "Nārada answering Vālmīki's question." / "An AI-generated image (Google Gemini), directed by Anupriy Kanti.", with `text-wrap: balance` so phones break evenly, max width about 40ch.
+- **Reduced motion:** show the image, then the title block below it, both static.
