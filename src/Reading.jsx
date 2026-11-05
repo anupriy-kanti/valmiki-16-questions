@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   VERSES, GOLDMAN, QUESTIONS, QUESTION_LINES, PATTERNS, CITES, CATS, ECHO_STYLE, PHASE_LABELS,
@@ -354,19 +354,44 @@ function Legend() {
   )
 }
 
+function useHeroMotion(ref) {
+  useEffect(() => {
+    const img = ref.current
+    if (!img || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const y = Math.min(window.scrollY, 700)
+      img.style.transform = `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 + y * 0.00025).toFixed(4)})`
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    update()
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame) }
+  }, [ref])
+}
+
 function Hero() {
+  const imgRef = useRef(null)
+  useHeroMotion(imgRef)
   return (
     <header className="mb-6">
-      <img
-        src={`${BASE}hero.jpg`}
-        width="1024"
-        height="572"
-        alt="At dusk in a forest hermitage, the sage Vālmīki sits with a vīṇā and speaks with the elder sage Nārada, who listens with folded hands."
-        className="no-print -mx-4 block h-auto w-[calc(100%+2rem)] max-w-none sm:mx-0 sm:mt-6 sm:w-full sm:rounded-xl"
-      />
-      <p className="mt-6 font-sans text-sm uppercase tracking-widest text-gold">Rāmāyaṇa · Bālakāṇḍa · sarga 1</p>
-      <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Vālmīki’s 16 Questions</h1>
-      <p className="text-lg italic text-muted">Beginning of the Bālakāṇḍa</p>
+      <div className="hero-frame relative -mx-4 overflow-hidden bg-[#1a1410] sm:mx-0 sm:mt-6 sm:rounded-xl">
+        <img
+          ref={imgRef}
+          src={`${BASE}hero.jpg`}
+          width="1024"
+          height="572"
+          fetchpriority="high"
+          alt="At dusk in a forest hermitage, the sage Vālmīki sits with a vīṇā and speaks with the elder sage Nārada, who listens with folded hands."
+          className="hero-img block h-auto w-full origin-center will-change-transform"
+        />
+        <div className="hero-title absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/55 to-transparent px-4 pb-4 pt-16 sm:px-6 sm:pb-6">
+          <p className="font-sans text-xs uppercase tracking-widest text-[#f1dcae] sm:text-sm">Rāmāyaṇa · Bālakāṇḍa · sarga 1</p>
+          <h1 className="text-3xl font-semibold leading-tight text-white sm:text-5xl">Vālmīki’s 16 Questions</h1>
+        </div>
+      </div>
+      <p className="mt-4 text-lg italic text-muted">Beginning of the Bālakāṇḍa</p>
       <p className="mt-1 font-sans text-xs uppercase tracking-wider text-muted">By Anupriy Kanti · Mythematical</p>
       <div className="mt-5 space-y-3">
         <p>
