@@ -99,19 +99,21 @@ export const EYEBROW = (v, k) =>
         : v.n === 19 && k > line2Start(v) ? 'V · The Story Begins'
           : 'IV · Nārada’s Answer'
 
+// The story pairs the CE Sanskrit with the two CE translations only. The Gita
+// Press (vulgate) English stays in the reference tabs. A stored 'gp' choice
+// falls back to Goldman.
 const TRANS = [
   ['goldman', 'Goldman'],
   ['debroy', 'Debroy'],
-  ['gp', 'Gita Press'],
 ]
 const TRANS_KEY = 'v16q-translation'
 const readTrans = () => { try { const t = localStorage.getItem(TRANS_KEY); return TRANS.some(([k]) => k === t) ? t : 'goldman' } catch { return 'goldman' } }
 
 function StageTranslation({ v, which }) {
-  const text = which === 'goldman' ? v.goldman?.text : which === 'debroy' ? v.debroy : v.gita
+  const text = which === 'debroy' ? v.debroy : v.goldman?.text
   if (!text) {
-    // 1.1.2–4 carry no Debroy or Gita Press English in this site's data.
-    const name = which === 'debroy' ? 'Debroy' : 'Gita Press'
+    // 1.1.2–4 carry no Debroy English in this site's data.
+    const name = 'Debroy'
     return (
       <>
         <p className="stage-trans-text">{v.goldman.text}</p>
@@ -128,7 +130,6 @@ function StageTranslation({ v, which }) {
       <p className="stage-trans-meta">
         {which === 'goldman' && <>Goldman (CE) · <span className="italic">verse split by MYT, draft</span> · </>}
         {which === 'debroy' && <>Debroy (CE) · </>}
-        {which === 'gp' && <>Gita Press (vulgate){v.gpLabel ? ` · ${v.gitaNote || v.gpLabel}` : ''} · </>}
         <Link to={`/sources?ref=${which}`} className="underline">{CITES[which]}</Link>
       </p>
     </>

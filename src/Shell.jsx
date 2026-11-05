@@ -87,7 +87,7 @@ export function Pager() {
 export function BottomLine() {
   return (
     <p className="bottom-line caps no-print pointer-events-none fixed inset-x-0 bottom-0 z-10 hidden pb-1.5 pt-4 text-center text-[9px] text-muted md:block">
-      Critical Edition text from GRETIL · translations by Goldman, Debroy and the Gita Press
+      Critical Edition text from GRETIL · translations by Goldman and Debroy
     </p>
   )
 }

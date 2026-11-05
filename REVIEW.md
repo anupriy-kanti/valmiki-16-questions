@@ -167,3 +167,4 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - Desktop performance: All 100, Answers 100.
 - All routes and the deep links at 375, 1024, 1440 and 1920px, with and without reduced motion: no sideways scroll, no console errors. Present mode stepping checked by script (word, Shift+verse, click, Escape).
 - **Unlit words** (#5a5048 on #1a1410, 2.3:1) are below AA by design. They are hidden from screen readers, and each verse is in the page in full as screen-reader text, so Lighthouse does not flag them. Sighted readers with low vision see them only as the not-yet-lit state, and every word is gold once lit.
+- **Deviation from MILESTONE-03 §5 (your ruling, via mytwiki-C21):** the story's translation switch is "Goldman · Debroy", not "Goldman · Debroy · Gita Press". §3's bottom line drops "and the Gita Press" to match.

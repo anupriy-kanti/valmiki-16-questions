@@ -47,6 +47,8 @@ export default function Sources() {
         <p className="my-2">
           In the scroll story, the Devanāgarī is transliterated from the GRETIL IAST word by word, so each word
           lines up with its romanisation. The reference views show the Devanāgarī e-text as published.
+          The scroll story pairs the Critical Edition Sanskrit with the two CE translations. The Gita Press
+          (vulgate) translation appears in the reference views.
         </p>
         <ul className="space-y-2">
           {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
