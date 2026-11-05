@@ -16,7 +16,7 @@
   --color-gp: #f1ede6;
 }
 
-html { background: var(--color-paper); color: var(--color-ink); }
+html { --hero-dark: #0c0907; background: var(--color-paper); color: var(--color-ink); }
 body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 .deva { font-family: var(--font-deva); line-height: 1.9; }
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
@@ -56,17 +56,20 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 /* Hero (first fold): the image fills the screen and fades to the page on all
    four sides. The overlay and the title are driven by scroll (Hero.jsx). */
 .hero { height: 100vh; height: 100svh; min-height: 420px; }
+.hero { background: var(--hero-dark); }
 .hero-vignette {
   background:
-    linear-gradient(to bottom, var(--color-paper) 0, rgb(250 245 236 / .75) 5%, rgb(250 245 236 / 0) 16%),
-    linear-gradient(to top, var(--color-paper) 0, rgb(250 245 236 / .7) 6%, rgb(250 245 236 / 0) 18%),
-    linear-gradient(to right, var(--color-paper) 0, rgb(250 245 236 / 0) 9%),
-    linear-gradient(to left, var(--color-paper) 0, rgb(250 245 236 / 0) 9%),
-    radial-gradient(ellipse at center, rgb(250 245 236 / 0) 60%, rgb(250 245 236 / .35) 100%);
+    linear-gradient(to bottom, rgb(12 9 7 / .85) 0, rgb(12 9 7 / .45) 6%, rgb(12 9 7 / 0) 18%),
+    linear-gradient(to top, var(--hero-dark) 0, rgb(12 9 7 / .7) 7%, rgb(12 9 7 / 0) 22%),
+    linear-gradient(to right, var(--hero-dark) 0, rgb(12 9 7 / 0) 11%),
+    linear-gradient(to left, var(--hero-dark) 0, rgb(12 9 7 / 0) 11%),
+    radial-gradient(ellipse at center, rgb(12 9 7 / 0) 55%, rgb(12 9 7 / .45) 100%);
 }
 .hero-overlay {
-  background: linear-gradient(to bottom, rgb(26 20 16 / 0) 0, rgb(26 20 16 / .82) 42%, rgb(26 20 16 / .82) 72%, var(--color-paper) 100%);
+  background: linear-gradient(to bottom, rgb(12 9 7 / 0) 0, rgb(12 9 7 / .82) 42%, rgb(12 9 7 / .9) 72%, var(--hero-dark) 100%);
 }
+/* Below the hero, black turns into the page colour as the reader scrolls. */
+.hero-fade { height: 38vh; height: 38svh; background: linear-gradient(to bottom, var(--hero-dark) 0, #3a2e24 30%, #b9ab97 70%, var(--color-paper) 100%); }
 .motion .hero-overlay { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 40%)); }
 .motion .hero-t1 { opacity: var(--t1, 0); transform: translateY(calc((1 - var(--t1, 0)) * 14px)); }
 .motion .hero-t2 { opacity: var(--t2, 0); transform: translateY(calc((1 - var(--t2, 0)) * 14px)); }
@@ -75,13 +78,19 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 .hero-cue.is-hidden { opacity: 0; visibility: hidden; transition: opacity 300ms ease, visibility 0s 300ms; }
 @keyframes cue-bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(4px) } }
 .motion .hero-chevron { animation: cue-bob 1800ms ease-in-out infinite; }
-/* The nav sits over the image on the landing, then turns solid. */
-.nav-over { background: transparent; border-color: transparent; transition: background-color 250ms ease, border-color 250ms ease; }
-.nav-over.is-scrim { background: rgb(250 245 236 / .8); }
+/* The nav sits over the dark image on the landing with light text, takes a
+   dark scrim once the reader scrolls, and turns paper and solid past the fold. */
+.nav-over { background: linear-gradient(to bottom, rgb(12 9 7 / .6), rgb(12 9 7 / 0)); border-color: transparent; transition: background-color 250ms ease, border-color 250ms ease; }
+.nav-over a:not([aria-current]) { color: #f3e9da; }
+.nav-over a:not([aria-current]):hover { background: rgb(255 255 255 / .12); }
+.nav-over.is-scrim { background: rgb(12 9 7 / .78); }
 .nav-over.is-solid { background: rgb(250 245 236 / .95); border-color: var(--color-line); }
+.nav-over.is-solid a:not([aria-current]) { color: var(--color-ink); }
+.nav-over.is-solid a:not([aria-current]):hover { background: var(--color-accent-soft); }
 @media print {
   .hero { height: auto !important; min-height: 0 !important; }
-  .hero-img, .hero-vignette, .hero-overlay { display: none !important; }
+  .hero-img, .hero-vignette, .hero-overlay, .hero-fade { display: none !important; }
+  .hero { background: none !important; }
   .hero-text { position: static !important; padding: 0 !important; text-align: left !important; }
   .hero-text * { opacity: 1 !important; transform: none !important; }
 }

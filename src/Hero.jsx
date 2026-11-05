@@ -5,7 +5,8 @@ const clamp = x => Math.max(0, Math.min(1, x))
 
 // First fold: the image fills the screen. On the first scroll a dark overlay
 // rises over the lower half, then the title, subtitle and byline fade in.
-// The byline fades out again on the way to the second fold. Under reduced
+// The byline fades out again on the way to the second fold. The image fades
+// to black on all four sides, and a band below takes black to the page colour. Under reduced
 // motion (no `.motion` class) everything shows at once and nothing moves.
 export default function Hero() {
   const box = useRef(null)
@@ -41,11 +42,12 @@ export default function Hero() {
 
   const next = () => {
     const smooth = document.documentElement.classList.contains('motion')
-    window.scrollTo({ top: box.current.offsetHeight - 48, behavior: smooth ? 'smooth' : 'auto' })
+    window.scrollTo({ top: box.current.offsetHeight + box.current.nextElementSibling.offsetHeight - 48, behavior: smooth ? 'smooth' : 'auto' })
   }
 
   return (
-    <header ref={box} className="hero relative overflow-hidden bg-paper">
+    <>
+    <header ref={box} className="hero relative overflow-hidden">
       <img
         ref={img}
         src={`${BASE}hero.jpg`}
@@ -68,7 +70,7 @@ export default function Hero() {
         type="button"
         onClick={next}
         aria-label="Scroll to the introduction"
-        className={'hero-cue no-print absolute bottom-3 left-1/2 flex -translate-x-1/2 flex-col items-center rounded px-3 py-1 font-sans text-xs uppercase tracking-widest text-ink' + (scrolled ? ' is-hidden' : '')}
+        className={'hero-cue no-print absolute bottom-3 left-1/2 flex -translate-x-1/2 flex-col items-center rounded px-3 py-1 font-sans text-xs uppercase tracking-widest text-[#efe4d2]' + (scrolled ? ' is-hidden' : '')}
       >
         Scroll
         <svg aria-hidden="true" className="hero-chevron mt-0.5" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
@@ -76,5 +78,9 @@ export default function Hero() {
         </svg>
       </button>
     </header>
+    <div className="hero-fade flex items-start justify-center pt-[6svh]">
+      <p className="font-sans text-xs uppercase tracking-widest text-[#e3c98f]">Rāmāyaṇa · Bālakāṇḍa · Sarga 1</p>
+    </div>
+    </>
   )
 }

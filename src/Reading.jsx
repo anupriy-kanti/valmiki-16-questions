@@ -571,9 +571,8 @@ function Intro() {
     return () => io.disconnect()
   }, [])
   return (
-    <section ref={ref} aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-10 sm:pb-10 sm:pt-16">
-      <p className="rv text-center font-sans text-xs uppercase tracking-widest text-gold-ink" style={{ '--i': 0 }}>Rāmāyaṇa · Bālakāṇḍa · Sarga 1</p>
-      <div className="mt-6 space-y-4 text-lg leading-relaxed sm:text-xl">
+    <section ref={ref} aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-4 sm:pb-10 sm:pt-8">
+      <div className="space-y-4 text-lg leading-relaxed sm:text-xl">
         <p className="rv" style={{ '--i': 1 }}>
           The Rāmāyaṇa opens with a question. Before the story begins, the sage Vālmīki asks the sage Nārada
           whether any truly complete person is alive in the world right now, and lists sixteen qualities such
@@ -659,8 +658,8 @@ function ProgressRail({ mode }) {
   }
   return (
     <nav aria-label="Reading progress" className={'rail no-print fixed top-1/2 z-10 hidden -translate-y-1/2 lg:block' + (state.shown ? '' : ' is-off')} style={{ left: 'max(12px, calc(50% - 380px - 150px))' }}>
-      <div className="relative pl-4">
-        <div aria-hidden="true" className="absolute bottom-1 left-0 top-1 w-[3px] rounded bg-line">
+      <div className="relative rounded-lg bg-paper/90 py-2 pl-4 pr-2 shadow-sm backdrop-blur">
+        <div aria-hidden="true" className="absolute bottom-3 left-1 top-3 w-[3px] rounded bg-line">
           <div className="rail-fill w-full rounded bg-gold" style={{ height: `${(state.progress * 100).toFixed(1)}%` }} />
         </div>
         <ol className="space-y-3 font-sans text-xs">
