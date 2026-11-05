@@ -174,7 +174,7 @@ function markEchoes(line, echoes, script, render) {
   return out
 }
 
-function EchoWord({ text, echo, glow, script, v }) {
+export function EchoWord({ text, echo, glow, script, v, label, className = 'echo-word' }) {
   const [pos, setPos] = useState(null)
   const ref = useRef(null)
   const tipId = `tip-${v.n}-${echo.q}-${script}`
@@ -207,8 +207,9 @@ function EchoWord({ text, echo, glow, script, v }) {
         ref={ref}
         type="button"
         key={glow ? 'g' : 'n'}
-        lang={script === 'dev' ? 'sa-Deva' : 'sa-Latn'}
-        className={'echo-word' + (glow ? ' echo-glow' : '')}
+        lang={label ? undefined : script === 'dev' ? 'sa-Deva' : 'sa-Latn'}
+        aria-label={label}
+        className={className + (glow ? ' echo-glow' : '')}
         aria-describedby={pos ? tipId : undefined}
         aria-expanded={!!pos}
         onClick={() => (pos ? close() : open())}
@@ -581,7 +582,7 @@ function Intro() {
     return () => io.disconnect()
   }, [])
   return (
-    <section ref={ref} aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-4 sm:pb-10 sm:pt-8">
+    <section ref={ref} id="part-frame" aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-4 sm:pb-10 sm:pt-8">
       <div className="space-y-4 text-lg leading-relaxed sm:text-xl">
         <p className="rv" style={{ '--i': 1 }}>
           The Rāmāyaṇa opens with a question. Before the story begins, the sage Vālmīki asks the sage Nārada
@@ -804,7 +805,7 @@ export default function Reading({ mode }) {
         const phaseHead = v.phase !== lastPhase && PHASE_LABELS[v.phase]
         lastPhase = v.phase
         return (
-          <div key={n}>
+          <div key={n} id={mode === 'all' ? { 2: 'part-questions', 8: 'part-answer' }[n] : undefined}>
             {n === 1 && <h2 className="mt-8 text-3xl font-semibold">Vālmīki asks</h2>}
             {n === 6 && <h2 className="mt-10 text-3xl font-semibold">Nārada answers</h2>}
             {phaseHead && <Label className="mt-6 text-gold-ink">{phaseHead}</Label>}

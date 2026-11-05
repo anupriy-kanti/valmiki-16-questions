@@ -4,6 +4,7 @@ import Reading from './Reading.jsx'
 import Hero, { IMAGE_CREDIT } from './Hero.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
+import { SideByline, Pager, BottomLine } from './Shell.jsx'
 
 const NAV = [
   ['/', 'All', true],
@@ -101,6 +102,8 @@ export default function App() {
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
       <Nav over={pathname === '/'} />
+      <SideByline />
+      {pathname === '/' && <><Pager /><BottomLine /></>}
       {pathname === '/' && <Hero onNext={() => { const m = document.getElementById('main'); window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY, behavior: document.documentElement.classList.contains('motion') ? 'smooth' : 'auto' }) }} />}
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <div key={pathname} className="route-fade">

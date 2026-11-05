@@ -11,6 +11,44 @@
     "तपःस्वाध्यायनिरतं तपस्वी वाग्विदां वरम् ।",
     "नारदं परिपप्रच्छ वाल्मीकिर्मुनिपुंगवम् ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "tapaḥsvādhyāyanirataṃ",
+      "d": "तपःस्वाध्यायनिरतं"
+     },
+     {
+      "i": "tapasvī",
+      "d": "तपस्वी"
+     },
+     {
+      "i": "vāgvidāṃ",
+      "d": "वाग्विदां"
+     },
+     {
+      "i": "varam",
+      "d": "वरम्"
+     }
+    ],
+    [
+     {
+      "i": "nāradaṃ",
+      "d": "नारदं"
+     },
+     {
+      "i": "paripapraccha",
+      "d": "परिपप्रच्छ"
+     },
+     {
+      "i": "vālmīkir",
+      "d": "वाल्मीकिर्"
+     },
+     {
+      "i": "munipuṃgavam",
+      "d": "मुनिपुंगवम्"
+     }
+    ]
+   ],
    "goldman": {
     "text": "Vālmīki, the ascetic, questioned the eloquent Nārada, bull among sages, always devoted to asceticism and study of the sacred texts.",
     "paragraph": "1.1.1–5",
@@ -27,6 +65,72 @@
    "dev": [
     "को न्वस्मिन्साम्प्रतं लोके गुणवान्कश्च वीर्यवान् ।",
     "धर्मज्ञश्च कृतज्ञश्च सत्यवाक्यो दृढव्रतः ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "ko",
+      "d": "को"
+     },
+     {
+      "i": "nv",
+      "d": "न्व्"
+     },
+     {
+      "i": "asmin",
+      "d": "अस्मिन्"
+     },
+     {
+      "i": "sāmprataṃ",
+      "d": "साम्प्रतं"
+     },
+     {
+      "i": "loke",
+      "d": "लोके"
+     },
+     {
+      "i": "guṇavān",
+      "d": "गुणवान्"
+     },
+     {
+      "i": "kaś",
+      "d": "कश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "vīryavān",
+      "d": "वीर्यवान्"
+     }
+    ],
+    [
+     {
+      "i": "dharmajñaś",
+      "d": "धर्मज्ञश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "kṛtajñaś",
+      "d": "कृतज्ञश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "satyavākyo",
+      "d": "सत्यवाक्यो"
+     },
+     {
+      "i": "dṛḍhavrataḥ",
+      "d": "दृढव्रतः"
+     }
+    ]
    ],
    "goldman": {
     "text": "“Is there a man in the world today who is truly virtuous? Who is there who is mighty and yet knows both what is right and how to act upon it? Who always speaks the truth and holds firmly to his vows?",
@@ -45,6 +149,68 @@
     "चारित्रेण च को युक्तः सर्वभूतेषु को हितः ।",
     "विद्वान्कः कः समर्थश्च कश्चैकप्रियदर्शनः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "cāritreṇa",
+      "d": "चारित्रेण"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "ko",
+      "d": "को"
+     },
+     {
+      "i": "yuktaḥ",
+      "d": "युक्तः"
+     },
+     {
+      "i": "sarvabhūteṣu",
+      "d": "सर्वभूतेषु"
+     },
+     {
+      "i": "ko",
+      "d": "को"
+     },
+     {
+      "i": "hitaḥ",
+      "d": "हितः"
+     }
+    ],
+    [
+     {
+      "i": "vidvān",
+      "d": "विद्वान्"
+     },
+     {
+      "i": "kaḥ",
+      "d": "कः"
+     },
+     {
+      "i": "kaḥ",
+      "d": "कः"
+     },
+     {
+      "i": "samarthaś",
+      "d": "समर्थश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "kaś",
+      "d": "कश्"
+     },
+     {
+      "i": "caikapriyadarśanaḥ",
+      "d": "चैकप्रियदर्शनः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "Who exemplifies proper conduct and is benevolent to all creatures? Who is learned, capable, and a pleasure to behold?",
     "paragraph": "1.1.1–5",
@@ -61,6 +227,60 @@
    "dev": [
     "आत्मवान्को जितक्रोधो द्युतिमान्कोऽनसूयकः ।",
     "कस्य बिभ्यति देवाश्च जातरोषस्य संयुगे ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "ātmavān",
+      "d": "आत्मवान्"
+     },
+     {
+      "i": "ko",
+      "d": "को"
+     },
+     {
+      "i": "jitakrodho",
+      "d": "जितक्रोधो"
+     },
+     {
+      "i": "dyutimān",
+      "d": "द्युतिमान्"
+     },
+     {
+      "i": "ko",
+      "d": "को"
+     },
+     {
+      "i": "'nasūyakaḥ",
+      "d": "ऽनसूयकः"
+     }
+    ],
+    [
+     {
+      "i": "kasya",
+      "d": "कस्य"
+     },
+     {
+      "i": "bibhyati",
+      "d": "बिभ्यति"
+     },
+     {
+      "i": "devāś",
+      "d": "देवाश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "jātaroṣasya",
+      "d": "जातरोषस्य"
+     },
+     {
+      "i": "saṃyuge",
+      "d": "संयुगे"
+     }
+    ]
    ],
    "goldman": {
     "text": "Who is self-controlled, having subdued his anger? Who is both judicious and free from envy? Who, when his fury is aroused in battle, is feared even by the gods?",
@@ -79,6 +299,72 @@
     "एतदिच्छाम्यहं श्रोतुं परं कौतूहलं हि मे ।",
     "महर्षे त्वं समर्थोऽसि ज्ञातुमेवंविधं नरम् ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "etad",
+      "d": "एतद्"
+     },
+     {
+      "i": "icchāmy",
+      "d": "इच्छाम्य्"
+     },
+     {
+      "i": "ahaṃ",
+      "d": "अहं"
+     },
+     {
+      "i": "śrotuṃ",
+      "d": "श्रोतुं"
+     },
+     {
+      "i": "paraṃ",
+      "d": "परं"
+     },
+     {
+      "i": "kautūhalaṃ",
+      "d": "कौतूहलं"
+     },
+     {
+      "i": "hi",
+      "d": "हि"
+     },
+     {
+      "i": "me",
+      "d": "मे"
+     }
+    ],
+    [
+     {
+      "i": "maharṣe",
+      "d": "महर्षे"
+     },
+     {
+      "i": "tvaṃ",
+      "d": "त्वं"
+     },
+     {
+      "i": "samartho",
+      "d": "समर्थो"
+     },
+     {
+      "i": "'si",
+      "d": "ऽसि"
+     },
+     {
+      "i": "jñātum",
+      "d": "ज्ञातुम्"
+     },
+     {
+      "i": "evaṃvidhaṃ",
+      "d": "एवंविधं"
+     },
+     {
+      "i": "naram",
+      "d": "नरम्"
+     }
+    ]
+   ],
    "goldman": {
     "text": "This is what I want to hear, for my desire to know is very strong. Great seer, you must know of such a man.”",
     "paragraph": "1.1.1–5",
@@ -95,6 +381,60 @@
    "dev": [
     "श्रुत्वा चैतत्त्रिलोकज्ञो वाल्मीकेर्नारदो वचः ।",
     "श्रूयतामिति चामन्त्र्य प्रहृष्टो वाक्यमब्रवीत् ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "śrutvā",
+      "d": "श्रुत्वा"
+     },
+     {
+      "i": "caitat",
+      "d": "चैतत्"
+     },
+     {
+      "i": "trilokajño",
+      "d": "त्रिलोकज्ञो"
+     },
+     {
+      "i": "vālmīker",
+      "d": "वाल्मीकेर्"
+     },
+     {
+      "i": "nārado",
+      "d": "नारदो"
+     },
+     {
+      "i": "vacaḥ",
+      "d": "वचः"
+     }
+    ],
+    [
+     {
+      "i": "śrūyatām",
+      "d": "श्रूयताम्"
+     },
+     {
+      "i": "iti",
+      "d": "इति"
+     },
+     {
+      "i": "cāmantrya",
+      "d": "चामन्त्र्य"
+     },
+     {
+      "i": "prahṛṣṭo",
+      "d": "प्रहृष्टो"
+     },
+     {
+      "i": "vākyam",
+      "d": "वाक्यम्"
+     },
+     {
+      "i": "abravīt",
+      "d": "अब्रवीत्"
+     }
+    ]
    ],
    "goldman": {
     "text": "When Nārada, who was familiar with all the three worlds, heard Vālmīki’s words, he was delighted. “Listen,” he replied and spoke these words:",
@@ -113,6 +453,72 @@
     "बहवो दुर्लभाश्चैव ये त्वया कीर्तिता गुणाः ।",
     "मुने वक्ष्याम्यहं बुद्ध्वा तैर्युक्तः श्रूयतां नरः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "bahavo",
+      "d": "बहवो"
+     },
+     {
+      "i": "durlabhāś",
+      "d": "दुर्लभाश्"
+     },
+     {
+      "i": "caiva",
+      "d": "चैव"
+     },
+     {
+      "i": "ye",
+      "d": "ये"
+     },
+     {
+      "i": "tvayā",
+      "d": "त्वया"
+     },
+     {
+      "i": "kīrtitā",
+      "d": "कीर्तिता"
+     },
+     {
+      "i": "guṇāḥ",
+      "d": "गुणाः"
+     }
+    ],
+    [
+     {
+      "i": "mune",
+      "d": "मुने"
+     },
+     {
+      "i": "vakṣyāmy",
+      "d": "वक्ष्याम्य्"
+     },
+     {
+      "i": "ahaṃ",
+      "d": "अहं"
+     },
+     {
+      "i": "buddhvā",
+      "d": "बुद्ध्वा"
+     },
+     {
+      "i": "tair",
+      "d": "तैर्"
+     },
+     {
+      "i": "yuktaḥ",
+      "d": "युक्तः"
+     },
+     {
+      "i": "śrūyatāṃ",
+      "d": "श्रूयतां"
+     },
+     {
+      "i": "naraḥ",
+      "d": "नरः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "“The many virtues you have named are hard to find. Let me think a moment, sage, before I speak. Hear now of a man who has them all.",
     "paragraph": "1.1.6–11",
@@ -129,6 +535,52 @@
    "dev": [
     "इक्ष्वाकुवंशप्रभवो रामो नाम जनैः श्रुतः ।",
     "नियतात्मा महावीर्यो द्युतिमान्धृतिमान्वशी ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "ikṣvākuvaṃśaprabhavo",
+      "d": "इक्ष्वाकुवंशप्रभवो"
+     },
+     {
+      "i": "rāmo",
+      "d": "रामो"
+     },
+     {
+      "i": "nāma",
+      "d": "नाम"
+     },
+     {
+      "i": "janaiḥ",
+      "d": "जनैः"
+     },
+     {
+      "i": "śrutaḥ",
+      "d": "श्रुतः"
+     }
+    ],
+    [
+     {
+      "i": "niyatātmā",
+      "d": "नियतात्मा"
+     },
+     {
+      "i": "mahāvīryo",
+      "d": "महावीर्यो"
+     },
+     {
+      "i": "dyutimān",
+      "d": "द्युतिमान्"
+     },
+     {
+      "i": "dhṛtimān",
+      "d": "धृतिमान्"
+     },
+     {
+      "i": "vaśī",
+      "d": "वशी"
+     }
+    ]
    ],
    "goldman": {
     "text": "His name is Rāma and he was born in the House of Ikṣvāku. All men know of him, for he is self-controlled, mighty, radiant, steadfast, and masterful.",
@@ -147,6 +599,48 @@
     "बुद्धिमान्नीतिमान्वाग्मी श्रीमाञ्शत्रुनिबर्हणः ।",
     "विपुलांसो महाबाहुः कम्बुग्रीवो महाहनुः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "buddhimān",
+      "d": "बुद्धिमान्"
+     },
+     {
+      "i": "nītimān",
+      "d": "नीतिमान्"
+     },
+     {
+      "i": "vāgmī",
+      "d": "वाग्मी"
+     },
+     {
+      "i": "śrīmāñ",
+      "d": "श्रीमाञ्"
+     },
+     {
+      "i": "śatrunibarhaṇaḥ",
+      "d": "शत्रुनिबर्हणः"
+     }
+    ],
+    [
+     {
+      "i": "vipulāṃso",
+      "d": "विपुलांसो"
+     },
+     {
+      "i": "mahābāhuḥ",
+      "d": "महाबाहुः"
+     },
+     {
+      "i": "kambugrīvo",
+      "d": "कम्बुग्रीवो"
+     },
+     {
+      "i": "mahāhanuḥ",
+      "d": "महाहनुः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "He is wise and grounded in proper conduct. Eloquent and majestic, he annihilates his enemies. His shoulders are broad and his arms mighty. His neck is like a conch shell and his jaws are powerful.",
     "paragraph": "1.1.6–11",
@@ -163,6 +657,44 @@
    "dev": [
     "महोरस्को महेष्वासो गूढजत्रुररिंदमः ।",
     "आजानुबाहुः सुशिराः सुललाटः सुविक्रमः ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "mahorasko",
+      "d": "महोरस्को"
+     },
+     {
+      "i": "maheṣvāso",
+      "d": "महेष्वासो"
+     },
+     {
+      "i": "gūḍhajatrur",
+      "d": "गूढजत्रुर्"
+     },
+     {
+      "i": "ariṃdamaḥ",
+      "d": "अरिंदमः"
+     }
+    ],
+    [
+     {
+      "i": "ājānubāhuḥ",
+      "d": "आजानुबाहुः"
+     },
+     {
+      "i": "suśirāḥ",
+      "d": "सुशिराः"
+     },
+     {
+      "i": "sulalāṭaḥ",
+      "d": "सुललाटः"
+     },
+     {
+      "i": "suvikramaḥ",
+      "d": "सुविक्रमः"
+     }
+    ]
    ],
    "goldman": {
     "text": "His chest is vast, and a subduer of his enemies, he wields a huge bow. His collarbone is set deep in muscle, his arms reach down to his knees, and his head is finely made. His brow is noble and his gait full of grace.",
@@ -181,6 +713,44 @@
     "समः समविभक्ताङ्गः स्निग्धवर्णः प्रतापवान् ।",
     "पीनवक्षा विशालाक्षो लक्ष्मीवाञ्शुभलक्षणः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "samaḥ",
+      "d": "समः"
+     },
+     {
+      "i": "samavibhaktāṅgaḥ",
+      "d": "समविभक्ताङ्गः"
+     },
+     {
+      "i": "snigdhavarṇaḥ",
+      "d": "स्निग्धवर्णः"
+     },
+     {
+      "i": "pratāpavān",
+      "d": "प्रतापवान्"
+     }
+    ],
+    [
+     {
+      "i": "pīnavakṣā",
+      "d": "पीनवक्षा"
+     },
+     {
+      "i": "viśālākṣo",
+      "d": "विशालाक्षो"
+     },
+     {
+      "i": "lakṣmīvāñ",
+      "d": "लक्ष्मीवाञ्"
+     },
+     {
+      "i": "śubhalakṣaṇaḥ",
+      "d": "शुभलक्षणः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "His proportions are perfect and his limbs well formed and symmetrical. Dark is his complexion and he is valorous. His chest is fully fleshed; he has large eyes. He is splendid and marked with all auspicious signs.",
     "paragraph": "1.1.6–11",
@@ -197,6 +767,60 @@
    "dev": [
     "धर्मज्ञः सत्यसंधश्च प्रजानां च हिते रतः ।",
     "यशस्वी ज्ञानसंपन्नः शुचिर्वश्यः समाधिमान् ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "dharmajñaḥ",
+      "d": "धर्मज्ञः"
+     },
+     {
+      "i": "satyasaṃdhaś",
+      "d": "सत्यसंधश्"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "prajānāṃ",
+      "d": "प्रजानां"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "hite",
+      "d": "हिते"
+     },
+     {
+      "i": "rataḥ",
+      "d": "रतः"
+     }
+    ],
+    [
+     {
+      "i": "yaśasvī",
+      "d": "यशस्वी"
+     },
+     {
+      "i": "jñānasaṃpannaḥ",
+      "d": "ज्ञानसंपन्नः"
+     },
+     {
+      "i": "śucir",
+      "d": "शुचिर्"
+     },
+     {
+      "i": "vaśyaḥ",
+      "d": "वश्यः"
+     },
+     {
+      "i": "samādhimān",
+      "d": "समाधिमान्"
+     }
+    ]
    ],
    "goldman": {
     "text": "“He knows the ways of righteousness and is always true to his word. The welfare of his subjects is his constant concern. He is renowned, learned, pure, disciplined, and contemplative.",
@@ -215,6 +839,44 @@
     "रक्षिता जीवलोकस्य धर्मस्य परिरक्षिता ।",
     "वेदवेदाङ्गतत्त्वज्ञो धनुर्वेदे च निष्ठितः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "rakṣitā",
+      "d": "रक्षिता"
+     },
+     {
+      "i": "jīvalokasya",
+      "d": "जीवलोकस्य"
+     },
+     {
+      "i": "dharmasya",
+      "d": "धर्मस्य"
+     },
+     {
+      "i": "parirakṣitā",
+      "d": "परिरक्षिता"
+     }
+    ],
+    [
+     {
+      "i": "vedavedāṅgatattvajño",
+      "d": "वेदवेदाङ्गतत्त्वज्ञो"
+     },
+     {
+      "i": "dhanurvede",
+      "d": "धनुर्वेदे"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "niṣṭhitaḥ",
+      "d": "निष्ठितः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "He is the protector of all living things and the guardian of righteousness. Versed in the essence of the vedas and their ancillary sciences, he is expert in the science of arms.",
     "paragraph": "1.1.12–15",
@@ -231,6 +893,40 @@
    "dev": [
     "सर्वशास्त्रार्थतत्त्वज्ञ स्मृतिमान्प्रतिभानवान् ।",
     "सर्वलोकप्रियः साधुरदीनात्मा विचक्षणः ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "sarvaśāstrārthatattvajña",
+      "d": "सर्वशास्त्रार्थतत्त्वज्ञ"
+     },
+     {
+      "i": "smṛtimān",
+      "d": "स्मृतिमान्"
+     },
+     {
+      "i": "pratibhānavān",
+      "d": "प्रतिभानवान्"
+     }
+    ],
+    [
+     {
+      "i": "sarvalokapriyaḥ",
+      "d": "सर्वलोकप्रियः"
+     },
+     {
+      "i": "sādhur",
+      "d": "साधुर्"
+     },
+     {
+      "i": "adīnātmā",
+      "d": "अदीनात्मा"
+     },
+     {
+      "i": "vicakṣaṇaḥ",
+      "d": "विचक्षणः"
+     }
+    ]
    ],
    "goldman": {
     "text": "He is versed in the essence of every śāstra, learned in traditional lore, and highly intelligent. All the people love him, for he is good, cheerful, and clever.",
@@ -249,6 +945,48 @@
     "सर्वदाभिगतः सद्भिः समुद्र इव सिन्धुभिः ।",
     "आर्यः सर्वसमश्चैव सदैकप्रियदर्शनः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "sarvadābhigataḥ",
+      "d": "सर्वदाभिगतः"
+     },
+     {
+      "i": "sadbhiḥ",
+      "d": "सद्भिः"
+     },
+     {
+      "i": "samudra",
+      "d": "समुद्र"
+     },
+     {
+      "i": "iva",
+      "d": "इव"
+     },
+     {
+      "i": "sindhubhiḥ",
+      "d": "सिन्धुभिः"
+     }
+    ],
+    [
+     {
+      "i": "āryaḥ",
+      "d": "आर्यः"
+     },
+     {
+      "i": "sarvasamaś",
+      "d": "सर्वसमश्"
+     },
+     {
+      "i": "caiva",
+      "d": "चैव"
+     },
+     {
+      "i": "sadaikapriyadarśanaḥ",
+      "d": "सदैकप्रियदर्शनः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "He is the constant resort of good men, as is the ocean of rivers. For he is noble and equable in all circumstances and always a pleasure to behold.",
     "paragraph": "1.1.12–15",
@@ -265,6 +1003,52 @@
    "dev": [
     "स च सर्वगुणोपेतः कौसल्यानन्दवर्धनः ।",
     "समुद्र इव गाम्भीर्ये धैर्येण हिमवानिव ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "sa",
+      "d": "स"
+     },
+     {
+      "i": "ca",
+      "d": "च"
+     },
+     {
+      "i": "sarvaguṇopetaḥ",
+      "d": "सर्वगुणोपेतः"
+     },
+     {
+      "i": "kausalyānandavardhanaḥ",
+      "d": "कौसल्यानन्दवर्धनः"
+     }
+    ],
+    [
+     {
+      "i": "samudra",
+      "d": "समुद्र"
+     },
+     {
+      "i": "iva",
+      "d": "इव"
+     },
+     {
+      "i": "gāmbhīrye",
+      "d": "गाम्भीर्ये"
+     },
+     {
+      "i": "dhairyeṇa",
+      "d": "धैर्येण"
+     },
+     {
+      "i": "himavān",
+      "d": "हिमवान्"
+     },
+     {
+      "i": "iva",
+      "d": "इव"
+     }
+    ]
    ],
    "goldman": {
     "text": "“The delight of his mother, Kausalyā, he is gifted with every virtue. For he is as deep as the ocean and as unyielding as the Himalayas.",
@@ -283,6 +1067,48 @@
     "विष्णुना सदृशो वीर्ये सोमवत्प्रियदर्शनः ।",
     "कालाग्निसदृशः क्रोधे क्षमया पृथिवीसमः ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "viṣṇunā",
+      "d": "विष्णुना"
+     },
+     {
+      "i": "sadṛśo",
+      "d": "सदृशो"
+     },
+     {
+      "i": "vīrye",
+      "d": "वीर्ये"
+     },
+     {
+      "i": "somavat",
+      "d": "सोमवत्"
+     },
+     {
+      "i": "priyadarśanaḥ",
+      "d": "प्रियदर्शनः"
+     }
+    ],
+    [
+     {
+      "i": "kālāgnisadṛśaḥ",
+      "d": "कालाग्निसदृशः"
+     },
+     {
+      "i": "krodhe",
+      "d": "क्रोधे"
+     },
+     {
+      "i": "kṣamayā",
+      "d": "क्षमया"
+     },
+     {
+      "i": "pṛthivīsamaḥ",
+      "d": "पृथिवीसमः"
+     }
+    ]
+   ],
    "goldman": {
     "text": "He is as mighty as Viṣṇu, but as pleasant to behold as the moon. In his wrath he resembles the fire at the end of time, yet he rivals the earth in forbearance.",
     "paragraph": "1.1.16–24",
@@ -300,6 +1126,52 @@
     "धनदेन समस्त्यागे सत्ये धर्म इवापरः ।",
     "तमेवंगुणसंपन्नं रामं सत्यपराक्रमम् ॥"
    ],
+   "words": [
+    [
+     {
+      "i": "dhanadena",
+      "d": "धनदेन"
+     },
+     {
+      "i": "samas",
+      "d": "समस्"
+     },
+     {
+      "i": "tyāge",
+      "d": "त्यागे"
+     },
+     {
+      "i": "satye",
+      "d": "सत्ये"
+     },
+     {
+      "i": "dharma",
+      "d": "धर्म"
+     },
+     {
+      "i": "ivāparaḥ",
+      "d": "इवापरः"
+     }
+    ],
+    [
+     {
+      "i": "tam",
+      "d": "तम्"
+     },
+     {
+      "i": "evaṃguṇasaṃpannaṃ",
+      "d": "एवंगुणसंपन्नं"
+     },
+     {
+      "i": "rāmaṃ",
+      "d": "रामं"
+     },
+     {
+      "i": "satyaparākramam",
+      "d": "सत्यपराक्रमम्"
+     }
+    ]
+   ],
    "goldman": {
     "text": "In charity he is the equal of Kubera, giver of wealth, and in truthfulness like a second Dharma, the god of righteousness.",
     "paragraph": "1.1.16–24",
@@ -316,6 +1188,56 @@
    "dev": [
     "ज्येष्ठं श्रेष्ठगुणैर्युक्तं प्रियं दशरथः सुतम् ।",
     "यौवराज्येन संयोक्तुमैच्छत्प्रीत्या महीपतिः ॥"
+   ],
+   "words": [
+    [
+     {
+      "i": "jyeṣṭhaṃ",
+      "d": "ज्येष्ठं"
+     },
+     {
+      "i": "śreṣṭhaguṇair",
+      "d": "श्रेष्ठगुणैर्"
+     },
+     {
+      "i": "yuktaṃ",
+      "d": "युक्तं"
+     },
+     {
+      "i": "priyaṃ",
+      "d": "प्रियं"
+     },
+     {
+      "i": "daśarathaḥ",
+      "d": "दशरथः"
+     },
+     {
+      "i": "sutam",
+      "d": "सुतम्"
+     }
+    ],
+    [
+     {
+      "i": "yauvarājyena",
+      "d": "यौवराज्येन"
+     },
+     {
+      "i": "saṃyoktum",
+      "d": "संयोक्तुम्"
+     },
+     {
+      "i": "aicchat",
+      "d": "ऐच्छत्"
+     },
+     {
+      "i": "prītyā",
+      "d": "प्रीत्या"
+     },
+     {
+      "i": "mahīpatiḥ",
+      "d": "महीपतिः"
+     }
+    ]
    ],
    "goldman": {
     "text": "Moved by affection for him, Daśaratha, lord of the earth, wished to appoint this Rāma, his beloved eldest son, as prince regent. For he was truly valorous, possessed all these virtues, and was gifted with other excellent virtues.",

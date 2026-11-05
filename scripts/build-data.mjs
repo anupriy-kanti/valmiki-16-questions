@@ -1,6 +1,7 @@
 // Builds src/data/verses.json from data/*.json.
 // Devanagari lines in data/ce-sanskrit-1.1.1-21.json are complete (extraction fixed in mytwiki-C21).
 import fs from 'node:fs'
+import Sanscript from '@indic-transliteration/sanscript'
 
 const ce = JSON.parse(fs.readFileSync('data/ce-sanskrit-1.1.1-21.json', 'utf8'))
 const goldman = JSON.parse(fs.readFileSync('data/goldman-1.1.1-24.json', 'utf8'))
@@ -26,7 +27,12 @@ const verses = ce
     const dev = v.dev.split('\n')
     const g = aligned.verses.find(a => a.ce === v.ce)
     const goldmanPiece = g && { text: g.text, paragraph: g.paragraph, note: aligned.notes[v.ce] || null }
-    return { ce: v.ce, n: Number(v.ce.split('.')[2]), iast, dev, goldman: goldmanPiece }
+    // Word units for the scroll story: the GRETIL IAST split at its own word
+    // breaks, each word transliterated to Devanāgarī on its own, so every
+    // Devanāgarī word lines up with its romanisation. The reference views keep
+    // Smith's Devanāgarī (`dev`) as published.
+    const words = iast.map(l => l.split(/\s+/).map(i => ({ i, d: Sanscript.t(i, 'iast', 'devanagari') })))
+    return { ce: v.ce, n: Number(v.ce.split('.')[2]), iast, dev, words, goldman: goldmanPiece }
   })
 
 // Goldman [16–24] is cut at the end of the CE 1.1.19 sentence (site range ends at 1.1.19).

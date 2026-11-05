@@ -183,3 +183,21 @@ export const CITES = {
   debroy: 'Debroy 2017, vol. 1 [p. ?]',
   gp: 'Gita Press [p. ?]',
 }
+
+// ─── The scroll story (All) ─────────────────────────────────────────────────
+// Each verse as word units (GRETIL IAST, Devanāgarī transliterated word by
+// word in scripts/build-data.mjs). Units carry the question they ask (1.1.2–4)
+// and any echo from the artefact's echo layer. Matching is by the word's stem,
+// only to find the word in the line. No new reading is added.
+const Q_STEM = { Q8: 'sarvabhūteṣu', Q15: 'nasūyak', Q16: 'bibhyati' }
+const stem = w => w.split(' ')[0].replace(/[aāḥ]$/, '')
+export const STORY = VERSES.map(v => {
+  const qs = QUESTIONS.filter(q => q.v === v.n)
+  let k = 0
+  const lines = v.words.map(line => line.map(w => {
+    const q = qs.find(x => w.i.includes(Q_STEM[x.id] || stem(x.iast)))
+    const echo = (v.echoes || []).find(e => w.i.includes(stem(e.word)))
+    return { ...w, k: k++, q: q?.id || null, echo: echo || null }
+  }))
+  return { ...v, lines, total: k }
+})

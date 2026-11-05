@@ -161,3 +161,15 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
     transform: translateX(100%);
   }
 }
+
+/* ─── Shell (milestone 03) ─── */
+.side-byline { writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); letter-spacing: .2em; }
+.pager-label { display: none; }
+@media (min-width: 1280px) {
+  .pager-label { display: inline; opacity: 0; transform: translateX(4px); transition: opacity 200ms ease, transform 200ms ease; }
+  .pager-dot:hover .pager-label, .pager-dot:focus-visible .pager-label, .pager-dot[aria-current] .pager-label { opacity: 1; transform: none; }
+}
+.pager-mark { transition: background-color 200ms ease, transform 200ms ease; }
+.pager-dot[aria-current] .pager-mark { background: var(--color-gold); transform: scale(1.25); }
+.pager-dot:hover .pager-mark { background: rgb(201 168 92 / .5); }
+.bottom-line { background: linear-gradient(to top, var(--color-paper) 45%, rgb(26 20 16 / 0)); }
