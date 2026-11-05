@@ -1,5 +1,11 @@
 # Changelog
 
+## Site v1.2 (motion, Nov 2026)
+
+All motion is switched off under `prefers-reduced-motion: reduce`.
+
+- **Route fade.** A 200ms fade-in on each page change. When moving between All, Questions and Answers, the page opens at the verse that was at the top of the screen, if the new page shows it.
+
 ## Site v1.1 (polish, Nov 2026)
 
 - **Spotlight contrast.** Dimmed verses no longer use opacity. Opacity 0.45 drops body text to 2.7:1, below WCAG AA. They now use a muted text colour (#5c4f42, 7.3:1 on the page), no card fill and a dashed border. Badges keep their colours.

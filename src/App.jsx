@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Reading from './Reading.jsx'
 import Sources from './Sources.jsx'
@@ -13,6 +13,16 @@ const NAV = [
   ['/about', 'About', false],
 ]
 
+// The verse at the top of the screen when a reading tab is clicked, so the
+// next tab can open at the same verse if it shows it.
+const anchor = { id: null, top: 0 }
+function rememberVerse() {
+  const nav = document.querySelector('nav')?.getBoundingClientRect().bottom || 0
+  const el = [...document.querySelectorAll('article[id^="v"]')].find(a => a.getBoundingClientRect().bottom > nav + 8)
+  anchor.id = el && window.scrollY > 200 ? el.id : null
+  anchor.top = el ? el.getBoundingClientRect().top : 0
+}
+
 function Nav() {
   const { search } = useLocation()
   return (
@@ -21,7 +31,8 @@ function Nav() {
         {NAV.map(([to, label, keepQ]) => (
           <li key={to} className="shrink-0">
             <NavLink
-              to={{ pathname: to, search: keepQ ? search : '' }}
+              to={{ pathname: to, search: keepQ ? search.replace(/([?&])v=[^&]*&?/, '$1').replace(/[?&]$/, '') : '' }}
+              onClick={keepQ ? rememberVerse : () => { anchor.id = null }}
               end
               className={({ isActive }) =>
                 'block rounded-full px-3 py-1.5 ' +
@@ -58,14 +69,19 @@ function Footer() {
 
 export default function App() {
   const { pathname, search } = useLocation()
-  useEffect(() => {
-    if (!new URLSearchParams(search).has('v')) window.scrollTo(0, 0)
+  useLayoutEffect(() => {
+    if (new URLSearchParams(search).has('v')) return
+    const el = anchor.id && document.getElementById(anchor.id)
+    if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - anchor.top)
+    else window.scrollTo(0, 0)
+    anchor.id = null
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
       <Nav />
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
+        <div key={pathname} className="route-fade">
         <Routes>
           <Route path="/" element={<Reading mode="all" />} />
           <Route path="/questions" element={<Reading mode="questions" />} />
@@ -75,6 +91,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Reading mode="all" />} />
         </Routes>
+        </div>
       </main>
       <Footer />
     </>
