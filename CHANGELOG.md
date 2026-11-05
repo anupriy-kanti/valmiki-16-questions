@@ -3,6 +3,7 @@
 ## Site v1.1 (polish, Nov 2026)
 
 - **Spotlight contrast.** Dimmed verses no longer use opacity. Opacity 0.45 drops body text to 2.7:1, below WCAG AA. They now use a muted text colour (#5c4f42, 7.3:1 on the page), no card fill and a dashed border. Badges keep their colours.
+- **Verse links.** Each verse number links to itself (`#/answers?v=1.1.14`, or `#/questions?v=1.1.3` for 1.1.1–5). The link scrolls to the verse and rings it in gold. A ¶ button by the number copies the full link.
 
 ## Site v1 (MVP, Nov 2026)
 

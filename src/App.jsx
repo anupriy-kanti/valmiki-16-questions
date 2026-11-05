@@ -57,8 +57,10 @@ function Footer() {
 }
 
 export default function App() {
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  const { pathname, search } = useLocation()
+  useEffect(() => {
+    if (!new URLSearchParams(search).has('v')) window.scrollTo(0, 0)
+  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="sr-only focus:not-sr-only">Skip to content</button>

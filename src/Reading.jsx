@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   VERSES, GOLDMAN, QUESTIONS, QUESTION_LINES, PATTERNS, CITES, CATS, ECHO_STYLE, PHASE_LABELS,
@@ -90,7 +90,37 @@ function Translation({ v, kind }) {
   )
 }
 
-function Verse({ v, layers, q, setQ, spotlight }) {
+function VerseLink({ v }) {
+  const [copied, setCopied] = useState(false)
+  const route = `${v.n <= 5 ? '/questions' : '/answers'}?v=${v.ce}`
+  const copy = async () => {
+    const url = `${window.location.origin}${window.location.pathname}#${route}`
+    try {
+      await navigator.clipboard.writeText(url)
+    } catch {
+      window.prompt('Copy this link', url)
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+  return (
+    <>
+      <Link to={route} className="text-sm font-semibold hover:underline">{v.ce}</Link>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={`Copy link to verse ${v.ce}`}
+        title="Copy link to this verse"
+        className="no-print rounded px-1 text-xs text-muted hover:bg-accent-soft hover:text-accent"
+      >
+        ¶
+      </button>
+      {copied && <span role="status" className="text-xs text-accent">Link copied</span>}
+    </>
+  )
+}
+
+function Verse({ v, layers, q, setQ, spotlight, target }) {
   const lit = q && v.answers.includes(q)
   const dim = spotlight && q && !lit
   const lines = QUESTION_LINES[v.n]
@@ -98,13 +128,14 @@ function Verse({ v, layers, q, setQ, spotlight }) {
     <article
       id={`v${v.n}`}
       className={
-        'my-4 rounded-lg border bg-card p-4 transition-opacity ' +
+        'my-4 scroll-mt-16 rounded-lg border bg-card p-4 transition-opacity ' +
         (lit ? 'border-accent shadow-md' : 'border-line') +
-        (dim ? ' dimmed' : '')
+        (dim ? ' dimmed' : '') +
+        (target ? ' ring-2 ring-gold ring-offset-2 ring-offset-paper' : '')
       }
     >
       <header className="mb-2 flex flex-wrap items-baseline gap-2 font-sans">
-        <span className="text-sm font-semibold">{v.ce}</span>
+        <VerseLink v={v} />
         {v.gpLabel && <span className="text-xs text-muted">{v.gpLabel}</span>}
         {lines && <span className="text-xs text-muted">{lines.range}</span>}
         <span className="ml-auto flex flex-wrap gap-1">
@@ -370,6 +401,13 @@ const TITLES = {
 export default function Reading({ mode }) {
   const [params, setParams] = useSearchParams()
   const q = params.get('q')
+  const target = params.get('v')
+  useEffect(() => {
+    if (!target) return
+    const n = target.split('.')[2]
+    const id = requestAnimationFrame(() => document.getElementById(`v${n}`)?.scrollIntoView({ block: 'start' }))
+    return () => cancelAnimationFrame(id)
+  }, [target, mode])
   const setQ = id => {
     const next = new URLSearchParams(params)
     if (id) next.set('q', id)
@@ -439,7 +477,7 @@ export default function Reading({ mode }) {
             {n === 6 && <h2 className="mt-10 text-3xl font-semibold">Nārada answers</h2>}
             {phaseHead && <Label className="mt-6 text-gold">{phaseHead}</Label>}
             {layers.goldman && <GoldmanBlock start={n} />}
-            <Verse v={v} layers={layers} q={q} setQ={setQ} spotlight={mode !== 'questions'} />
+            <Verse v={v} layers={layers} q={q} setQ={setQ} spotlight={mode !== 'questions'} target={target === v.ce} />
             {mode === 'all' && PATTERNS.filter(p => p.after === n).map(p => <PatternCard key={p.id} p={p} />)}
             {n === 5 && mode !== 'answers' && <QuestionCards q={q} setQ={setQ} />}
           </div>
