@@ -31,6 +31,9 @@ export default function Sources() {
   return (
     <div className="space-y-8 py-6">
       <h1 className="text-4xl font-semibold">Sources &amp; method</h1>
+      <p role="note" className="rounded-lg border border-gold bg-accent-soft/50 p-3 font-sans text-sm">
+        <b>Draft.</b> The verse-by-verse split of Goldman’s paragraphs is a draft by MYT, under review.
+      </p>
 
       <section>
         <h2 className="text-2xl font-semibold">Bibliography</h2>
@@ -105,7 +108,7 @@ export default function Sources() {
           <li>A question tag on an answer verse marks a verse read as answering that question. These readings are Anupriy Kanti’s, made first on the Gita Press text and moved to the Critical Edition numbers with the concordance above.</li>
           <li>Echo pills mark where the answer reuses the question’s own Sanskrit word: verbatim (the same word), inverted (the same word, meaning turned around) or adjacency (a word close in meaning, not an answer).</li>
           <li>The nine colour themes are one way of grouping the questions for this site, not a classification from the text itself.</li>
-          <li>Goldman translates in paragraphs that cover groups of verses. Each paragraph appears once, at the head of its group. The last paragraph is cut at the end of CE 1.1.19, where this site ends.</li>
+          <li>Goldman translates in paragraphs that cover groups of verses (1.1.1–5, 6–11, 12–15, 16–24). This site splits each paragraph into one piece per verse, verbatim and in Goldman’s order. The split is MYT’s, not Goldman’s, and each piece links to the whole paragraph. Goldman carries 1.1.18b into the sentence shown under 1.1.19. The last paragraph is shown only to the end of 1.1.19, where this site ends.</li>
           <li>Debroy translates the Critical Edition. The Gita Press English follows the vulgate. Both are placed at the CE verse that holds the matching half-line.</li>
           <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>
         </ul>

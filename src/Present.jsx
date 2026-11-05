@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { VERSES, QUESTIONS, catOf } from './content.js'
-import { SanskritLabel } from './Reading.jsx'
+import { GoldmanPiece, SanskritLabel } from './Reading.jsx'
 
 // One verse per screen for talks. Arrow keys, Space, PageUp/PageDown, Home/End
 // or a click move through the verses. Escape exits.
@@ -88,7 +88,8 @@ export default function Present({ nums, start, layers, q, markLine, onClose }) {
             {v.gpOnly.map(r => <p key={r.gp}><span className="font-sans text-xs font-semibold">{r.gp}</span> <span lang="sa-Deva" className="deva">{r.dev}</span> · <i lang="sa-Latn">{r.iast}</i></p>)}
           </div>
         )}
-        <div className="grid gap-6 border-t border-line pt-4 md:grid-cols-2" style={{ fontSize: 'clamp(1rem, 1.6vw, 1.4rem)' }}>
+        <div className="grid gap-6 border-t border-line pt-4 md:grid-cols-2 xl:grid-cols-3" style={{ fontSize: 'clamp(1rem, 1.6vw, 1.4rem)' }}>
+          {layers.goldman && <GoldmanPiece v={v} className="" />}
           {layers.debroy && v.debroy && (
             <div><p className="font-sans text-xs font-semibold uppercase tracking-wide text-muted">Debroy (CE)</p><p>{v.debroy}</p></div>
           )}

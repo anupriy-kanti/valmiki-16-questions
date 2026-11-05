@@ -4,6 +4,8 @@ import fs from 'node:fs'
 
 const ce = JSON.parse(fs.readFileSync('data/ce-sanskrit-1.1.1-21.json', 'utf8'))
 const goldman = JSON.parse(fs.readFileSync('data/goldman-1.1.1-24.json', 'utf8'))
+// Verse-by-verse split of Goldman's paragraphs: a DRAFT by MYT, under review.
+const aligned = JSON.parse(fs.readFileSync('data/goldman-aligned-draft.json', 'utf8'))
 
 const CONS = [
   ['kh','ख'],['gh','घ'],['ch','छ'],['jh','झ'],['ṭh','ठ'],['ḍh','ढ'],['th','थ'],['dh','ध'],['ph','फ'],['bh','भ'],
@@ -22,7 +24,9 @@ const verses = ce
   .map(v => {
     const iast = v.iast.split('\n').map(l => l.replace(/\s*\/+\s*$/, '').trim())
     const dev = v.dev.split('\n')
-    return { ce: v.ce, n: Number(v.ce.split('.')[2]), iast, dev }
+    const g = aligned.verses.find(a => a.ce === v.ce)
+    const goldmanPiece = g && { text: g.text, paragraph: g.paragraph, note: aligned.notes[v.ce] || null }
+    return { ce: v.ce, n: Number(v.ce.split('.')[2]), iast, dev, goldman: goldmanPiece }
   })
 
 // Goldman [16–24] is cut at the end of the CE 1.1.19 sentence (site range ends at 1.1.19).
@@ -38,5 +42,14 @@ const blocks = goldman.blocks.map(b => {
   return { range, start, label: b.ce_range, text }
 })
 
-fs.writeFileSync('src/data/verses.json', JSON.stringify({ verses, goldman: { source: goldman.source, pages: goldman.pages, blocks } }, null, 1))
-console.log('ok', verses.length, blocks.map(b => b.range))
+// Each piece must be a verbatim slice of its paragraph, in order.
+const norm = t => t.replace(/\s+/g, ' ').trim()
+for (const b of goldman.blocks) {
+  const joined = norm(aligned.verses.filter(a => a.paragraph === b.ce_range).map(a => a.text).join(' '))
+  if (!norm(b.text).startsWith(joined)) throw new Error('Goldman pieces do not match paragraph ' + b.ce_range)
+}
+// Whole paragraphs for the disclosures, keyed by Goldman's own range.
+const paragraphs = Object.fromEntries(blocks.map(b => [b.label, { text: b.text, cut: b.range !== b.label ? b.range : null }]))
+
+fs.writeFileSync('src/data/verses.json', JSON.stringify({ verses, goldman: { source: goldman.source, pages: goldman.pages, status: aligned.status, paragraphs } }, null, 1))
+console.log('ok', verses.length, Object.keys(paragraphs), verses.filter(v => v.goldman).length + ' Goldman pieces')

@@ -57,18 +57,26 @@ function EchoPill({ echo, withVerse }) {
   )
 }
 
-function GoldmanBlock({ start, off }) {
-  const b = GOLDMAN.blocks.find(x => x.start === start)
-  if (!b) return null
+// Goldman translates in paragraphs. The split into one piece per verse is a
+// draft by MYT, so every piece says so and opens onto the whole paragraph.
+export function GoldmanPiece({ v, off, className = 'mt-3 border-t border-line pt-2' }) {
+  const g = v.goldman
+  if (!g) return null
+  const para = GOLDMAN.paragraphs[g.paragraph]
   return (
-    <aside className={'my-4 rounded-lg border-l-4 border-gold bg-card p-4' + (off ? ' print-only' : '')}>
-      <Label className="mb-1 text-gold-ink">
-        Goldman, {b.range}
-        {b.range !== b.label && <span className="normal-case"> (paragraph {b.label}, cut at 1.1.19)</span>}
-      </Label>
-      <p>{b.text}</p>
+    <div className={className + (off ? ' print-only' : '')}>
+      <Label className="text-muted">Goldman (CE)</Label>
+      <p>{g.text}</p>
+      {g.note && <p className="mt-1 font-sans text-xs italic text-muted">{g.note}</p>}
+      <details className="goldman-para mt-1 font-sans text-xs text-muted">
+        <summary className="cursor-pointer hover:text-accent">Verse split by MYT. Goldman’s paragraph covers {g.paragraph}</summary>
+        <div className="mt-2 rounded border-l-4 border-gold bg-paper p-3 font-serif text-base text-ink">
+          <p>{para.text}</p>
+          {para.cut && <p className="mt-1 font-sans text-xs text-muted">Shown to the end of 1.1.19, where this site ends. The paragraph continues to 1.1.24.</p>}
+        </div>
+      </details>
       <Cite id="goldman" />
-    </aside>
+    </div>
   )
 }
 
@@ -316,6 +324,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
         </div>
       )}
 
+      <GoldmanPiece v={v} off={!layers.goldman} />
       <Translation v={v} kind="debroy" off={!layers.debroy} />
       <Translation v={v} kind="gp" off={!layers.gp} />
 
@@ -482,7 +491,7 @@ function Legend() {
       <ul className="space-y-1 pt-2 font-sans text-xs text-muted">
         <li><b className="text-ink">1.1.8</b> Critical Edition verse number. <b>GP 15</b> marks the Gita Press number where it differs.</li>
         <li><span className="rounded bg-gp px-1">Gita Press reading</span> A vulgate half-line not in the CE constituted text.</li>
-        <li><span className="border-l-4 border-gold pl-1">Goldman</span> One paragraph per verse group, shown at the head of the group.</li>
+        <li><b className="text-ink">Goldman (CE)</b> One piece per verse, verbatim. The split of Goldman’s paragraphs into verses is a draft by MYT. Each piece opens onto the whole paragraph.</li>
       </ul>
       <p className="font-sans text-xs italic text-muted">
         The nine themes are one way of grouping the questions for this experience, not a classification from the text itself.
@@ -798,7 +807,6 @@ export default function Reading({ mode }) {
             {n === 1 && <h2 className="mt-8 text-3xl font-semibold">Vālmīki asks</h2>}
             {n === 6 && <h2 className="mt-10 text-3xl font-semibold">Nārada answers</h2>}
             {phaseHead && <Label className="mt-6 text-gold-ink">{phaseHead}</Label>}
-            <GoldmanBlock start={n} off={!layers.goldman} />
             <Verse v={v} layers={layers} q={q} setQ={setQ} spotlight={mode !== 'questions'} target={target === v.ce} />
             {mode === 'all' && PATTERNS.filter(p => p.after === n).map(p => <PatternCard key={p.id} p={p} />)}
             {n === 5 && mode !== 'answers' && <QuestionCards q={q} setQ={setQ} />}

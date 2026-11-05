@@ -94,3 +94,9 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - **The hero preload** is in `index.html`, so pages other than All also fetch the hero (54 kB on phones). Small cost, kept for the landing page's speed.
 - **Fonts swap in.** Text first shows in fallback fonts, then switches to EB Garamond, Tiro and DM Sans.
 - **Not done:** dark mode, self-hosted fonts. Node 20 deprecation warnings in Actions are harmless for now.
+
+## 6. Milestone 02 (c.v16q-02, 5 Nov 2026)
+
+### To check
+
+- **Goldman verse split (item 5).** Check the 19 pieces in `data/goldman-aligned-draft.json` against print pp. 51–52. Each piece is verbatim and the build confirms they join back into Goldman's paragraphs, but where each verse starts and ends is MYT's reading. Once checked, remove the draft note at the top of Sources & method (`src/Sources.jsx`) and the word "draft" from the key (`src/Reading.jsx`, Legend).
