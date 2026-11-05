@@ -16,7 +16,7 @@ The site then goes live at https://anupriy-kanti.github.io/valmiki-16-questions/
 
 ## 1. Data problems found and fixed
 
-- **Devanāgarī file lost the first character of every line.** In `data/ce-sanskrit-1.1.1-21.json`, every `dev` line lacks its first code point (`पःस्वाध्याय…` for `तपःस्वाध्याय…`). `scripts/build-data.mjs` puts it back from the first letter of the matching IAST line. At 1.1.16 the space after `स` was also lost and is put back. Please spot-check all 38 lines against the bombay.indology.info file.
+- **Devanāgarī: resolved (mytwiki-C21, 5 Nov 2026).** The extraction script had cut one character from every line. The data file is now re-extracted from the bombay.indology.info file and the repair step is gone. The rebuilt output is identical to the repaired lines, all 38 of them.
 - **CE 1.1.14 reads `sarvaśāstrārthatattvajña smṛtimān`** (no visarga) in the data file. The artefact's GP text has `…tattvajñaḥ`. Kept as the data file has it. Check against GRETIL.
 - **CE 1.1.20 `dev`** holds three lines (it starts with GP 21b *tasyābhiṣeka…*), the IAST holds two. The site stops at 1.1.19, so this does not show. Fix the data file if you reuse it.
 - **CE 1.1.15 reads *sadaikapriyadarśanaḥ*,** the GP reads *sadaiva priyadarśanaḥ*. The echo pill keeps the artefact's word *priyadarśana*. No new claim added.
