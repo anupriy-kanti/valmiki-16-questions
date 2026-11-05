@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import Present from './Present.jsx'
 import {
   VERSES, GOLDMAN, QUESTIONS, QUESTION_LINES, PATTERNS, CITES, CATS, ECHO_STYLE, PHASE_LABELS,
   catOf, answersFor, echoesFor,
@@ -659,6 +660,23 @@ export default function Reading({ mode }) {
     setParams(next, { replace: true })
   }
   const [layers, setLayers] = useState({ goldman: true, debroy: true, gp: true })
+  const [presenting, setPresenting] = useState(false)
+  const startPresent = () => {
+    const nav = document.querySelector('nav')?.getBoundingClientRect().bottom || 0
+    const el = [...document.querySelectorAll('article[id^="v"]')].find(a => a.getBoundingClientRect().bottom > nav + 60)
+    setPresenting(target ? Number(target.split('.')[2]) : el ? Number(el.id.slice(1)) : true)
+  }
+  const endPresent = n => {
+    setPresenting(false)
+    const next = new URLSearchParams(params)
+    next.set('v', `1.1.${n}`)
+    setParams(next, { replace: true })
+    requestAnimationFrame(() => document.getElementById(`v${n}`)?.scrollIntoView({ block: 'start' }))
+  }
+  const markLine = (v, k, script) => markEchoes(
+    script === 'dev' ? v.dev[k] : v.iast[k], v.echoes, script,
+    (t, e, j) => <EchoWord key={j} text={t} echo={e} glow={q === e.q} script={script} v={v} />,
+  )
 
   if (mode === 'patterns') {
     return (
@@ -677,6 +695,9 @@ export default function Reading({ mode }) {
   return (
     <div className="py-2">
       <ProgressRail mode={mode} />
+      {presenting && (
+        <Present nums={nums} start={typeof presenting === 'number' ? presenting : nums[0]} layers={layers} q={q} markLine={markLine} onClose={endPresent} />
+      )}
       {mode === 'all' ? (
         <>
           <Hero />
@@ -703,6 +724,9 @@ export default function Reading({ mode }) {
             {label}
           </label>
         ))}
+        <button type="button" onClick={startPresent} className="ml-auto rounded-full bg-ink px-3 py-1 text-paper" aria-haspopup="dialog">
+          Present
+        </button>
         {q && (
           <span className="flex items-center gap-1">
             <QBadge id={q} active onClick={() => setQ(null)} />
