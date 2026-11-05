@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { EchoWord } from './Reading.jsx'
 import { STORY, QUESTIONS, ECHO_STYLE, CITES } from './content.js'
 import { partAt } from './Shell.jsx'
+import Board from './Board.jsx'
 
 export const motionOn = () => document.documentElement.classList.contains('motion')
 const clamp = x => Math.max(0, Math.min(1, x))
@@ -210,7 +211,7 @@ const VerseStage = memo(function VerseStage({ v, k, ph, live, which, setWhich, e
 // IntersectionObserver switches the scroll handler on while the stages are on
 // screen; a single rAF-throttled handler reads the positions.
 function useStoryProgress(track) {
-  const [st, setSt] = useState({ cur: -1, k: 0, ph: 0 })
+  const [st, setSt] = useState({ cur: -1, k: 0, ph: 0, inside: false })
   useEffect(() => {
     const motion = motionOn()
     let frame = 0
@@ -227,7 +228,8 @@ function useStoryProgress(track) {
       const v = STORY[cur]
       const k = cur < 0 ? 0 : motion ? litAt(v, p) : v.total
       const ph = cur < 0 ? 0 : motion ? phaseAt(p) : 2
-      setSt(prev => (prev.cur === cur && prev.k === k && prev.ph === ph ? prev : { cur, k, ph }))
+      const inside = track.current.getBoundingClientRect().bottom > window.innerHeight * 0.5
+      setSt(prev => (prev.cur === cur && prev.k === k && prev.ph === ph && prev.inside === inside ? prev : { cur, k, ph, inside }))
     }
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
     let on = false
@@ -292,6 +294,11 @@ export default function Story() {
         verse 8 in the Critical Edition. Use the menu above to read only the Questions, only the Answers, or
         the Patterns.
       </p>
+      <Board
+        cur={motionOn() ? st.cur : STORY.length - 1}
+        k={motionOn() ? st.k : STORY[STORY.length - 1].total}
+        shown={st.cur >= 1 && st.inside}
+      />
       <div ref={track} className="stages">
         {STORY.map((v, i) => {
           const k = i < st.cur ? v.total : i > st.cur ? 0 : st.k
