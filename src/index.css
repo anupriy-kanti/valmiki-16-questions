@@ -288,3 +288,15 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 }
 @media (max-width: 1279px) { .motion .stage { padding-top: 4.4rem; } }
 @media print { .board-wrap { display: none !important; } }
+
+/* ─── Overview and author (All) ─── */
+.overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+@media (min-width: 768px) { .overview-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .overview { width: min(1040px, calc(100vw - 8rem)); margin-left: 50%; transform: translateX(-50%); } }
+.ov-cell { border: 1px solid var(--color-line); border-radius: .4rem; padding: .6rem .7rem; background: rgb(201 168 92 / .07); min-width: 0; }
+.ov-cell.is-none { background: #120d0a; border-style: dashed; color: var(--color-muted); }
+.ov-cat { display: inline-block; font-size: .72rem; border: 1px solid; border-radius: 999px; padding: 0 .45rem; }
+.motion .overview .ov-cell { opacity: 0; transform: scale(.96); transition: opacity 500ms ease, transform 500ms ease; transition-delay: calc(var(--i, 0) * 30ms); }
+.motion .overview.is-in .ov-cell { opacity: 1; transform: none; }
+.author-frame { width: min(220px, 60vw); aspect-ratio: 1; padding: 8px; border: 1px solid rgb(201 168 92 / .5); outline: 1px solid rgb(201 168 92 / .25); outline-offset: 6px; }
+@media print { .ov-cell { opacity: 1 !important; transform: none !important; } .overview { width: auto !important; transform: none !important; margin: 0 !important; } }

@@ -1,9 +1,10 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { EchoWord } from './Reading.jsx'
-import { STORY, QUESTIONS, ECHO_STYLE, CITES } from './content.js'
+import { STORY, QUESTIONS, ECHO_STYLE, CITES, catOf, answersFor, echoesFor } from './content.js'
 import { partAt } from './Shell.jsx'
 import Board from './Board.jsx'
+import Author from './Author.jsx'
 
 export const motionOn = () => document.documentElement.classList.contains('motion')
 const clamp = x => Math.max(0, Math.min(1, x))
@@ -256,6 +257,51 @@ export function scrollFor(i, k, ph = 0) {
   return Math.round(top + run * p)
 }
 
+// After 1.1.19: the board opens out into a 4 × 4 grid (2 columns on phones).
+function Overview() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('is-in'); io.disconnect() } }, { rootMargin: '0px 0px -15% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <section ref={ref} id="part-overview" aria-labelledby="overview-title" className="overview py-20">
+      <p className="caps text-center text-[11px] text-gold">About the mapping</p>
+      <h2 id="overview-title" className="mt-2 text-center text-2xl sm:text-3xl">The Sixteen Questions and Nārada’s Answer</h2>
+      <ol className="overview-grid mt-8">
+        {QUESTIONS.map((q, i) => {
+          const c = catOf(q.id)
+          const hits = answersFor(q.id)
+          const echoes = echoesFor(q.id)
+          return (
+            <li key={q.id} className={'ov-cell' + (hits.length ? '' : ' is-none')} style={{ '--i': i }}>
+              <p className="caps text-[10px] text-gold">{q.id}</p>
+              <p lang="sa-Deva" className="deva text-lg leading-snug">{q.dev}</p>
+              <p lang="sa-Latn" className="text-sm italic">{q.iast}</p>
+              <p className="mt-1"><span className="ov-cat" style={{ background: c.bg, color: c.text, borderColor: c.border }}>{c.label}</span></p>
+              <p className="mt-1 text-sm">
+                {hits.length ? hits.map(n => `1.1.${n}`).join(' · ') : <i>Not directly answered</i>}
+              </p>
+              {echoes.length > 0 && (
+                <p className="text-xs text-muted">
+                  {echoes.map(e => <span key={e.n + e.word} className="mr-2 inline-block"><span aria-hidden="true">{ECHO_STYLE[e.type].sym}</span> {ECHO_STYLE[e.type].tag} <i>{e.word}</i>, 1.1.{e.n}</span>)}
+                </p>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+      <ul className="caps mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[11px]">
+        <li><Link to="/questions" className="border-b border-gold pb-1 text-gold-bright hover:text-ink">Read the questions</Link></li>
+        <li><Link to="/answers" className="border-b border-gold pb-1 text-gold-bright hover:text-ink">Read the answer</Link></li>
+        <li><Link to="/patterns" className="border-b border-gold pb-1 text-gold-bright hover:text-ink">See the patterns</Link></li>
+      </ul>
+    </section>
+  )
+}
+
 export default function Story() {
   const track = useRef(null)
   const st = useStoryProgress(track)
@@ -311,6 +357,8 @@ export default function Story() {
           )
         })}
       </div>
+      <Overview />
+      <Author id="part-author" />
     </>
   )
 }

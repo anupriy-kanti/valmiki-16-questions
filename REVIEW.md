@@ -149,3 +149,8 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - **Item 6 · slot shape.** Each slot shows the Q number on the first line and the IAST word on the second ("Q4" over "kṛtajña"), not "Q4 · kṛtajña" on one line. In a two-column panel the one-line form wrapped unevenly. The "·" is kept for screen readers.
 - **Item 6 · echoes on the board** show only on answered questions, as the brief says. So Q4's adjacency echo (≈ smṛtimān, 1.1.14) does not show on its grey slot. Say if you want it shown.
 - **Item 6 · when the board appears.** It shows from the moment 1.1.2's stage is current, before its first word lights. The strip on phones moves the stage content down by about 20px.
+- **Item 7 · portrait.** `public/author.jpg` arrived from mytwiki-C21 mid-session, so the AK monogram placeholder was not needed.
+- **Item 7 · the bio says "His".** It is verbatim from the Mahābhārata site, as briefed. Check it is the wording you want here.
+- **Item 7 · About.** The old one-line bio ("UX strategist and content designer, and founder of Mythematical…") is replaced by the author block. The Mythematical line and the links stay under a "Mythematical" heading. The SAI27 section became the author block's "Part of" line, so it is not repeated.
+- **Item 7 · "the board expands into a 4 × 4 grid"** is done as a hand-over, not a morph: the board fades out as the overview's grid fades in. A true shared-element morph would need much more code for little gain.
+- **Item 7 · grid on phones** is 2 columns. 4 × 4 does not fit at 375px.
