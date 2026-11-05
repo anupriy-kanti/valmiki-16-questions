@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Reading from './Reading.jsx'
-import Hero from './Hero.jsx'
+import Hero, { IMAGE_CREDIT } from './Hero.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
 
@@ -30,7 +30,7 @@ function useSolid(over) {
   const [solid, setSolid] = useState(0)
   useEffect(() => {
     if (!over) return
-    const update = () => setSolid(window.scrollY > window.innerHeight * 1.45 ? 2 : window.scrollY > 8 ? 1 : 0)
+    const update = () => setSolid(window.scrollY > 8 ? 1 : 0)
     update()
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
@@ -82,6 +82,7 @@ function Footer() {
           <a className="underline" href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</a> ·{' '}
           <a className="underline" href="https://instagram.com/mythematical">Instagram @mythematical</a>
         </p>
+        <p className="print-only">{IMAGE_CREDIT}</p>
       </div>
     </footer>
   )
@@ -100,7 +101,7 @@ export default function App() {
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
       <Nav over={pathname === '/'} />
-      {pathname === '/' && <Hero />}
+      {pathname === '/' && <Hero onNext={() => { const m = document.getElementById('main'); window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY, behavior: document.documentElement.classList.contains('motion') ? 'smooth' : 'auto' }) }} />}
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <div key={pathname} className="route-fade">
         <Routes>

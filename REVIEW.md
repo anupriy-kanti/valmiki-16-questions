@@ -136,3 +136,5 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 
 - **Item 1 · small text.** DM Sans is dropped, so every small note that used it (verse notes, cite links, tooltips, the key) is now EB Garamond, not Cinzel. Cinzel is kept for titles, eyebrows, labels, badges and the nav, as the brief lists. Spaced Cinzel capitals for whole notes would be hard to read.
 - **Item 1 · dimmed verses** (spotlight on Answers) use #8d7f71 text on the dark page (4.6:1, AA).
+- **Item 2 · title over the image.** At screens narrower than about 1.4:1 (for example 1024×768) the image is limited by width, and the title band in the top fifth sits over Nārada's topknot and halo. A soft dark pool behind the band keeps it legible. Say if you would rather the band sits above the image at those sizes (the first screen would then not show the whole image).
+- **Item 2 · link preview.** `public/og.jpg` is still made from the old hero image. It needs remaking from the new one (the page that rendered it is not in the repo).

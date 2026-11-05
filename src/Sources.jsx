@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { IMAGE_CREDIT } from './Hero.jsx'
 
 const A = ({ href, children }) => (
   <a className="text-accent underline" href={href}>{children}</a>
@@ -54,6 +55,11 @@ export default function Sources() {
           {item('debroy', <>Bibek Debroy, trans., <i>The Valmiki Ramayana</i>, vol. 1 (Gurgaon: Penguin Random House India, 2017). <A href="https://www.penguin.co.in/">Publisher’s page</A>.</>)}
           {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī in the “Gita Press reading” boxes is transcribed verbatim from the Gita Press pages. Minor transcription slips are possible.</>)}
         </ul>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold">Image</h2>
+        <p className="italic">{IMAGE_CREDIT}</p>
       </section>
 
       <section>
