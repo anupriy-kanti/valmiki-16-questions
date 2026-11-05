@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Reading from './Reading.jsx'
+import Story from './Story.jsx'
 import Hero, { IMAGE_CREDIT } from './Hero.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
@@ -108,7 +109,7 @@ export default function App() {
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <div key={pathname} className="route-fade">
         <Routes>
-          <Route path="/" element={<Reading mode="all" />} />
+          <Route path="/" element={<Story />} />
           <Route path="/questions" element={<Reading mode="questions" />} />
           <Route path="/answers" element={<Reading mode="answers" />} />
           <Route path="/patterns" element={<Reading mode="patterns" />} />

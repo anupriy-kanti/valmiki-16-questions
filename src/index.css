@@ -173,3 +173,36 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 .pager-dot[aria-current] .pager-mark { background: var(--color-gold); transform: scale(1.25); }
 .pager-dot:hover .pager-mark { background: rgb(201 168 92 / .5); }
 .bottom-line { background: linear-gradient(to top, var(--color-paper) 45%, rgb(26 20 16 / 0)); }
+
+/* ─── Introduction (All): one sentence per screen, nested gold frames ───
+   Base styles are the reduced-motion version (all sentences, all frames).
+   `.motion` pins the stage and shows one sentence at a time. */
+.intro-track { --step: 4px; padding: 2rem 0; }
+@media (min-width: 640px) { .intro-track { --step: 8px; } }
+.motion .intro-track { --step: 7px; }
+@media (min-width: 640px) { .motion .intro-track { --step: 12px; } }
+.intro-box { position: relative; max-width: 720px; margin: 0 auto; }
+.intro-frame { position: absolute; inset: calc(var(--j) * var(--step)); border: 1px solid rgb(201 168 92 / .35); pointer-events: none; }
+.intro-text { position: relative; padding: calc(7 * var(--step) + 1rem); text-align: center; }
+.intro-sent { font-style: italic; font-size: 1.25rem; line-height: 1.55; margin: 0 0 1rem; }
+.intro-enter { font-size: 11px; color: var(--color-gold); margin-top: 1.5rem; }
+@media (min-width: 640px) { .intro-sent { font-size: 1.5rem; } }
+@media (min-width: 1024px) { .intro-sent { font-size: 1.7rem; } }
+.motion .intro-track { padding: 0; height: calc(var(--n) * 70vh + 100vh); height: calc(var(--n) * 70svh + 100svh); }
+.motion .intro-stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; justify-content: center; padding: 3.5rem 0 2rem; }
+.motion .intro-box { width: 100%; height: min(76svh, 560px); }
+.motion .intro-frame { opacity: 0; transform: scale(1.015); transition: opacity 600ms ease, transform 600ms ease; }
+.motion .intro-frame.is-on { opacity: 1; transform: none; }
+.motion .intro-text { position: absolute; inset: calc(var(--k) * var(--step)); padding: 1.25rem; display: grid; place-items: center; }
+.motion .intro-sent, .motion .intro-enter { grid-area: 1 / 1; margin: 0; opacity: 0; transition: opacity 400ms ease; }
+.motion .intro-sent.is-on { opacity: 1; }
+.motion .intro-enter { align-self: end; }
+.motion .intro-enter.is-on { opacity: 1; transition-delay: 300ms; }
+@media print {
+  .intro-track { height: auto !important; }
+  .intro-stage { position: static !important; height: auto !important; }
+  .intro-box { height: auto !important; }
+  .intro-frame, .intro-enter { display: none !important; }
+  .intro-text { position: static !important; display: block !important; padding: 0 !important; text-align: left !important; }
+  .intro-sent { opacity: 1 !important; margin-bottom: .5rem !important; }
+}

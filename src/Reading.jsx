@@ -693,7 +693,7 @@ function ProgressRail({ mode }) {
   )
 }
 
-export default function Reading({ mode }) {
+export default function Reading({ mode, noIntro }) {
   const [params, setParams] = useSearchParams()
   const q = params.get('q')
   const target = params.get('v')
@@ -764,9 +764,7 @@ export default function Reading({ mode }) {
         <Present nums={nums} start={typeof presenting === 'number' ? presenting : nums[0]} layers={layers} q={q} markLine={markLine} onClose={endPresent} />
       )}
       {mode === 'all' ? (
-        <>
-          <Intro />
-        </>
+        !noIntro && <Intro />
       ) : (
         <div className="py-6">
           <h1 className="text-4xl font-semibold">{TITLES[mode][0]}</h1>
