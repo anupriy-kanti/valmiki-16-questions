@@ -44,7 +44,7 @@ export default function Sources() {
         <ul className="space-y-2">
           {item('goldman', <>Robert P. Goldman et al., trans., <i>The Rāmāyaṇa of Vālmīki: The Complete English Translation</i>, revised and edited by Robert P. Goldman and Sally J. Sutherland Goldman (Princeton: Princeton University Press, 2021), 51–52. Bālakāṇḍa translated by Robert P. Goldman. <A href="https://press.princeton.edu/">Publisher’s page</A>.</>)}
           {item('debroy', <>Bibek Debroy, trans., <i>The Valmiki Ramayana</i>, vol. 1 (Gurgaon: Penguin Random House India, 2017). <A href="https://www.penguin.co.in/">Publisher’s page</A>.</>)}
-          {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī in the “Gita Press reading” boxes is transcribed verbatim from the Gita Press pages.</>)}
+          {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī in the “Gita Press reading” boxes is transcribed verbatim from the Gita Press pages. Minor transcription slips are possible.</>)}
         </ul>
       </section>
 
@@ -97,7 +97,9 @@ export default function Sources() {
         <h2 className="text-2xl font-semibold">How the mapping was made</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>The sixteen questions are the qualities Vālmīki names in CE 1.1.2–4, numbered Q1 to Q16 in the order the verses give them.</li>
-          <li>A question badge on an answer verse marks a verse that repeats the question’s word, or a member of its compound. This is a string match, not a reading of meaning.</li>
+          <li>A question tag on an answer verse marks a verse read as answering that question. These readings are Anupriy Kanti’s, made first on the Gita Press text and moved to the Critical Edition numbers with the concordance above.</li>
+          <li>Echo pills mark where the answer reuses the question’s own Sanskrit word: verbatim (the same word), inverted (the same word, meaning turned around) or adjacency (a word close in meaning, not an answer).</li>
+          <li>The nine colour themes are one way of grouping the questions for this site, not a classification from the text itself.</li>
           <li>Goldman translates in paragraphs that cover groups of verses. Each paragraph appears once, at the head of its group. The last paragraph is cut at the end of CE 1.1.19, where this site ends.</li>
           <li>Debroy translates the Critical Edition. The Gita Press English follows the vulgate. Both are placed at the CE verse that holds the matching half-line.</li>
           <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>

@@ -1,0 +1,15 @@
+# Changelog
+
+## Site v1 (MVP, Nov 2026)
+
+GitHub Pages site built from artefact v6. Critical Edition Sanskrit as primary, CE numbering, Goldman added as a third translation, Gita Press-only half-lines in separate boxes. See `REVIEW.md`.
+
+## Artefact version log (moved from the public page)
+
+- **v6** Named the file, added the header image, section dividers, clearer heading hierarchy and spacing, contact details, and this version log.
+- **v5** Readability pass: added the About panel and interactive key, the title and credit, and rewrote the Patterns notes as plain sentences.
+- **v4** Made Questions the opening tab. Added the 6 + 5 + 5 line-level spread. Applied source-checked corrections to V.7, V.13 and V.18 (Goldman corroborating the earth-forbearance line).
+- **v3** Added the original Sanskrit (Devanāgarī) and its IAST spelling to every verse, paired with both translations. Surfaced the closing enjambment.
+- **v2** Re-anchored everything to verse numbers. Added the Gita Press as a second source with a translation toggle, the echo layer, edition-divergence flags, and the Patterns tab.
+
+(Verse numbers in this log are the artefact's Gita Press numbers.)
