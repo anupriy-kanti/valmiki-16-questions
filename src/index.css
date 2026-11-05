@@ -81,3 +81,8 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
   100% { background-color: rgb(168 120 42 / .12); box-shadow: 0 0 0 0 rgb(168 120 42 / 0); }
 }
 .echo-glow { border-bottom: 2px solid var(--color-gold); background-color: rgb(168 120 42 / .12); animation: echo-glow 1600ms ease-out both; }
+button.echo-word { font: inherit; color: inherit; cursor: help; padding: 0; background: none; }
+button.echo-glow { background-color: rgb(168 120 42 / .12); }
+@keyframes tip-in { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
+.echo-tip { animation: tip-in 160ms ease-out both; max-height: 60vh; overflow-y: auto; }
+@media print { .echo-tip { display: none !important; } }

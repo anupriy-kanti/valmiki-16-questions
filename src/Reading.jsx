@@ -158,9 +158,89 @@ function markEchoes(line, echoes, script, render) {
   return out
 }
 
-function EchoWord({ text, echo, glow, script }) {
-  const cls = 'echo-word' + (glow ? ' echo-glow' : '')
-  return <span key={glow ? 'g' : 'n'} className={cls} data-echo={echo.type} lang={script === 'dev' ? 'sa-Deva' : 'sa-Latn'}>{text}</span>
+function EchoWord({ text, echo, glow, script, v }) {
+  const [pos, setPos] = useState(null)
+  const ref = useRef(null)
+  const tipId = `tip-${v.n}-${echo.q}-${script}`
+  const question = QUESTIONS.find(x => x.id === echo.q)
+  const style = ECHO_STYLE[echo.type]
+  const open = () => {
+    const r = ref.current.getBoundingClientRect()
+    const width = Math.min(448, window.innerWidth - 16)
+    const left = Math.max(8, Math.min(r.left, window.innerWidth - width - 8))
+    const below = r.bottom + 8
+    setPos({ left, width, top: below, flip: below > window.innerHeight * 0.55, anchorTop: r.top })
+  }
+  const close = () => setPos(null)
+  useEffect(() => {
+    if (!pos) return
+    const onKey = e => { if (e.key === 'Escape') { close(); ref.current?.focus() } }
+    const onDown = e => { if (!ref.current?.contains(e.target) && !e.target.closest?.('[role="tooltip"]')) close() }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('scroll', close, { passive: true })
+    document.addEventListener('pointerdown', onDown)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('scroll', close)
+      document.removeEventListener('pointerdown', onDown)
+    }
+  }, [pos])
+  return (
+    <>
+      <button
+        ref={ref}
+        type="button"
+        key={glow ? 'g' : 'n'}
+        lang={script === 'dev' ? 'sa-Deva' : 'sa-Latn'}
+        className={'echo-word' + (glow ? ' echo-glow' : '')}
+        aria-describedby={pos ? tipId : undefined}
+        aria-expanded={!!pos}
+        onClick={() => (pos ? close() : open())}
+        onPointerEnter={e => { if (e.pointerType === 'mouse') open() }}
+        onPointerLeave={e => { if (e.pointerType === 'mouse') close() }}
+        onFocus={e => { if (e.target.matches(':focus-visible')) open() }}
+        onBlur={close}
+      >
+        {text}
+      </button>
+      {pos && (
+        <span
+          id={tipId}
+          role="tooltip"
+          className="echo-tip fixed z-50 block rounded-lg border border-line bg-card p-3 text-left font-sans text-sm not-italic text-ink shadow-lg"
+          style={pos.flip
+            ? { left: pos.left, width: pos.width, bottom: window.innerHeight - pos.anchorTop + 8 }
+            : { left: pos.left, width: pos.width, top: pos.top }}
+        >
+          <span className="flex flex-wrap items-baseline gap-2">
+            <span className="font-bold" style={{ color: catOf(echo.q).text }}>{echo.q} · {question.label}</span>
+            <span lang="sa-Deva" className="deva">{question.dev}</span>
+            <i lang="sa-Latn" className="font-serif">{question.iast}</i>
+          </span>
+          <span className="block font-serif text-base">{question.text}</span>
+          <span className="mt-1 block text-xs" style={{ color: style.text }}>
+            <b aria-hidden="true">{style.sym}</b> {style.tag} echo of <i>{echo.word}</i> at {v.ce}
+          </span>
+          {(v.debroy || v.gita) && (
+            <span className="mt-2 grid grid-cols-1 gap-2 border-t border-line pt-2 min-[400px]:grid-cols-2">
+              {v.debroy && (
+                <span className="block">
+                  <span className="block text-xs font-semibold uppercase tracking-wide text-muted">Debroy</span>
+                  <span className="block font-serif">{v.debroy}</span>
+                </span>
+              )}
+              {v.gita && (
+                <span className="block">
+                  <span className="block text-xs font-semibold uppercase tracking-wide text-muted">Gita Press</span>
+                  <span className="block font-serif">{v.gita}</span>
+                </span>
+              )}
+            </span>
+          )}
+        </span>
+      )}
+    </>
+  )
 }
 
 function Verse({ v, layers, q, setQ, spotlight, target }) {
@@ -191,10 +271,10 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
       {[0, 1].map(i => (
         <div key={i} className="rv mb-1" style={{ '--i': i + 1 }}>
           <p lang="sa-Deva" className="deva text-xl">
-            {markEchoes(v.dev[i], v.echoes, 'dev', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="dev" />)}
+            {markEchoes(v.dev[i], v.echoes, 'dev', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="dev" v={v} />)}
           </p>
           <p lang="sa-Latn" className="italic text-muted">
-            {markEchoes(v.iast[i], v.echoes, 'iast', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="iast" />)}
+            {markEchoes(v.iast[i], v.echoes, 'iast', (t, e, k) => <EchoWord key={k} text={t} echo={e} glow={q === e.q} script="iast" v={v} />)}
           </p>
           {lines && (
             <p className="mt-1 flex flex-wrap gap-1">

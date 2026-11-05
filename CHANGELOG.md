@@ -8,6 +8,7 @@ All motion is switched off under `prefers-reduced-motion: reduce`.
 - **Hero.** The title and kicker now sit over the bottom of the image on a dark gradient and fade in over 1.2s. On scroll the image drifts down slowly and zooms in by up to about 17%, inside its frame. In print the image is dropped and the title prints as plain text.
 - **Verse reveal.** Each verse fades in and rises 8px as it scrolls into view, once only: verse number, then line 1, line 2, then the translations and notes, about 90ms apart. Content is never hidden in print, without JavaScript, or under reduced motion.
 - **Selecting a question.** Matching verses ease into focus and the others ease to their dimmed colours over 300ms. The Sanskrit words that echo the selected question (from the artefact's echo layer) glow gold for 1.6s and keep a gold underline. Every echo word carries a dotted underline. Devanāgarī marks cover whole akṣara clusters, so no conjunct is broken. Where that is not possible (1.1.8 द्युतिमान्, 1.1.14 स्मृतिमान्, both joined by sandhi to the next word), only the IAST is marked.
+- **Echo tooltips.** Echo words are buttons. Hover, keyboard focus or tap shows a small card with the question it echoes (Q number, label, Sanskrit, the artefact's English question), the echo type, and the verse's Debroy and Gita Press English side by side (stacked below 400px). Escape, a tap elsewhere or scrolling closes it. Word-by-word English renderings are not shown, because the data does not align English words to Sanskrit words.
 
 ## Site v1.1 (polish, Nov 2026)
 
