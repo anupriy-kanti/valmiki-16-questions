@@ -134,7 +134,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
         (target ? ' ring-2 ring-gold ring-offset-2 ring-offset-paper' : '')
       }
     >
-      <header className="mb-2 flex flex-wrap items-baseline gap-2 font-sans">
+      <header className="rv mb-2 flex flex-wrap items-baseline gap-2 font-sans" style={{ '--i': 0 }}>
         <VerseLink v={v} />
         {v.gpLabel && <span className="text-xs text-muted">{v.gpLabel}</span>}
         {lines && <span className="text-xs text-muted">{lines.range}</span>}
@@ -146,7 +146,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
       </header>
 
       {[0, 1].map(i => (
-        <div key={i} className="mb-1">
+        <div key={i} className="rv mb-1" style={{ '--i': i + 1 }}>
           <p lang="sa-Deva" className="deva text-xl">{v.dev[i]}</p>
           <p lang="sa-Latn" className="italic text-muted">{v.iast[i]}</p>
           {lines && (
@@ -159,6 +159,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
         </div>
       ))}
 
+      <div className="rv" style={{ '--i': 3 }}>
       {v.echoes && (
         <p className="mt-2 flex flex-wrap gap-1">
           {v.echoes.map(e => <EchoPill key={e.q + e.word} echo={e} />)}
@@ -190,6 +191,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
           {v.divergenceNote}
         </div>
       )}
+      </div>
     </article>
   )
 }
@@ -433,6 +435,19 @@ export default function Reading({ mode }) {
     const id = requestAnimationFrame(() => document.getElementById(`v${n}`)?.scrollIntoView({ block: 'start' }))
     return () => cancelAnimationFrame(id)
   }, [target, mode])
+  useEffect(() => {
+    const els = [...document.querySelectorAll('article[id^="v"]:not(.revealed)')]
+    if (!('IntersectionObserver' in window)) return els.forEach(e => e.classList.add('revealed'))
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue
+        e.target.classList.add('revealed')
+        io.unobserve(e.target)
+      }
+    }, { rootMargin: '0px 0px -8% 0px' })
+    els.forEach(e => io.observe(e))
+    return () => io.disconnect()
+  }, [mode])
   const setQ = id => {
     const next = new URLSearchParams(params)
     if (id) next.set('q', id)

@@ -6,6 +6,7 @@ All motion is switched off under `prefers-reduced-motion: reduce`.
 
 - **Route fade.** A 200ms fade-in on each page change. When moving between All, Questions and Answers, the page opens at the verse that was at the top of the screen, if the new page shows it.
 - **Hero.** The title and kicker now sit over the bottom of the image on a dark gradient and fade in over 1.2s. On scroll the image drifts down slowly and zooms in by up to about 17%, inside its frame. In print the image is dropped and the title prints as plain text.
+- **Verse reveal.** Each verse fades in and rises 8px as it scrolls into view, once only: verse number, then line 1, line 2, then the translations and notes, about 90ms apart. Content is never hidden in print, without JavaScript, or under reduced motion.
 
 ## Site v1.1 (polish, Nov 2026)
 
