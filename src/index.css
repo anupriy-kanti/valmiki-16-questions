@@ -302,3 +302,12 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 .motion .overview.is-in .ov-cell { opacity: 1; transform: none; }
 .author-frame { width: min(220px, 60vw); aspect-ratio: 1; padding: 8px; border: 1px solid rgb(201 168 92 / .5); outline: 1px solid rgb(201 168 92 / .25); outline-offset: 6px; }
 @media print { .ov-cell { opacity: 1 !important; transform: none !important; } .overview { width: auto !important; transform: none !important; margin: 0 !important; } }
+
+/* ─── Present mode on All ─── */
+.stage-present { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--color-gold-bright); border: 1px solid rgb(201 168 92 / .6); border-radius: 999px; padding: .3rem .8rem; }
+.stage-present:hover { background: var(--color-accent-soft); }
+.presenting nav[aria-label="Main"], .presenting .side-byline, .presenting .pager, .presenting .bottom-line { display: none !important; }
+.presenting .board-strip { top: .4rem; }
+.presenting body { overflow: hidden; }
+.presenting .stage { padding-top: 2rem; }
+@media (min-width: 1280px) { .presenting .u-d, .presenting .danda { font-size: 2.6rem; } .presenting .u-i { font-size: 1.3rem; } .presenting .stage-trans-text { font-size: 1.35rem; } }

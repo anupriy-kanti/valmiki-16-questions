@@ -257,6 +257,67 @@ export function scrollFor(i, k, ph = 0) {
   return Math.round(top + run * p)
 }
 
+// Present mode: the All story full screen. Arrow keys, Space and click step
+// one word, Shift+arrow a whole verse, Escape exits. After the last word, one
+// more step shows the translation and citation. The board stays visible.
+function usePresent(st) {
+  const [on, setOn] = useState(false)
+  const pos = useRef({ i: 0, s: 1 })
+  const go = useCallback(({ i, s }) => {
+    i = Math.max(0, Math.min(STORY.length - 1, i))
+    const v = STORY[i]
+    s = Math.max(1, Math.min(v.total + 1, s))
+    pos.current = { i, s }
+    const y = scrollFor(i, Math.min(s, v.total), s > v.total ? 2 : 0)
+    if (y != null) window.scrollTo({ top: y, behavior: 'auto' })
+  }, [])
+  const start = useCallback(() => {
+    const i = Math.max(0, st.cur)
+    const s = st.cur < 0 ? 1 : st.ph >= 1 ? STORY[i].total + 1 : Math.max(1, st.k)
+    setOn(true)
+    document.documentElement.requestFullscreen?.().catch(() => {})
+    requestAnimationFrame(() => go({ i, s }))
+  }, [st, go])
+  useEffect(() => {
+    if (!on) return
+    const root = document.documentElement
+    root.classList.add('presenting')
+    const motion = motionOn()
+    const step = (d, verse) => {
+      const { i, s } = pos.current
+      const v = STORY[i]
+      if (verse || !motion) return go({ i: i + d, s: STORY[Math.max(0, Math.min(STORY.length - 1, i + d))].total + 1 })
+      if (d > 0) return s <= v.total ? go({ i, s: s + 1 }) : i < STORY.length - 1 && go({ i: i + 1, s: 1 })
+      return s > 1 ? go({ i, s: s - 1 }) : i > 0 && go({ i: i - 1, s: STORY[i - 1].total + 1 })
+    }
+    const exit = () => { setOn(false); if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {}) }
+    const onKey = e => {
+      if (e.target.closest?.('[role="dialog"]')) return
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); step(1, e.shiftKey) }
+      else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); step(-1, e.shiftKey) }
+      else if (e.key === 'Escape') { e.preventDefault(); exit() }
+    }
+    const onClick = e => {
+      if (e.target.closest('button, a, [role="dialog"]')) return
+      step(e.clientX < window.innerWidth * 0.25 ? -1 : 1, false)
+    }
+    const onWheel = e => e.preventDefault()
+    const onFs = () => { if (!document.fullscreenElement) setOn(false) }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('click', onClick)
+    window.addEventListener('wheel', onWheel, { passive: false })
+    document.addEventListener('fullscreenchange', onFs)
+    return () => {
+      root.classList.remove('presenting')
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('click', onClick)
+      window.removeEventListener('wheel', onWheel)
+      document.removeEventListener('fullscreenchange', onFs)
+    }
+  }, [on, go])
+  return [on, start, () => { setOn(false); if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {}) }]
+}
+
 // After 1.1.19: the board opens out into a 4 × 4 grid (2 columns on phones).
 function Overview() {
   const ref = useRef(null)
@@ -307,6 +368,7 @@ export default function Story() {
   const st = useStoryProgress(track)
   const [which, setWhichState] = useState(readTrans)
   const setWhich = useCallback(t => { setWhichState(t); try { localStorage.setItem(TRANS_KEY, t) } catch { /* storage blocked */ } }, [])
+  const [presenting, startPresent, endPresent] = usePresent(st)
   const [params] = useSearchParams()
   const target = params.get('v')
   const at = params.get('at')
@@ -330,8 +392,13 @@ export default function Story() {
     return () => { delete partAt.story }
   }, [])
 
+  const presentBtn = presenting
+    ? <button type="button" onClick={endPresent} className="stage-present caps">Exit</button>
+    : <button type="button" onClick={startPresent} className="stage-present caps">Present</button>
+
   return (
     <>
+      {presenting && <p className="sr-only" role="status">Presenting. Arrow keys step one word, Shift and an arrow a whole verse, Escape exits.</p>}
       <Intro />
       <p className="mx-auto max-w-[640px] py-10 text-center text-base text-muted">
         Each verse appears in the Sanskrit of the Critical Edition (CE), in Devanāgarī and in Roman letters
@@ -352,7 +419,7 @@ export default function Story() {
           const ids = { 2: 'part-questions', 8: 'part-answer', 19: 'part-story' }
           return (
             <div key={v.n} id={ids[v.n]} className="stage-wrap">
-              <VerseStage v={v} k={k} ph={ph} live={i === st.cur} which={which} setWhich={setWhich} />
+              <VerseStage v={v} k={k} ph={ph} live={i === st.cur} which={which} setWhich={setWhich} extra={presentBtn} />
             </div>
           )
         })}
