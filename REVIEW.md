@@ -159,3 +159,11 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - **Item 2b · contrast** of the title block is set by the 60% overlay plus a text shadow over a busy image. Lighthouse cannot measure text over an image, so this was checked by eye only. Raise the overlay (`--ov`, 0.6, in `src/Hero.jsx`) if it reads weakly on the projector.
 - **Item 8 · where Present lives.** The button sits at the foot of each verse stage, beside the translation switch, not in the hero or nav. Present starts at the verse on stage, so scroll to 1.1.1 first for a full talk. Test with your clicker: most send PageDown or the arrow keys, which step one word. A whole verse per click needs Shift, which clickers do not send.
 - **Board colour (your ruling).** I read "the yellow colour fill" as the answered slots on the question board, and made them near-black with gold text, edge and glow. If you meant another fill (for example the amber Excellence cells on Patterns), say so.
+
+### Checks (local `vite preview` only; the live site was not checked from this session)
+
+- Lighthouse 12.2.1, accessibility 100 on all six routes (mobile), and on All and Answers (desktop).
+- Mobile performance: All 98–99 (LCP 1.9–2.0 s, CLS 0.001), Answers 98, Patterns 98, Sources 99, About 97. **Questions 82–93 over three runs** (LCP 3.2–4.8 s): its largest paint is text that waits for the web fonts, and the hero preload in `index.html` competes with the fonts on every route. Moving the hero preload into the All route only, or self-hosting the fonts, would fix it.
+- Desktop performance: All 100, Answers 100.
+- All routes and the deep links at 375, 1024, 1440 and 1920px, with and without reduced motion: no sideways scroll, no console errors. Present mode stepping checked by script (word, Shift+verse, click, Escape).
+- **Unlit words** (#5a5048 on #1a1410, 2.3:1) are below AA by design. They are hidden from screen readers, and each verse is in the page in full as screen-reader text, so Lighthouse does not flag them. Sighted readers with low vision see them only as the not-yet-lit state, and every word is gold once lit.

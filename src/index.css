@@ -315,3 +315,8 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 .presenting body { overflow: hidden; }
 .presenting .stage { padding-top: 2rem; }
 @media (min-width: 1280px) { .presenting .u-d, .presenting .danda { font-size: 2.6rem; } .presenting .u-i { font-size: 1.3rem; } .presenting .stage-trans-text { font-size: 1.35rem; } }
+/* Performance: the browser skips layout and paint of pinned stages far off
+   screen. Each track's height is set by --run, so nothing shifts and deep
+   links still land. (Not under reduced motion, where heights are natural.) */
+.motion .stage-track { content-visibility: auto; contain-intrinsic-size: auto 240vh; }
+@media print { .stage-track { content-visibility: visible !important; } }
