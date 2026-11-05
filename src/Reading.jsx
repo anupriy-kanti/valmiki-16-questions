@@ -72,6 +72,15 @@ function GoldmanBlock({ start, off }) {
   )
 }
 
+// Names the primary Sanskrit and links to its source entry.
+export function SanskritLabel({ className = '', style }) {
+  return (
+    <p className={'font-sans text-[11px] font-semibold uppercase tracking-wide ' + className} style={style}>
+      <Link to="/sources?ref=gretil" className="text-gold-ink hover:underline">Sanskrit · Critical Edition (GRETIL)</Link>
+    </p>
+  )
+}
+
 function Translation({ v, kind, off }) {
   const text = kind === 'debroy' ? v.debroy : v.gita
   if (!text) return null
@@ -267,6 +276,7 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
         </span>
       </header>
 
+      <SanskritLabel className="rv mb-1" style={{ '--i': 1 }} />
       {[0, 1].map(i => (
         <div key={i} className="rv mb-1" data-line={i + 1} style={{ '--i': i + 1 }}>
           <p lang="sa-Deva" className="deva text-xl">

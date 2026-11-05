@@ -35,6 +35,11 @@ export default function Sources() {
       <section>
         <h2 className="text-2xl font-semibold">Bibliography</h2>
         <h3 className="mt-4 font-sans text-sm font-semibold uppercase tracking-wide text-muted">Sanskrit</h3>
+        <p className="my-2">
+          The primary Sanskrit on every verse is the Baroda Critical Edition (constituted text), in IAST from
+          GRETIL and in Devanāgarī from John Smith’s Unicode file. The Gita Press Sanskrit is the vulgate
+          recension. It appears only where it has lines the Critical Edition does not.
+        </p>
         <ul className="space-y-2">
           {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
           {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}

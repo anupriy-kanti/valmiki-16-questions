@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { VERSES, QUESTIONS, catOf } from './content.js'
+import { SanskritLabel } from './Reading.jsx'
 
 // One verse per screen for talks. Arrow keys, Space, PageUp/PageDown, Home/End
 // or a click move through the verses. Escape exits.
@@ -74,6 +75,7 @@ export default function Present({ nums, start, layers, q, markLine, onClose }) {
             })}
           </p>
         )}
+        <SanskritLabel className="mb-2" />
         {[0, 1].map(k => (
           <div key={k} className="mb-4">
             <p lang="sa-Deva" className="deva leading-snug" style={{ fontSize: 'clamp(1.6rem, 4.2vw, 3.6rem)' }}>{markLine(v, k, 'dev')}</p>
