@@ -24,6 +24,7 @@ Where this brief and `MILESTONE-02.md` disagree, this brief wins (the hero espec
 - Title band above or over the top fifth of the image (the sky there is calm): eyebrow "Rāmāyaṇa · Bālakāṇḍa · Sarga 1" in Cinzel caps, gold. Title **Vālmīki's 16 Questions** in Cinzel. Subtitle *The question that sets the Rāmāyaṇa in motion* in EB Garamond italic. Byline "By Anupriy Kanti" in Cinzel caps. The byline stays with the title.
 - Scroll cue (thin chevron and "Scroll") at the bottom. It hides once the reader scrolls.
 - Alt text: "At a forest hermitage at dusk, the sage Nārada, holding a vīṇā, speaks, while the elder sage Vālmīki listens with folded hands."
+- **Image credit (Anupriy's ruling, for transparency):** a small caption under the hero, in EB Garamond italic, muted, about 0.8rem: "Nārada answering Vālmīki's question. An AI-generated image (Google Gemini), directed by Anupriy Kanti." Repeat it on Sources & method under a short "Image" heading, and as the last line of the print footer.
 
 ## 3. The shell (from the Mahābhārata site)
 
