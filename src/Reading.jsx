@@ -341,14 +341,15 @@ function Verse({ v, layers, q, setQ, spotlight, target }) {
   )
 }
 
-function PatternCard({ p }) {
+function PatternCard({ p, level = 3 }) {
+  const H = `h${level}`
   const rows = p.echoType
     ? VERSES.flatMap(v => (v.echoes || []).filter(e => e.type === p.echoType).map(e => ({ n: v.n, ...e })))
     : []
   return (
     <aside className="my-4 rounded-lg border border-dashed border-gold bg-paper p-4">
       <Label className="text-gold-ink">Pattern</Label>
-      <h3 className="text-lg font-semibold">{p.title}</h3>
+      <H className="text-lg font-semibold">{p.title}</H>
       {rows.length > 0 && (
         <p className="my-2 flex flex-wrap gap-1">
           {rows.map(e => <EchoPill key={e.n + e.word} echo={e} withVerse />)}
@@ -745,7 +746,7 @@ export default function Reading({ mode }) {
         <h1 className="text-4xl font-semibold">{TITLES.patterns[0]}</h1>
         <p className="mt-2 text-muted">{TITLES.patterns[1]}</p>
         <KeyPanel mode={mode} />
-        {PATTERNS.map(p => <PatternCard key={p.id} p={p} />)}
+        {PATTERNS.map(p => <PatternCard key={p.id} p={p} level={2} />)}
         <Coverage />
       </div>
     )
