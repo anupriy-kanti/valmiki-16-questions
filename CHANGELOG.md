@@ -1,5 +1,11 @@
 # Changelog
 
+## Site v1.3 (milestone 02, c.v16q-02, Nov 2026)
+
+Built by `cloud-myt-v16q • 02` (c.v16q-02) from `MILESTONE-02.md`. Open points are in `REVIEW.md` §6.
+
+- **c.v16q-02 item 1 · Landing first fold.** The hero image now fills the first screen (`100svh`, centred, `object-fit: cover`) and fades to the page colour on all four sides. On All the top nav floats over the image, transparent, takes a light paper scrim once the reader starts to scroll (so the links stay readable over the picture), and turns solid past the first fold. On load only the image, the nav and a "Scroll" cue with a thin bobbing chevron show. Over the first third of the fold a dark overlay rises over the lower half, then the title, the subtitle "The question that sets the Rāmāyaṇa in motion" and the byline "By Anupriy Kanti · Mythematical" fade in, in that order. The byline fades out again on the way to the second fold. The cue hides once the reader scrolls and, when clicked, scrolls to the introduction. The image keeps a slow drift and a zoom of up to 6%. The "Rāmāyaṇa · Bālakāṇḍa · Sarga 1" eyebrow and the old "Beginning of the Bālakāṇḍa" line are gone from the hero. The progress rail now waits until the reader has left the hero. Under reduced motion all three lines and the overlay show at once and the chevron does not move. In print the image is dropped and the title prints as plain text.
+
 ## Site v1.2 (motion, Nov 2026)
 
 All motion is switched off under `prefers-reduced-motion: reduce`.

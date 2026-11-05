@@ -6,8 +6,6 @@ import {
   catOf, answersFor, echoesFor,
 } from './content.js'
 
-const BASE = import.meta.env.BASE_URL
-
 const LAYERS = [
   ['goldman', 'Goldman (CE)'],
   ['debroy', 'Debroy (CE)'],
@@ -484,47 +482,11 @@ function Legend() {
   )
 }
 
-function useHeroMotion(ref) {
-  useEffect(() => {
-    const img = ref.current
-    if (!img || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const y = Math.min(window.scrollY, 700)
-      img.style.transform = `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 + y * 0.00025).toFixed(4)})`
-    }
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    update()
-    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame) }
-  }, [ref])
-}
-
-function Hero() {
-  const imgRef = useRef(null)
-  useHeroMotion(imgRef)
+// Introduction under the hero, on All only.
+function Intro() {
   return (
-    <header className="mb-6">
-      <div className="hero-frame relative -mx-4 overflow-hidden bg-[#1a1410] sm:mx-0 sm:mt-6 sm:rounded-xl">
-        <img
-          ref={imgRef}
-          src={`${BASE}hero.jpg`}
-          srcSet={`${BASE}hero-640.webp 640w, ${BASE}hero-1024.webp 1024w`}
-          sizes="(min-width: 792px) 760px, 100vw"
-          width="1024"
-          height="572"
-          fetchpriority="high"
-          alt="At dusk in a forest hermitage, the sage Vālmīki sits with a vīṇā and speaks with the elder sage Nārada, who listens with folded hands."
-          className="hero-img block h-auto w-full origin-center will-change-transform"
-        />
-        <div className="hero-title absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/55 to-transparent px-4 pb-4 pt-16 sm:px-6 sm:pb-6">
-          <p className="font-sans text-xs uppercase tracking-widest text-[#f1dcae] sm:text-sm">Rāmāyaṇa · Bālakāṇḍa · sarga 1</p>
-          <h1 className="text-3xl font-semibold leading-tight text-white sm:text-5xl">Vālmīki’s 16 Questions</h1>
-        </div>
-      </div>
-      <p className="mt-4 text-lg italic text-muted">Beginning of the Bālakāṇḍa</p>
-      <p className="mt-1 font-sans text-xs uppercase tracking-wider text-muted">By Anupriy Kanti · Mythematical</p>
+    <section aria-label="Introduction" className="mb-6 pt-6">
+      <p className="font-sans text-xs uppercase tracking-widest text-gold-ink">Rāmāyaṇa · Bālakāṇḍa · Sarga 1</p>
       <div className="mt-5 space-y-3">
         <p>
           The Rāmāyaṇa opens with a question. Before the story begins, the sage Vālmīki asks the sage Nārada
@@ -545,7 +507,7 @@ function Hero() {
           the Patterns.
         </p>
       </div>
-    </header>
+    </section>
   )
 }
 
@@ -566,7 +528,7 @@ const STOPS = [
 const stopFor = (n, line) => (n >= 2 && n <= 4 ? 'questions' : n <= 5 ? 'frame' : n === 19 && line === 2 ? 'pivot' : 'answer')
 
 function ProgressRail({ mode }) {
-  const [state, setState] = useState({ progress: 0, active: null })
+  const [state, setState] = useState({ progress: 0, active: null, shown: mode !== 'all' })
   const [stops, setStops] = useState([])
   useEffect(() => {
     setStops(STOPS.filter(st => document.querySelector(st.sel)))
@@ -587,7 +549,9 @@ function ProgressRail({ mode }) {
         const l2 = a.querySelector('[data-line="2"]')
         active = stopFor(n, l2 && l2.getBoundingClientRect().top < window.innerHeight * 0.4 ? 2 : 1)
       }
-      setState(prev => (prev.progress === progress && prev.active === active ? prev : { progress, active }))
+      // On All the rail waits until the reader has left the hero.
+      const shown = mode !== 'all' || window.scrollY > window.innerHeight * 0.75
+      setState(prev => (prev.progress === progress && prev.active === active && prev.shown === shown ? prev : { progress, active, shown }))
     }
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -607,7 +571,7 @@ function ProgressRail({ mode }) {
     window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' })
   }
   return (
-    <nav aria-label="Reading progress" className="no-print fixed top-1/2 z-10 hidden -translate-y-1/2 lg:block" style={{ left: 'max(12px, calc(50% - 380px - 150px))' }}>
+    <nav aria-label="Reading progress" className={'rail no-print fixed top-1/2 z-10 hidden -translate-y-1/2 lg:block' + (state.shown ? '' : ' is-off')} style={{ left: 'max(12px, calc(50% - 380px - 150px))' }}>
       <div className="relative pl-4">
         <div aria-hidden="true" className="absolute bottom-1 left-0 top-1 w-[3px] rounded bg-line">
           <div className="rail-fill w-full rounded bg-gold" style={{ height: `${(state.progress * 100).toFixed(1)}%` }} />
@@ -702,7 +666,7 @@ export default function Reading({ mode }) {
       )}
       {mode === 'all' ? (
         <>
-          <Hero />
+          <Intro />
           <Legend />
         </>
       ) : (

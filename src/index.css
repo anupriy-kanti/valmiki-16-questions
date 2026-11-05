@@ -53,13 +53,37 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
   }
 }
 
-/* Hero: the title fades in over the image. Parallax is set in JS. */
-@keyframes hero-title { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
-.hero-title { animation: hero-title 1200ms 200ms cubic-bezier(.2,.7,.2,1) both; }
+/* Hero (first fold): the image fills the screen and fades to the page on all
+   four sides. The overlay and the title are driven by scroll (Hero.jsx). */
+.hero { height: 100vh; height: 100svh; min-height: 420px; }
+.hero-vignette {
+  background:
+    linear-gradient(to bottom, var(--color-paper) 0, rgb(250 245 236 / .75) 5%, rgb(250 245 236 / 0) 16%),
+    linear-gradient(to top, var(--color-paper) 0, rgb(250 245 236 / .7) 6%, rgb(250 245 236 / 0) 18%),
+    linear-gradient(to right, var(--color-paper) 0, rgb(250 245 236 / 0) 9%),
+    linear-gradient(to left, var(--color-paper) 0, rgb(250 245 236 / 0) 9%),
+    radial-gradient(ellipse at center, rgb(250 245 236 / 0) 60%, rgb(250 245 236 / .35) 100%);
+}
+.hero-overlay {
+  background: linear-gradient(to bottom, rgb(26 20 16 / 0) 0, rgb(26 20 16 / .82) 42%, rgb(26 20 16 / .82) 72%, var(--color-paper) 100%);
+}
+.motion .hero-overlay { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 40%)); }
+.motion .hero-t1 { opacity: var(--t1, 0); transform: translateY(calc((1 - var(--t1, 0)) * 14px)); }
+.motion .hero-t2 { opacity: var(--t2, 0); transform: translateY(calc((1 - var(--t2, 0)) * 14px)); }
+.motion .hero-t3 { opacity: var(--t3, 0); transform: translateY(calc((1 - var(--t3, 0)) * 10px)); }
+.hero-cue { transition: opacity 300ms ease; }
+.hero-cue.is-hidden { opacity: 0; visibility: hidden; transition: opacity 300ms ease, visibility 0s 300ms; }
+@keyframes cue-bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(4px) } }
+.motion .hero-chevron { animation: cue-bob 1800ms ease-in-out infinite; }
+/* The nav sits over the image on the landing, then turns solid. */
+.nav-over { background: transparent; border-color: transparent; transition: background-color 250ms ease, border-color 250ms ease; }
+.nav-over.is-scrim { background: rgb(250 245 236 / .8); }
+.nav-over.is-solid { background: rgb(250 245 236 / .95); border-color: var(--color-line); }
 @media print {
-  .hero-img { display: none !important; }
-  .hero-frame { margin: 0 !important; overflow: visible !important; }
-  .hero-title { position: static !important; padding: 0 !important; animation: none !important; }
+  .hero { height: auto !important; min-height: 0 !important; }
+  .hero-img, .hero-vignette, .hero-overlay { display: none !important; }
+  .hero-text { position: static !important; padding: 0 !important; text-align: left !important; }
+  .hero-text * { opacity: 1 !important; transform: none !important; }
 }
 
 /* Verse reveal: header, line 1, line 2, then the rest, staggered, once only. */
@@ -88,5 +112,7 @@ button.echo-glow { background-color: rgb(168 120 42 / .12); }
 .echo-tip { animation: tip-in 160ms ease-out both; max-height: 60vh; overflow-y: auto; }
 @media print { .echo-tip { display: none !important; } }
 .rail-fill { transition: height 200ms linear; }
+.rail { transition: opacity 300ms ease, visibility 0s; }
+.rail.is-off { opacity: 0; visibility: hidden; transition: opacity 300ms ease, visibility 0s 300ms; }
 @keyframes slide-in { from { opacity: 0 } to { opacity: 1 } }
 .present-slide { animation: slide-in 300ms ease-out both; }

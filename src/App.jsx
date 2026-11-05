@@ -1,6 +1,7 @@
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Reading from './Reading.jsx'
+import Hero from './Hero.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
 
@@ -23,10 +24,29 @@ function rememberVerse() {
   anchor.top = el ? el.getBoundingClientRect().top : 0
 }
 
-function Nav() {
+// On the landing the nav floats over the hero, transparent, and turns solid
+// once the reader scrolls past the first fold.
+function useSolid(over) {
+  const [solid, setSolid] = useState(0)
+  useEffect(() => {
+    if (!over) return
+    const update = () => setSolid(window.scrollY > window.innerHeight - 60 ? 2 : window.scrollY > 8 ? 1 : 0)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update) }
+  }, [over])
+  return solid
+}
+
+function Nav({ over }) {
   const { search } = useLocation()
+  const solid = useSolid(over)
+  const cls = over
+    ? 'fixed inset-x-0 border-b nav-over' + (solid === 2 ? ' is-solid backdrop-blur' : solid === 1 ? ' is-scrim backdrop-blur' : '')
+    : 'sticky border-b border-line bg-paper/95 backdrop-blur'
   return (
-    <nav aria-label="Main" className="no-print sticky top-0 z-20 border-b border-line bg-paper/95 backdrop-blur">
+    <nav aria-label="Main" className={'no-print top-0 z-20 ' + cls}>
       <ul className="mx-auto flex max-w-[760px] gap-1 overflow-x-auto px-4 py-2 font-sans text-sm">
         {NAV.map(([to, label, keepQ]) => (
           <li key={to} className="shrink-0">
@@ -79,7 +99,8 @@ export default function App() {
   return (
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
-      <Nav />
+      <Nav over={pathname === '/'} />
+      {pathname === '/' && <Hero />}
       <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
         <div key={pathname} className="route-fade">
         <Routes>
