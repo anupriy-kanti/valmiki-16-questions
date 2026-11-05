@@ -1,6 +1,5 @@
 // Builds src/data/verses.json from data/*.json.
-// The Devanagari lines in data/ce-sanskrit-1.1.1-21.json lack their first code point.
-// This script restores it from the first letter of the matching IAST line.
+// Devanagari lines in data/ce-sanskrit-1.1.1-21.json are complete (extraction fixed in mytwiki-C21).
 import fs from 'node:fs'
 
 const ce = JSON.parse(fs.readFileSync('data/ce-sanskrit-1.1.1-21.json', 'utf8'))
@@ -22,12 +21,7 @@ const verses = ce
   .filter(v => Number(v.ce.split('.')[2]) <= 19)
   .map(v => {
     const iast = v.iast.split('\n').map(l => l.replace(/\s*\/+\s*$/, '').trim())
-    const dev = v.dev.split('\n').map((l, i) => {
-      // A one-syllable first word ("sa ca") also lost its following space.
-      const w = iast[i].split(' ')[0]
-      const gap = /^[^aāiīuūṛeo]+a$/.test(w) && !/^[\u093E-\u094D]/.test(l) ? ' ' : ''
-      return firstChar(iast[i]) + gap + l
-    })
+    const dev = v.dev.split('\n')
     return { ce: v.ce, n: Number(v.ce.split('.')[2]), iast, dev }
   })
 
