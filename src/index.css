@@ -66,8 +66,11 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
     radial-gradient(ellipse at center, rgb(12 9 7 / 0) 55%, rgb(12 9 7 / .45) 100%);
 }
 .hero-overlay {
-  background: linear-gradient(to bottom, rgb(12 9 7 / 0) 0, rgb(12 9 7 / .82) 42%, rgb(12 9 7 / .9) 72%, var(--hero-dark) 100%);
+  /* Light enough that the picture still shows behind the title. The text
+     carries its own soft shadow for legibility. */
+  background: linear-gradient(to bottom, rgb(12 9 7 / 0) 0, rgb(12 9 7 / .38) 35%, rgb(12 9 7 / .55) 62%, rgb(12 9 7 / .78) 85%, var(--hero-dark) 100%);
 }
+.hero-text h1, .hero-text p { text-shadow: 0 1px 2px rgb(0 0 0 / .6), 0 2px 18px rgb(0 0 0 / .65); }
 /* Below the hero, black turns into the page colour as the reader scrolls. */
 .hero-fade { height: 80vh; height: 80svh; background: linear-gradient(to bottom, var(--hero-dark) 0, var(--hero-dark) 45%, #3a2e24 62%, #b9ab97 86%, var(--color-paper) 100%); }
 .motion .hero-overlay { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 40%)); }
