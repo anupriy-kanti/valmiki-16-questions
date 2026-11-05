@@ -4,6 +4,8 @@ Written by the build session, 5 Nov 2026. Read this before the site goes public.
 
 ## 0. One step left: switch on GitHub Pages
 
+**Done (mytwiki-C21, 5 Nov 2026):** Pages is switched on with GitHub Actions as its source, and the site is live at https://anupriy-kanti.github.io/valmiki-16-questions/ . The steps below are kept for the record.
+
 The build passes in Actions, but the deploy stops at `configure-pages` with "Create Pages site failed. Resource not accessible by integration". The workflow token cannot create a Pages site, and this session had no working `gh` login.
 
 Do this once:
