@@ -64,7 +64,7 @@ function GoldmanBlock({ start, off }) {
   if (!b) return null
   return (
     <aside className={'my-4 rounded-lg border-l-4 border-gold bg-card p-4' + (off ? ' print-only' : '')}>
-      <Label className="mb-1 text-gold">
+      <Label className="mb-1 text-gold-ink">
         Goldman, {b.range}
         {b.range !== b.label && <span className="normal-case"> (paragraph {b.label}, cut at 1.1.19)</span>}
       </Label>
@@ -330,7 +330,7 @@ function PatternCard({ p }) {
     : []
   return (
     <aside className="my-4 rounded-lg border border-dashed border-gold bg-paper p-4">
-      <Label className="text-gold">Pattern</Label>
+      <Label className="text-gold-ink">Pattern</Label>
       <h3 className="text-lg font-semibold">{p.title}</h3>
       {rows.length > 0 && (
         <p className="my-2 flex flex-wrap gap-1">
@@ -510,6 +510,8 @@ function Hero() {
         <img
           ref={imgRef}
           src={`${BASE}hero.jpg`}
+          srcSet={`${BASE}hero-640.webp 640w, ${BASE}hero-1024.webp 1024w`}
+          sizes="(min-width: 792px) 760px, 100vw"
           width="1024"
           height="572"
           fetchpriority="high"
@@ -744,7 +746,7 @@ export default function Reading({ mode }) {
           <div key={n}>
             {n === 1 && <h2 className="mt-8 text-3xl font-semibold">Vālmīki asks</h2>}
             {n === 6 && <h2 className="mt-10 text-3xl font-semibold">Nārada answers</h2>}
-            {phaseHead && <Label className="mt-6 text-gold">{phaseHead}</Label>}
+            {phaseHead && <Label className="mt-6 text-gold-ink">{phaseHead}</Label>}
             <GoldmanBlock start={n} off={!layers.goldman} />
             <Verse v={v} layers={layers} q={q} setQ={setQ} spotlight={mode !== 'questions'} target={target === v.ce} />
             {mode === 'all' && PATTERNS.filter(p => p.after === n).map(p => <PatternCard key={p.id} p={p} />)}
