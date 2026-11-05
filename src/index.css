@@ -89,6 +89,9 @@ h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 600; 
 .hero-tblock h1 { white-space: nowrap; }
 /* The subtitle is never wider than the title. */
 .hero-sub { width: 0; min-width: 100%; text-wrap: balance; }
+.hero-sub.is-measuring { width: auto; min-width: 0; white-space: nowrap; display: inline-block; }
+.hero-by { font-size: .85rem; letter-spacing: .2em; }
+@media (min-width: 640px) { .hero-by { font-size: 1.1rem; } }
 .motion .hero-track { height: 200vh; height: 200svh; }
 .motion .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
 .motion .hero-credit { opacity: calc(1 - var(--tt, 0)); }
@@ -269,9 +272,10 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 .slot-w { grid-column: 1 / -1; grid-row: 2; overflow-wrap: anywhere; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .slot-n { grid-column: 3; grid-row: 1; font-size: .72rem; font-weight: 600; }
 .slot.is-off { opacity: 0; }
-.slot.is-answered { background: var(--color-gold); border-color: var(--color-gold); color: #1a1410; }
-.slot.is-answered .slot-q, .slot.is-answered .slot-sep { color: #1a1410; }
-.slot.is-answered .slot-dot { box-shadow: 0 0 0 1.5px #1a1410; }
+/* Answered: near-black fill, gold edge, gold text and a soft gold glow. */
+.slot.is-answered { background: #0b0806; border-color: var(--color-gold-bright); color: var(--color-gold-bright); box-shadow: 0 0 10px rgb(232 200 122 / .28), inset 0 0 8px rgb(232 200 122 / .12); }
+.slot.is-answered .slot-q { color: var(--color-gold); }
+.slot.is-answered .slot-w { color: var(--color-gold-bright); }
 .board-title { font-size: 10px; color: var(--color-gold); margin-bottom: .5rem; }
 .board-key { font-size: .72rem; color: var(--color-muted); margin-top: .5rem; line-height: 1.3; }
 .board-panel { position: fixed; left: 2.75rem; top: 50%; transform: translateY(-50%); width: 15.5rem; z-index: 15; display: none; }
@@ -280,7 +284,7 @@ button.echo-glow { background-color: rgb(201 168 92 / .12); }
 .strip-dot { width: 9px; height: 9px; border-radius: 999px; border: 1px solid #8a7d70; transition: background-color 400ms ease, border-color 400ms ease, opacity 400ms ease; }
 .strip-dot.is-off { opacity: .2; }
 .strip-dot.is-asked { box-shadow: inset 0 0 0 2px var(--color-paper), inset 0 0 0 5px var(--c); }
-.strip-dot.is-answered { background: var(--color-gold); border-color: var(--color-gold); }
+.strip-dot.is-answered { background: var(--color-gold-bright); border-color: var(--color-gold-bright); box-shadow: 0 0 6px rgb(232 200 122 / .6); }
 .board-sheet-back { position: fixed; inset: 0; z-index: 45; background: rgb(0 0 0 / .55); display: flex; align-items: flex-end; }
 .board-sheet { width: 100%; max-height: 80vh; max-height: 80svh; overflow-y: auto; background: var(--color-card); border-top: 1px solid var(--color-line); border-radius: .75rem .75rem 0 0; padding: 1rem; }
 @media (min-width: 640px) { .board-sheet { max-width: 640px; margin: 0 auto; border: 1px solid var(--color-line); border-bottom: 0; } }

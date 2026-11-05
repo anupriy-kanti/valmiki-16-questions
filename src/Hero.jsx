@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const BASE = import.meta.env.BASE_URL
 export const HERO_ALT = 'At a forest hermitage at dusk, the sage Nārada, holding a vīṇā, speaks, while the elder sage Vālmīki listens with folded hands.'
@@ -34,6 +34,27 @@ export default function Hero() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
   }, [])
 
+  // The subtitle fills the title's width: one line from 640px, two balanced
+  // lines on phones, where the title itself is two lines.
+  useLayoutEffect(() => {
+    const h1 = track.current.querySelector('.hero-tblock h1')
+    const sub = track.current.querySelector('.hero-sub')
+    const fit = () => {
+      sub.style.fontSize = ''
+      sub.classList.add('is-measuring')
+      const natural = sub.getBoundingClientRect().width
+      const base = parseFloat(getComputedStyle(sub).fontSize)
+      sub.classList.remove('is-measuring')
+      const lines = window.innerWidth < 640 ? 2 : 1
+      const size = base * lines * (h1.getBoundingClientRect().width / natural) * (lines > 1 ? 1.02 : 0.99)
+      sub.style.fontSize = Math.max(base, Math.min(base * 2.4, size)).toFixed(1) + 'px'
+    }
+    fit()
+    document.fonts?.ready.then(fit)
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [])
+
   const next = () => {
     const motion = document.documentElement.classList.contains('motion')
     const y = motion ? (track.current.offsetHeight - window.innerHeight) * 0.75 : track.current.querySelector('.hero-tblock').getBoundingClientRect().top + window.scrollY - 80
@@ -66,9 +87,9 @@ export default function Hero() {
         <div className="hero-title">
           <div className="hero-tblock">
             <h1 className="text-[2.1rem] leading-tight sm:text-5xl lg:text-[3.6rem]">Vālmīki’s 16<br className="sm:hidden" /> Questions</h1>
-            <p className="hero-sub mt-2 text-xl italic sm:text-2xl">The question that sets the Rāmāyaṇa in motion</p>
+            <p className="hero-sub mt-2 text-lg italic leading-snug">The question that sets the Rāmāyaṇa in motion</p>
           </div>
-          <p className="caps mt-4 text-[11px] text-gold-bright sm:text-xs">By Anupriy Kanti</p>
+          <p className="hero-by caps mt-5 text-gold-bright">By Anupriy Kanti</p>
         </div>
         <button
           type="button"
