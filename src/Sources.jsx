@@ -44,6 +44,10 @@ export default function Sources() {
           GRETIL and in Devanāgarī from John Smith’s Unicode file. The Gita Press Sanskrit is the vulgate
           recension. It appears only where it has lines the Critical Edition does not.
         </p>
+        <p className="my-2">
+          In the scroll story, the Devanāgarī is transliterated from the GRETIL IAST word by word, so each word
+          lines up with its romanisation. The reference views show the Devanāgarī e-text as published.
+        </p>
         <ul className="space-y-2">
           {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
           {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}

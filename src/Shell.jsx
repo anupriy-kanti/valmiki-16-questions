@@ -22,7 +22,10 @@ export const PARTS = [
 
 // Where each part starts on the page. `part-story` may carry data-offset, the
 // scroll distance into its section where that part begins.
+// A part that starts inside a section registers a function giving its page y.
+export const partAt = {}
 const partTop = id => {
+  if (partAt[id] && document.getElementById('part-' + id)) return partAt[id]()
   const el = document.getElementById('part-' + id)
   if (!el) return null
   return el.getBoundingClientRect().top + window.scrollY + Number(el.dataset.offset || 0)

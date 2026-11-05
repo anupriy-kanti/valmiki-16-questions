@@ -115,7 +115,7 @@ export default function App() {
           <Route path="/patterns" element={<Reading mode="patterns" />} />
           <Route path="/sources" element={<Sources />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<Reading mode="all" />} />
+          <Route path="*" element={<Story />} />
         </Routes>
         </div>
       </main>
