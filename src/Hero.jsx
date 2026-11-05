@@ -34,25 +34,38 @@ export default function Hero() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
   }, [])
 
-  // The subtitle fills the title's width: one line from 640px, two balanced
-  // lines on phones, where the title itself is two lines.
+  // The subtitle fills the title's width: one line from 640px. On phones
+  // both title and subtitle are two set lines.
   useLayoutEffect(() => {
     const h1 = track.current.querySelector('.hero-tblock h1')
     const sub = track.current.querySelector('.hero-sub')
+    // Widest rendered line: text pieces on the same line are added up.
+    const widest = el => {
+      const r = document.createRange()
+      r.selectNodeContents(el)
+      const lines = {}
+      for (const x of r.getClientRects()) {
+        const key = Math.round(x.top / 4)
+        const l = (lines[key] ||= { left: x.left, right: x.right })
+        l.left = Math.min(l.left, x.left)
+        l.right = Math.max(l.right, x.right)
+      }
+      return Math.max(0, ...Object.values(lines).map(l => l.right - l.left))
+    }
     const fit = () => {
       sub.style.fontSize = ''
-      sub.classList.add('is-measuring')
-      const natural = sub.getBoundingClientRect().width
       const base = parseFloat(getComputedStyle(sub).fontSize)
-      sub.classList.remove('is-measuring')
-      const lines = window.innerWidth < 640 ? 2 : 1
-      const size = base * lines * (h1.getBoundingClientRect().width / natural) * (lines > 1 ? 1.02 : 0.99)
+      // On phones a <br> sets the two lines, so this is the longer line.
+      const natural = widest(sub)
+      if (!natural) return
+      const size = base * (widest(h1) / natural) * 0.98
       sub.style.fontSize = Math.max(base, Math.min(base * 2.4, size)).toFixed(1) + 'px'
     }
     fit()
     document.fonts?.ready.then(fit)
+    document.fonts?.addEventListener?.('loadingdone', fit)
     window.addEventListener('resize', fit)
-    return () => window.removeEventListener('resize', fit)
+    return () => { window.removeEventListener('resize', fit); document.fonts?.removeEventListener?.('loadingdone', fit) }
   }, [])
 
   const next = () => {
@@ -86,8 +99,8 @@ export default function Hero() {
         <div aria-hidden="true" className="hero-overlay" />
         <div className="hero-title">
           <div className="hero-tblock">
-            <h1 className="text-[2.1rem] leading-tight sm:text-5xl lg:text-[3.6rem]">Vālmīki’s 16<br className="sm:hidden" /> Questions</h1>
-            <p className="hero-sub mt-2 text-lg italic leading-snug">The question that sets the Rāmāyaṇa in motion</p>
+            <h1 className="text-[2.1rem] leading-tight sm:text-5xl lg:text-[3.6rem]">Vālmīki’s<br className="sm:hidden" /> 16 Questions</h1>
+            <p className="hero-sub mt-2 text-lg italic leading-snug">The question that sets<br className="sm:hidden" /> the Rāmāyaṇa in motion</p>
           </div>
           <p className="hero-by caps mt-5 text-gold-bright">By Anupriy Kanti</p>
         </div>
