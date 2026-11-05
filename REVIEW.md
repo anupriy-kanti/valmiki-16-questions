@@ -169,3 +169,16 @@ Done and logged in `CHANGELOG.md` (v1.1 and v1.2). What is left, or done differe
 - **Unlit words** (#5a5048 on #1a1410, 2.3:1) are below AA by design. They are hidden from screen readers, and each verse is in the page in full as screen-reader text, so Lighthouse does not flag them. Sighted readers with low vision see them only as the not-yet-lit state, and every word is gold once lit.
 - **Deviation from MILESTONE-03 §5 (your ruling, via mytwiki-C21):** the story's translation switch is "Goldman · Debroy", not "Goldman · Debroy · Gita Press". §3's bottom line drops "and the Gita Press" to match.
 - **Addition to MILESTONE-03 §10 (phones), your ruling via mytwiki-C21:** half-verses wrap as balanced blocks. One limit: at 375px a very long compound can still stand alone on a row, because it is too wide to share one (1.1.1 तपःस्वाध्यायनिरतं, 1.1.14 सर्वशास्त्रार्थतत्त्वज्ञ).
+
+### Status and what you must decide
+
+All ten items are built and pushed (plus §2b and your mid-session rulings). Nothing is left undone. To decide or check:
+
+1. **Word-by-word Devanāgarī** on the stages (कश् च, न्व् अस्मिन्): acceptable as a reading aid, or do you want the e-text joins back (which breaks the word alignment)?
+2. **Story length**: about 45 screens on desktop. Keep 1.4 screens per verse, or shorten?
+3. **Link preview** `og.jpg` still shows the old hero. It needs remaking.
+4. **Board fill**: is the near-black, gold-edged answered slot the change you meant?
+5. **Bio wording** ("His…") and the portrait on All and About.
+6. **Present mode on your clicker**: one word per click. Is that the pace you want for the talk?
+7. **Questions tab mobile performance** (82–93): move the hero preload to All only?
+8. **Messages to mytwiki-C21 not delivered.** This cloud session may not message a session on your computer without your approval, and I did not ask for that access. Everything it needs is in this file and in `CHANGELOG.md`.
