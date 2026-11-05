@@ -81,12 +81,14 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
 /* The nav sits over the dark image on the landing with light text, takes a
    dark scrim once the reader scrolls, and turns paper and solid past the fold. */
 .nav-over { background: linear-gradient(to bottom, rgb(12 9 7 / .6), rgb(12 9 7 / 0)); border-color: transparent; transition: background-color 250ms ease, border-color 250ms ease; }
-.nav-over a:not([aria-current]) { color: #f3e9da; }
-.nav-over a:not([aria-current]):hover { background: rgb(255 255 255 / .12); }
+.nav-over .nav-tab { color: #f3e9da; }
+.nav-over .nav-tab[aria-current] { color: #fff; border-color: #e3c98f; }
+.nav-over .nav-tab:not([aria-current]):hover { border-color: rgb(243 233 218 / .45); }
 .nav-over.is-scrim { background: rgb(12 9 7 / .78); }
 .nav-over.is-solid { background: rgb(250 245 236 / .95); border-color: var(--color-line); }
-.nav-over.is-solid a:not([aria-current]) { color: var(--color-ink); }
-.nav-over.is-solid a:not([aria-current]):hover { background: var(--color-accent-soft); }
+.nav-over.is-solid .nav-tab { color: var(--color-ink); }
+.nav-over.is-solid .nav-tab[aria-current] { border-color: var(--color-gold); }
+.nav-over.is-solid .nav-tab:not([aria-current]):hover { border-color: var(--color-line); }
 @media print {
   .hero { height: auto !important; min-height: 0 !important; }
   .hero-img, .hero-vignette, .hero-overlay, .hero-fade { display: none !important; }
