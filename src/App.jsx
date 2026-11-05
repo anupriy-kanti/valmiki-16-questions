@@ -30,7 +30,7 @@ function useSolid(over) {
   const [solid, setSolid] = useState(0)
   useEffect(() => {
     if (!over) return
-    const update = () => setSolid(window.scrollY > window.innerHeight * 1.1 ? 2 : window.scrollY > 8 ? 1 : 0)
+    const update = () => setSolid(window.scrollY > window.innerHeight * 1.45 ? 2 : window.scrollY > 8 ? 1 : 0)
     update()
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
