@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { EchoWord } from './Reading.jsx'
 import { STORY, QUESTIONS, ECHO_STYLE, CITES, catOf, answersFor, echoesFor } from './content.js'
@@ -167,7 +167,8 @@ const VerseStage = memo(function VerseStage({ v, k, ph, live, which, setWhich, e
                       )}
                     </span>
                     )
-                    if (ui < line.length - 1) return unit
+                    // A space between units gives balanced wrapping its break points.
+                    if (ui < line.length - 1) return <Fragment key={u.k}>{unit}{' '}</Fragment>
                     // The last word and its daṇḍa never part across a wrap.
                     return (
                       <span key={u.k} className="u-last">
