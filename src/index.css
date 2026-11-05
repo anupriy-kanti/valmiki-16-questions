@@ -94,6 +94,7 @@ body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.6; }
   transition-delay: calc(var(--i, 0) * 90ms);
 }
 .motion .revealed .rv { opacity: 1; transform: none; }
+.motion .intro .rv { transition-duration: 900ms; transition-delay: calc(var(--i, 0) * 120ms); }
 @media print { .rv { opacity: 1 !important; transform: none !important; } }
 
 /* Spotlight easing and echo words. */

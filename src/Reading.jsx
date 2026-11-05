@@ -482,31 +482,42 @@ function Legend() {
   )
 }
 
-// Introduction under the hero, on All only.
+// Second fold on All: a calm, centred introduction that fades in once.
 function Intro() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!('IntersectionObserver' in window)) return el.classList.add('revealed')
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { el.classList.add('revealed'); io.disconnect() }
+    }, { rootMargin: '0px 0px -12% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
   return (
-    <section aria-label="Introduction" className="mb-6 pt-6">
-      <p className="font-sans text-xs uppercase tracking-widest text-gold-ink">Rāmāyaṇa · Bālakāṇḍa · Sarga 1</p>
-      <div className="mt-5 space-y-3">
-        <p>
+    <section ref={ref} aria-label="Introduction" className="intro mx-auto max-w-[640px] pb-6 pt-10 sm:pb-10 sm:pt-16">
+      <p className="rv text-center font-sans text-xs uppercase tracking-widest text-gold-ink" style={{ '--i': 0 }}>Rāmāyaṇa · Bālakāṇḍa · Sarga 1</p>
+      <div className="mt-6 space-y-4 text-lg leading-relaxed sm:text-xl">
+        <p className="rv" style={{ '--i': 1 }}>
           The Rāmāyaṇa opens with a question. Before the story begins, the sage Vālmīki asks the sage Nārada
           whether any truly complete person is alive in the world right now, and lists sixteen qualities such
           a person would have. Nārada answers yes: a prince named Rāma, whom he then describes at length. This
           site places those sixteen questions beside Nārada’s answer, so you can see which quality is answered where.
         </p>
-        <p>
+        <p className="rv" style={{ '--i': 3 }}>
           Reading the opening this way turns it into a piece of design you can inspect. Some qualities are
           answered many times over, one is never answered directly, and in the Sanskrit the answer sometimes
           repeats the exact word of the question. These patterns show how carefully the epic’s first lines are built.
         </p>
-        <p className="font-sans text-sm text-muted">
-          Each verse appears in the Sanskrit of the Critical Edition (CE), in Devanāgarī and in Roman letters
-          (IAST), with three English translations to compare: Robert P. Goldman’s and Bibek Debroy’s (both of the
-          CE) and the Gita Press edition’s. A <i>śloka</i> is a verse, and “1.1.8” means Bālakāṇḍa, sarga 1,
-          verse 8 in the Critical Edition. Use the menu above to read only the Questions, only the Answers, or
-          the Patterns.
-        </p>
       </div>
+      <p aria-hidden="true" className="rv my-8 text-center text-gold" style={{ '--i': 5 }}>· · ·</p>
+      <p className="rv font-sans text-sm text-muted" style={{ '--i': 5 }}>
+        Each verse appears in the Sanskrit of the Critical Edition (CE), in Devanāgarī and in Roman letters
+        (IAST), with three English translations to compare: Robert P. Goldman’s and Bibek Debroy’s (both of the
+        CE) and the Gita Press edition’s. A <i>śloka</i> is a verse, and “1.1.8” means Bālakāṇḍa, sarga 1,
+        verse 8 in the Critical Edition. Use the menu above to read only the Questions, only the Answers, or
+        the Patterns.
+      </p>
     </section>
   )
 }
