@@ -58,7 +58,8 @@ export function useVerseAudio(sound, verse, yForK) {
     if (!a || a.paused) return
     const t0 = performance.now()
     const step = now => {
-      const x = Math.min(1, (now - t0) / FADE)
+      // A frame's timestamp can be a little earlier than t0, so clamp both ways.
+      const x = Math.max(0, Math.min(1, (now - t0) / FADE))
       a.volume = 1 - x
       if (x < 1) s.fade = requestAnimationFrame(step)
       else { a.pause(); a.volume = 1 }

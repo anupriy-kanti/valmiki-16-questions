@@ -4,8 +4,6 @@ const BASE = import.meta.env.BASE_URL
 export const HERO_ALT = 'At a forest hermitage at dusk, the sage Nārada, holding a vīṇā, speaks, while the elder sage Vālmīki listens with folded hands.'
 export const IMAGE_CREDIT = 'Nārada answering Vālmīki’s question. An AI-generated image (Google Gemini), directed by Anupriy Kanti.'
 
-const clamp = x => Math.max(0, Math.min(1, x))
-
 // First beat of the Conversation stage: the image alone, whole and uncropped,
 // edges masked into the page, with its caption and a scroll cue. As the
 // visitor scrolls, a uniform dark overlay (60%) fades over it, then the title
