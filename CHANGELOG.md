@@ -1,5 +1,18 @@
 # Changelog
 
+## Site v3.1 (milestone 05, c.v16q-05, Nov 2026)
+
+Built by cloud session c.v16q-05 from `MILESTONE-05.md`. Look-first items, judgement calls and checks are in `REVIEW.md` §9.
+
+- **c.v16q-05 · The second fold.** The first sentence stays. The old second and third sentences are replaced by seven short ones, one swap each. The scatter of the sixteen qualities now sits after the third sentence and fades as the fourth arrives.
+- **c.v16q-05 · Audio sync.** Word times are spread across each quarter-verse (`padas` in `data/audio-timings.json`), not across the whole half-line window. Lead-in silence, the oṃ at 1.1.1 and the pause between quarters belong to no word. When the voice is about to start, the lit words fade back in place during the settle pause, and the page moves only when the voice starts. Largest first-word offset on the live site: 0.057 s.
+- **c.v16q-05 · English line breaks.** In Goldman and Debroy, 22 short function words are bound to the next word with a no-break space at render time, so no line ends on one. Each sentence is its own balanced block. The translators' words and punctuation are unchanged.
+- **c.v16q-05 · Small phones.** The block under a verse is kept at 85% or more in three steps: the English flows as one paragraph, the vulgate line shows in place of the English while it is heard, and a `Read the note` button takes the note out of the block where the note is the taller part. One case is still below 85% at 360 × 640 (1.1.2 with Debroy selected).
+- **c.v16q-05 · Patterns.** Two framing paragraphs above the lens row, and the link "See where the description becomes the story" below the matrix, which opens 1.1.19.
+- **c.v16q-05 · Copy.** The REVIEW §8 replacements on Sources & method and in the "Edition divergence" card. New page description and link preview description. New `og.jpg` (1200 × 630) made from the title fold.
+- **c.v16q-05 · Origin.** The paper block is now "Origin" and is on About only. The last beat of the Conversation keeps the copy-link button and the rights footer.
+- **c.v16q-05 · Skip link.** "Skip to content" is fixed in place, so the first Tab on a verse no longer scrolls the stage back to the hero.
+
 ## Site v3.0 (milestone 04, c.v16q-04, Nov 2026)
 
 Built by `cloud-myt-v16q • 04` (c.v16q-04) from `MILESTONE-04.md`. Judgement calls, checks and open points are in `REVIEW.md` §8.

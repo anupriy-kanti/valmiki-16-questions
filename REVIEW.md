@@ -255,3 +255,55 @@ The container could not reach the Pages host at first (the network proxy refused
 ### Raised after the build (your words needed)
 
 - **The site and the SAI27 paper.** You said the site can outlast the paper, so it can name the paper as its origin but must not read as a part of it. One block does that now: the last beat of Conversation and the About page (`AuthorPart` in `src/Author.jsx`), with the label "Part of" and the sentence "This site supplements the paper …". Copy is fixed, so it is unchanged. It needs a new label and sentence from you. Nothing else on the site names the paper or the conference.
+
+## 9. Milestone 05 (c.v16q-05, 12 Nov 2026)
+
+Built from `MILESTONE-05.md`. There is no `[copy needed]` placeholder on the site. The readings of the brief that I gave in the plan (two sentences on two lines in the fourth fold sentence, one block per English sentence, 1.1.13 keeps its 89%) are the ones built.
+
+### Listen to and look at these first
+
+1. **Sync, by ear.** The script shows that each first word lights 0.04 to 0.06 s after its quarter's onset. It cannot show that the words inside a quarter fall on the right syllables. Listen to 1.1.1 (the oṃ, then तपः), 1.1.12 and 1.1.13. Then listen to **1.1.3**: in `data/audio-timings.json` its first half-line ends at 36.35 s, but the second quarter of that half-line is given as 34.35 to 37.05 s, which is 0.7 s after the end of its own window. I used the data as it is. One of the two numbers is probably wrong. Also listen to 1.1.19b, which the data note calls the least certain split.
+2. **The fade back.** 0.1 s after you stop scrolling, the lit words fade to unlit in place (0.35 s). The voice starts at 0.5 s and the page moves only then. The English stays on (its class drops for one frame as the first word lights, too short to see). During the lead-in no word is lit. At 1.1.1 this is 3 s (the oṃ). At 1.1.13 it is 7 s, because the verse opens with a vulgate half-line. Say if you prefer the first word lit and waiting.
+3. **The `Read the note` button is built, but it never shows.** At 1.1.19 on a 360 × 640 phone the tall part is Goldman's English (37 words), not the note. The note is shorter. With the button the block scaled to 75%, because the button adds a line. So the button shows only where the note is taller than the English, and no verse meets that at 360 to 390px. Two other steps do the work first (see the next item). Result at 360 × 640: 1.1.19 is at 87% with Goldman and 95% with Debroy (it was 68%). On phones the note still takes the place of the English as you scroll, as you accepted in §7 item 1. Say if you want the button always shown on phones in place of that.
+4. **Small phones, what still scales below 85%.** One case at 360 × 640: **1.1.2 with Debroy selected, 73%.** The block holds Goldman's three sentences, his credit line and the line "Debroy’s English for this verse isn’t on the site yet". I did not remove any of them. On screens shorter than 640px (a 360 × 640 phone with the browser bars showing has about 560px) more verses go below 85%, for example 1.1.19 with Goldman at 65% at 360 × 560. The cause is the same each time: the English alone is taller than the space under the verse. This needs your decision: a smaller verse on short screens, or the English on its own beat.
+5. **The vulgate line on small phones.** Where the block would go below 85%, the vulgate line no longer keeps its own empty space. While it is heard, it shows in place of the English, and the English comes back after it. This happens at 1.1.19 at 360 × 640 with Goldman. I added this because the empty space was the largest part of the problem there. It is not in the brief.
+6. **English with one sentence per block.** Look at 1.1.9 to 1.1.11 with Debroy at 1440px: five short sentences make five lines. On small phones, where this would push the block below 85%, the sentences flow as one paragraph again (1.1.2 with Goldman at 360 × 640, for example). The function words stay bound in both cases.
+7. **The second fold.** Eight sentences, with the scatter after the third. Read beats 7 and 8 across the swap.
+8. **The link preview image.** `public/og.jpg` is now the title fold: the hero, the 60% dark overlay, the title, the subtitle and "By Anupriy Kanti". The old card said "By Anupriy Kanti · Mythematical". Its alt text had the two sages the wrong way round (Vālmīki with the vīṇā). The new alt text joins the title words and the hero's own alt text. No words are new.
+
+### Judgement calls
+
+- **Fold order.** `COPY.fold` holds the eight sentences and `foldScatterAfter: 3` puts the scatter after the third. Each sentence is 0.7 screen, the scatter 1.5, as before.
+- **Word times.** A word belongs to the first quarter if it starts before half the half-line's syllable total. A word that crosses the middle starts in the first quarter and holds through the pause.
+- **The last beat of the Conversation.** The Origin block is gone from it. The beat still holds the "Copy link to this page" button and the rights footer, because the rights line must stay on the Conversation. It is under the pager's "The Author" dot, so the Conversation still ends on The Author. Say if you want that beat removed and the rights line placed elsewhere.
+- **About.** The Author, then Origin, then the copy-link button.
+- **Patterns order.** Title, the framing (two paragraphs), the caption about rows and columns, the lens row, the matrix, then the link. The link goes to `#/?v=1.1.19`, which opens 1.1.19 fully lit with its note. The lens row was not changed.
+- **Sentence ends.** A sentence ends at a full stop, question mark or exclamation mark, with any closing quote, before a space. The Questions fold uses the same English blocks.
+- **Sources & method.** One no-break space was added in the Critical Edition citation ("Institute, 1960–75"), so the year does not sit alone on the last line. No word changed.
+- **Skip link.** Found during the keyboard check: the first Tab on a verse focused the hidden "Skip to content" link at the top of the page, and the browser scrolled the stage back to the hero. The link is now fixed in place. Tab on 1.1.17 now reaches the menu, the pager, the source link, "See it in Patterns", Goldman, Debroy and Sound.
+- **Data kept but not shown.** `src/content.js` still holds the old verse notes. One of them contains the words "Gita Press reading" (the 1.1.13 note). It is not shown on any page, but the words are in the JavaScript file. Say if you want the unused data deleted.
+
+### Wording that ties the site to the paper (listed, not changed)
+
+Searched `src/`, `index.html` and the meta tags for "supplements", "accompanies", "part of", "companion", "paper" and "conference".
+
+- No other wording makes the site part of the paper. The only place that names the paper or the conference is the Origin block on About.
+- One match is not about the paper: About, Mythematical section, "Mythematical is part of Before & Beyond History, with Prihistorica and Cosmonomic."
+
+### Checks
+
+All checks ran by script (Playwright, Chromium) on the live site, https://anupriy-kanti.github.io/valmiki-16-questions/, at 360 × 640, 768 × 1024 and 1440 × 900, on the build of commit `24d65c0` (deploy run 60, after run 59 for `83b968c`). Both runs succeeded.
+
+- **The fold.** Eight sentences in the §2 order at all three widths. The scatter shows only between the third and fourth sentence. 0 lone last words.
+- **Copy blocks.** 0 lone last words on every beat of Conversation, Questions and Answers (Goldman and Debroy), on Patterns and on About. Sources & method: 0 at 768 and 1440px. At 360px one heading, "On translation provenance", sets as two lines with "provenance" alone, because the three words do not fit on one line. It was the same in milestone 04.
+- **Sync.** Largest first-word offset across the 19 verses: 0.057 s at 1440px, 0.052 s at 360px, 0.051 s at 768px (target under 0.15 s). In all 19 verses no word is lit before the first quarter's onset. At 1.1.1 no word is lit at 1.64 s (inside the oṃ) and तपः lights at 3.20 s (onset 3.15 s). The words are unlit 0.16 to 0.18 s after the last scroll and the voice starts at 0.56 to 0.59 s.
+- **English.** 0 lines end on a §4 word, in both translations, at the three widths (and at 320, 360 × 800 and 390px locally).
+- **Patterns.** The framing shows above the lens row. "Where description becomes story" is the last lens. The link lands on 1.1.19, 11 of 11 words lit, eyebrow "V · The Story Begins".
+- **Copy.** All seven §6 replacements, the Origin label and sentence, and both description tags are present. 0 matches on any page for "reference views", "echo pill", "three English", "Gita Press reading", "supplements", "Principal partner" and "January 2027". The last beat of the Conversation holds the copy-link button and the footer only.
+- **No vertical translation, reverse scroll, errors.** 0 elements with a vertical transform or translate at every scroll step. 0 differences when scrolling back up. 0 console errors.
+- **Audio.** 1.1.12 starts after the settle pause. A scroll inside the verse does not restart it. Leaving fades it out (volume 0.25 after 0.25 s). 1.1.13 shows the vulgate line in both vulgate windows and not between them, and stops at its end. The live mp3 is byte-identical to `assets-src/audio/vr-1-1-1-to-19-bhide.mp3` (`cmp`). `AUDIO_ENABLED` and `AUDIO_SYNC` were not changed, and their off states were not tested again.
+- **Board and matrix.** Unchanged: 16 slots, 13 lit, the turn mark on jitakrodha. 23 marks (4, 11, 7, 1).
+- **Reduced motion.** No motes, transitions 0 s.
+- **Small phones.** At 360 × 640 every block under a verse is at 85% or more, except 1.1.2 with Debroy (73%). See "look first" items 3 and 4.
+- **Not tested.** Safari or WebKit: Playwright's WebKit is not installed in this container and I may not install browsers here. This matters for the audio start after the Sound tap and for `text-wrap: balance` (Safari 17.5). Also not tested: real phones, a screen reader, Lighthouse.
+
