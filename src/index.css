@@ -78,6 +78,7 @@ h1, h2, h3 { text-wrap: balance; }
 .beat { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 1rem; opacity: 0; visibility: hidden; transform: scale(.985); filter: blur(5px); transition: opacity 280ms ease, transform 280ms ease, filter 280ms ease, visibility 0s 280ms; }
 .beat.is-on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity 520ms ease 180ms, transform 520ms ease 180ms, filter 520ms ease 180ms, visibility 0s; }
 .beat-fit { padding-top: 3rem; padding-bottom: 3.4rem; }
+@media (min-width: 768px) { .beat-fit { padding-left: 2.75rem; padding-right: 2.75rem; } }
 .fit, .qf { transform-origin: top center; width: 100%; }
 
 /* Decorative layer: lamp glow, motes (sideways only), palm-leaf edges. */
@@ -130,7 +131,7 @@ h1, h2, h3 { text-wrap: balance; }
 .nav-over.is-scrim, .nav-over.is-solid { background: rgb(26 20 16 / .9); }
 
 /* ─── Shell ─── */
-.side-byline { writing-mode: vertical-rl; rotate: 180deg; letter-spacing: .2em; justify-content: center; }
+.side-byline p { writing-mode: vertical-rl; rotate: 180deg; letter-spacing: .2em; white-space: nowrap; }
 /* Full-height wrappers must not catch clicks meant for the stage. */
 .pager, .side-byline { pointer-events: none; }
 .pager ol { pointer-events: auto; }
@@ -162,13 +163,15 @@ h1, h2, h3 { text-wrap: balance; }
    eyebrow hangs above it and the English and note below, out of the flow. ─── */
 .vs { position: relative; width: min(100%, 760px); text-align: center; }
 .vs-above { position: absolute; left: 0; right: 0; bottom: 100%; padding-bottom: 1rem; }
-.vs-below { position: absolute; left: 0; right: 0; top: 100%; padding-top: .4rem; transform-origin: top center; }
+.vs-below { position: absolute; left: 0; right: 0; top: 100%; padding-top: 1.1rem; transform-origin: top center; }
 .stage-eyebrow { font-size: 11px; color: var(--color-gold); }
 .stage-cite { font-size: 9px; color: var(--color-muted); margin-top: .3rem; letter-spacing: .2em; }
 /* Each half-verse wraps as a balanced block: units are inline blocks, so
    text-wrap: balance evens out the rows and no word is left alone. */
-.stage-line { text-align: center; text-wrap: balance; margin: 0 0 .9rem; line-height: 1; word-spacing: .35rem; }
-.stage-line:last-of-type { margin-bottom: 0; }
+/* No outer margins: the box of the verse is the verse, so its centre is exact. */
+.stage-verse { margin-bottom: -.35rem; }
+.stage-line { text-align: center; text-wrap: balance; margin: 0; line-height: 1; word-spacing: .35rem; }
+.stage-line + .stage-line { margin-top: .9rem; }
 .u { position: relative; display: inline-flex; flex-direction: column; align-items: center; vertical-align: top; margin-bottom: .35rem; word-spacing: normal; color: var(--color-unlit); transition: color 350ms ease, text-shadow 350ms ease; }
 .u-d { font-family: var(--font-deva); font-size: 1.45rem; line-height: 1.5; }
 .u-i { font-style: italic; font-size: .92rem; line-height: 1.2; }
@@ -309,8 +312,9 @@ h1, h2, h3 { text-wrap: balance; }
 .pat-grid { display: grid; gap: 1.2rem; }
 .pat-note { min-height: 8rem; }
 .pat-note-text { font-style: italic; font-size: 1.05rem; line-height: 1.5; text-align: center; animation: route-fade 400ms ease both; }
-@media (min-width: 1024px) {
-  .pat-grid { grid-template-columns: minmax(0, 1fr) 17rem; align-items: center; gap: 2rem; }
+@media (min-width: 1180px) {
+  .pat-grid { grid-template-columns: minmax(0, 1fr) 26.5rem; align-items: center; gap: 1.75rem; }
+  .pat .mx-table thead td { width: 13.5rem; }
   .pat-note-text { text-align: left; border-left: 1px solid rgb(201 168 92 / .4); padding-left: 1rem; }
   .pat .mx { margin: 0; }
 }

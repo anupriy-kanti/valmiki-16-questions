@@ -6,9 +6,9 @@ import { IMAGE_CREDIT } from './Hero.jsx'
 // Left edge: vertical byline, from 1024px.
 export function SideByline() {
   return (
-    <p aria-hidden="true" className="side-byline caps no-print fixed inset-y-0 left-3 z-10 hidden text-[10px] text-gold/80 lg:flex">
-      Anupriy Kanti · Mythematical
-    </p>
+    <div aria-hidden="true" className="side-byline no-print fixed inset-y-0 left-3 z-10 hidden items-center lg:flex">
+      <p className="caps text-[10px] text-gold/80">Anupriy Kanti · Mythematical</p>
+    </div>
   )
 }
 

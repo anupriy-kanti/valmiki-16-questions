@@ -72,7 +72,7 @@ export default function App() {
       <Nav over={!!view} />
       <SideByline />
       {pathname === '/' && <><Pager /><BottomLine /></>}
-      <main id="main" tabIndex={-1} className={view ? '' : pathname === '/patterns' ? 'mx-auto max-w-[1120px] px-4' : 'mx-auto max-w-[760px] px-4'}>
+      <main id="main" tabIndex={-1} className={view ? '' : pathname === '/patterns' ? 'mx-auto max-w-[1180px] px-4' : 'mx-auto max-w-[760px] px-4'}>
         <div key={pathname} className="route-fade">
           <Routes>
             <Route path="/" element={<Stage view="conversation" />} />

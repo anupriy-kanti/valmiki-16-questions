@@ -365,7 +365,7 @@ export default function Stage({ view }) {
         <Board n={vn} k={verse ? st.k : 0} allAsked={view === 'answers'} shown={!!boardOn} />
         <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
       </div>
-      <Transcript view={view} which={which} />
+      <Transcript view={view} />
     </div>
   )
 }
@@ -380,7 +380,7 @@ function Transcript({ view }) {
       {view === 'conversation' && COPY.fold.map((l, j) => <p key={j}>{l.join(' ')}</p>)}
       {verses.map(v => (
         <div key={v.n} className="transcript-verse">
-          <h3>Vālmīki Rāmāyaṇa {v.ce}</h3>
+          <h2>Vālmīki Rāmāyaṇa {v.ce}</h2>
           <p lang="sa-Deva" className="deva">{v.dev.join(' ')}</p>
           <p lang="sa-Latn"><i>{v.iast.join(' / ')}</i></p>
           <p>{v.goldman.text}</p>

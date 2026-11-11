@@ -182,3 +182,62 @@ All ten items are built and pushed (plus §2b and your mid-session rulings). Not
 6. **Present mode on your clicker**: one word per click. Is that the pace you want for the talk?
 7. **Questions tab mobile performance** (82–93): move the hero preload to All only?
 8. **Messages to mytwiki-C21 not delivered.** This cloud session may not message a session on your computer without your approval, and I did not ask for that access. Everything it needs is in this file and in `CHANGELOG.md`.
+
+## 8. Milestone 04 (c.v16q-04, 11 Nov 2026)
+
+Built from `MILESTONE-04.md` and your six answers in chat (branch, hero and author, `In part`, short IAST forms, phone strip, key circle, the three pieces of small copy). There is no `[copy needed]` placeholder on the site.
+
+### Look at these first
+
+1. **Phones, verses with a note (1.1.4, 1.1.17, 1.1.19).** Under a centred verse a phone has no room for the English and the note together. Below 768px the note takes the place of the English, in the same spot, and scrolling back returns the English. This departs from "the English stays for the whole verse" on phones only. Say if you prefer the note on its own beat after the verse.
+2. **Small phones, 1.1.13 and 1.1.19.** These verses also keep room for the vulgate line. At 360 × 640 the block under the verse is scaled to 89% (1.1.13) and 68% (1.1.19) to fit. The 1.1.19 text is small there. Taller phones give it more room.
+3. **Sound with sync.** When the voice starts, the highlight goes back to the first word of the verse and then follows the voice. If you had scrolled to the end of the verse, the lit words and the note go away for the length of the recitation. This follows §6 ("always starts at the verse's first window"). Listen to 1.1.12 and 1.1.13, and say if the jump back is acceptable.
+4. **The matrix on a phone**, and the Patterns lenses.
+5. **The board** at 1280px and wider, at 1.1.8, 1.1.12 and 1.1.17.
+
+### Judgement calls
+
+- **Stage.** The stage is `position: sticky` inside one tall track. It holds its place while the page scrolls under it. The last beat ends where the page ends, so the stage never scrolls away.
+- **Beat lengths.** Hero 1 screen, each fold sentence 0.7, the scatter 1.5, a verse 1.4 (1 on phones, plus 0.35 where it has a note), the "Not answered here" note 0.7, the matrix 1, the author 0.8, the last beat 0.5. Conversation is about 38 screens on a desktop. The numbers are in `beatsFor` in `src/Stage.jsx`.
+- **Swaps are timed, not scrubbed.** A beat changes at a scroll threshold and fades over about 0.5 s. Only the hero overlay and title follow the scroll continuously, as before.
+- **Verse reference.** "Vālmīki Rāmāyaṇa 1.1.8 · Critical Edition" moved from under the English to a small line under the eyebrow, above the verse. It is always shown, so the verse number is on screen while the notes name verses.
+- **Vulgate lines.** 1.1.13 and 1.1.19 keep an empty space under the verse for the vulgate line, so the English does not move when the line appears. The old "Gita Press adds" line on those stages is removed, because the vulgate line replaces it.
+- **Author.** The Author is two beats: name, portrait and bio, then "Part of", the copy-link button and the footer. One beat did not fit a phone.
+- **Footer.** Questions and Answers have no footer, because they must end on their fold. The rights line is on Conversation, Patterns, Sources & method and About.
+- **Scatter.** Sixteen fixed positions in a 4 × 4 grid (3 columns on phones), in a fixed order that is not Q1 to Q16.
+- **Board.** `turned` uses the same brightness as `partial`, plus the turn mark. On Answers all sixteen slots are present from the start, because the question verses are not in that view. On Questions no slot takes colour. Two slots (sarvabhūteṣu hitaḥ, bibhyati devāḥ) wrap their Devanāgarī to a second line. From 768 to 1279px the strip is used, as on phones.
+- **Controls.** On phones the translation icon shows the letter of the current translation (G or D) and opens a two-item menu. The sound icon's accessible name gives the state ("Sound on" or "Sound off"), as you set.
+- **Matrix marks.** A cell with two answering words (for example niyatātmā and vaśī at 1.1.8) has one mark, and its detail shows both words on two lines.
+- **`Not answered here` and `Where description becomes story` lenses** light row names and the 1.1.19 column, not cells, because they have no marks to light. Column 1.1.19 holds no mark in the data.
+- **Pager.** The right-edge dots stay. The matrix keeps the old label "Overview", because the brief gives no new label. The bottom line now shows from 1280px, so it does not run under the controls.
+- **Tabs.** Moving between Conversation, Questions and Answers now opens the new view at its start. The old "open at the same verse" behaviour is removed with the old views.
+- **Hero cue.** The chevron no longer bobs up and down. It pulses in place.
+- **Accessible names without visible copy.** The lens row is named "Lenses", the phone strip "16 Qualities", the scatter "The sixteen qualities", and each view has a hidden "Full text" section with every verse and note in order, for screen readers and for print.
+- **Sources & method.** The audio credit is the last item in the list of Sanskrit sources, so it needed no new heading. The count line opens "How the mapping was made". The two editorial cards close the page.
+- **Data kept but not shown.** `src/content.js` still holds the Gita Press English, the artefact's verse notes and the question alerts. Nothing on the site reads them now. Say if you want them deleted.
+- **Audio off for good.** `AUDIO_ENABLED = false` hides the control and the credit and loads no audio, but the build still copies the mp3. To remove the recording, also delete `assets-src/audio/vr-1-1-1-to-19-bhide.mp3`, remove the `copyAudio` step from `vite.config.js`, and remove the credit from Sources & method.
+
+### Old copy that no longer matches the site (your words needed)
+
+The copy is fixed, so these lines are unchanged. They describe things milestone 04 removed.
+
+- Sources & method, "How the mapping was made": the bullets on question tags, echo pills (verbatim, inverted, adjacency) and "made first on the Gita Press text". The board and matrix now read Scaffold A.
+- Sources & method, Sanskrit paragraph: "The reference views show the Devanāgarī e-text as published" and "The Gita Press (vulgate) translation appears in the reference views". There are no reference views.
+- Editorial card "Edition divergence": "They are shown in muted 'Gita Press reading' boxes at 1.1.13 and 1.1.19". They now show as the vulgate line while heard.
+- `index.html` description and link preview: "with three English translations". The site shows two.
+- Still open from §7: the link preview image `og.jpg` uses the old hero.
+
+### Checks
+
+Local checks ran on `vite preview` with Playwright (Chromium), by script. The live-site results are at the end of this section.
+
+- **Copy blocks at 360, 768 and 1440px.** No block ends on a lone word (0 found, all beats of the three stage views, the seven lenses, Sources & method and About). The given line breaks hold at 768 and 1440px for every block. At 360px the longer lines wrap, balanced.
+- **No vertical translation.** Every element on the stage was read at each scroll step (every 0.2 screen, three widths): 0 elements with a vertical `transform` or `translate`. The visible verse text is 0px from the centre of the screen at all 19 verses and all three widths.
+- **Reverse scroll.** Scrolling back up gave the same state at every step (beat, lit words, English, note, scatter, board): 0 differences.
+- **Audio** (Chromium, autoplay allowed): 1.1.12 starts at 149.75 s about 0.5 s after scrolling stops. A scroll inside the verse does not restart it, and the sync stops moving the page. Leaving fades to silence in 0.3 s. 1.1.13 starts at 163.15 s. The vulgate line shows in both vulgate windows and not in the window between them. Going back to 1.1.12 plays it from its start. At the end of the verse the audio stops and stays silent. With `AUDIO_ENABLED = false`: no Sound control, no credit, 0 requests for the mp3. With `AUDIO_SYNC = false`: the audio plays and the page does not move. The built mp3 is byte-identical to `assets-src/audio/` (`cmp`).
+- **Board.** At the end of 1.1.19: 16 slots, 13 lit, 3 unlit (kṛtajña, samartha, anasūyaka), the turn mark on jitakrodha only.
+- **Matrix.** 23 marks: 4 `exact`, 11 `clear`, 7 `partial`, 1 `turned`. `Two senses` lights 2 (1.1.9 and 1.1.14).
+- **Reduced motion.** No motes, no lamp animation, all transitions 0 s, the swap is complete 60 ms after a scroll.
+- **Keyboard.** Tab reaches the menu, the pager, the hero cue, the source link, Goldman, Debroy and Sound, with a focus ring. Enter and Space work on the controls, the lenses, the matrix marks and the quality words on the Questions fold. Beats that are not on stage are out of the tab order.
+- **Lighthouse 12, mobile, local.** Performance / accessibility: Conversation 98 / 98, Questions 98 / 100, Answers 99 / 100, Patterns 99 / 96, Sources & method 98 / 100, About 98 / 100. LCP 2.1 to 2.3 s. The Conversation 98 was a heading-order fault, corrected after the run. Patterns 96 is `target-size`: twelve columns cannot each be 24px wide on a 360px phone, so the marks are about 17 × 26px there.
+- **Not tested:** Safari and iOS (audio start after the Sound tap, `text-wrap: balance` needs Safari 17.5), real phones, a screen reader. Chromium only.
