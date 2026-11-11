@@ -7,287 +7,698 @@
    "part": "a",
    "vulgate": null,
    "start": 0.15,
-   "end": 6.95
+   "end": 9.65,
+   "padas": [
+    [
+     3.15,
+     5.75
+    ],
+    [
+     6.45,
+     9.25
+    ]
+   ]
   },
   {
    "ce": "1.1.1",
    "part": "b",
    "vulgate": null,
-   "start": 6.95,
-   "end": 16.3
+   "start": 9.65,
+   "end": 16.3,
+   "padas": [
+    [
+     10.05,
+     12.9
+    ],
+    [
+     13.45,
+     16.1
+    ]
+   ]
   },
   {
    "ce": "1.1.2",
    "part": "a",
    "vulgate": null,
    "start": 16.3,
-   "end": 23.95
+   "end": 23.95,
+   "padas": [
+    [
+     16.9,
+     19.7
+    ],
+    [
+     21.1,
+     23.8
+    ]
+   ]
   },
   {
    "ce": "1.1.2",
    "part": "b",
    "vulgate": null,
    "start": 23.95,
-   "end": 30.75
+   "end": 30.75,
+   "padas": [
+    [
+     24.45,
+     27.1
+    ],
+    [
+     27.95,
+     30.55
+    ]
+   ]
   },
   {
    "ce": "1.1.3",
    "part": "a",
    "vulgate": null,
    "start": 30.75,
-   "end": 36.35
+   "end": 36.35,
+   "padas": [
+    [
+     31.15,
+     33.65
+    ],
+    [
+     34.35,
+     37.05
+    ]
+   ]
   },
   {
    "ce": "1.1.3",
    "part": "b",
    "vulgate": null,
    "start": 36.35,
-   "end": 43.85
+   "end": 43.85,
+   "padas": [
+    [
+     37.6,
+     40.3
+    ],
+    [
+     40.9,
+     43.55
+    ]
+   ]
   },
   {
    "ce": "1.1.4",
    "part": "a",
    "vulgate": null,
    "start": 43.85,
-   "end": 51.15
+   "end": 51.15,
+   "padas": [
+    [
+     44.3,
+     47.3
+    ],
+    [
+     48.0,
+     50.75
+    ]
+   ]
   },
   {
    "ce": "1.1.4",
    "part": "b",
    "vulgate": null,
    "start": 51.15,
-   "end": 57.9
+   "end": 57.9,
+   "padas": [
+    [
+     51.55,
+     54.25
+    ],
+    [
+     55.15,
+     57.8
+    ]
+   ]
   },
   {
    "ce": "1.1.5",
    "part": "a",
    "vulgate": null,
    "start": 57.9,
-   "end": 65.1
+   "end": 65.1,
+   "padas": [
+    [
+     58.5,
+     61.45
+    ],
+    [
+     62.1,
+     64.6
+    ]
+   ]
   },
   {
    "ce": "1.1.5",
    "part": "b",
    "vulgate": null,
    "start": 65.1,
-   "end": 71.8
+   "end": 71.8,
+   "padas": [
+    [
+     65.15,
+     68.0
+    ],
+    [
+     68.6,
+     71.3
+    ]
+   ]
   },
   {
    "ce": "1.1.6",
    "part": "a",
    "vulgate": null,
    "start": 71.8,
-   "end": 79.95
+   "end": 79.95,
+   "padas": [
+    [
+     72.5,
+     76.4
+    ],
+    [
+     77.0,
+     79.8
+    ]
+   ]
   },
   {
    "ce": "1.1.6",
    "part": "b",
    "vulgate": null,
    "start": 79.95,
-   "end": 87.15
+   "end": 87.15,
+   "padas": [
+    [
+     80.6,
+     83.4
+    ],
+    [
+     83.95,
+     86.5
+    ]
+   ]
   },
   {
    "ce": "1.1.7",
    "part": "a",
    "vulgate": null,
    "start": 87.15,
-   "end": 93.65
+   "end": 93.65,
+   "padas": [
+    [
+     87.25,
+     89.85
+    ],
+    [
+     90.4,
+     93.15
+    ]
+   ]
   },
   {
    "ce": "1.1.7",
    "part": "b",
    "vulgate": null,
    "start": 93.65,
-   "end": 99.75
+   "end": 99.75,
+   "padas": [
+    [
+     93.7,
+     96.45
+    ],
+    [
+     96.95,
+     99.55
+    ]
+   ]
   },
   {
    "ce": "1.1.8",
    "part": "a",
    "vulgate": null,
    "start": 99.75,
-   "end": 106.3
+   "end": 106.3,
+   "padas": [
+    [
+     100.3,
+     102.85
+    ],
+    [
+     103.35,
+     105.85
+    ]
+   ]
   },
   {
    "ce": "1.1.8",
    "part": "b",
    "vulgate": null,
    "start": 106.3,
-   "end": 112.65
+   "end": 112.65,
+   "padas": [
+    [
+     106.4,
+     109.0
+    ],
+    [
+     109.55,
+     112.15
+    ]
+   ]
   },
   {
    "ce": "1.1.9",
    "part": "a",
    "vulgate": null,
    "start": 112.65,
-   "end": 119.3
+   "end": 119.3,
+   "padas": [
+    [
+     112.9,
+     115.7
+    ],
+    [
+     116.3,
+     118.85
+    ]
+   ]
   },
   {
    "ce": "1.1.9",
    "part": "b",
    "vulgate": null,
    "start": 119.3,
-   "end": 125.3
+   "end": 125.3,
+   "padas": [
+    [
+     119.4,
+     122.1
+    ],
+    [
+     122.5,
+     125.2
+    ]
+   ]
   },
   {
    "ce": "1.1.10",
    "part": "a",
    "vulgate": null,
    "start": 125.3,
-   "end": 131.85
+   "end": 131.85,
+   "padas": [
+    [
+     125.55,
+     128.35
+    ],
+    [
+     128.75,
+     131.4
+    ]
+   ]
   },
   {
    "ce": "1.1.10",
    "part": "b",
    "vulgate": null,
    "start": 131.85,
-   "end": 137.9
+   "end": 137.9,
+   "padas": [
+    [
+     131.95,
+     134.4
+    ],
+    [
+     134.9,
+     137.55
+    ]
+   ]
   },
   {
    "ce": "1.1.11",
    "part": "a",
    "vulgate": null,
    "start": 137.9,
-   "end": 143.95
+   "end": 143.95,
+   "padas": [
+    [
+     138.05,
+     140.4
+    ],
+    [
+     140.9,
+     143.5
+    ]
+   ]
   },
   {
    "ce": "1.1.11",
    "part": "b",
    "vulgate": null,
    "start": 143.95,
-   "end": 149.75
+   "end": 149.75,
+   "padas": [
+    [
+     144.05,
+     146.7
+    ],
+    [
+     147.2,
+     149.7
+    ]
+   ]
   },
   {
    "ce": "1.1.12",
    "part": "a",
    "vulgate": null,
    "start": 149.75,
-   "end": 156.9
+   "end": 156.9,
+   "padas": [
+    [
+     150.3,
+     152.85
+    ],
+    [
+     153.35,
+     156.3
+    ]
+   ]
   },
   {
    "ce": "1.1.12",
    "part": "b",
    "vulgate": null,
    "start": 156.9,
-   "end": 163.15
+   "end": 163.15,
+   "padas": [
+    [
+     157.0,
+     159.8
+    ],
+    [
+     160.3,
+     163.0
+    ]
+   ]
   },
   {
    "ce": "1.1.13",
    "part": "vulgate",
    "vulgate": "prajāpatisamaḥ śrīmān dhātā ripuniṣūdanaḥ",
    "start": 163.15,
-   "end": 169.65
+   "end": 169.65,
+   "padas": [
+    [
+     163.65,
+     166.25
+    ],
+    [
+     166.7,
+     169.5
+    ]
+   ]
   },
   {
    "ce": "1.1.13",
    "part": "a",
    "vulgate": null,
    "start": 169.65,
-   "end": 176.05
+   "end": 176.05,
+   "padas": [
+    [
+     170.1,
+     172.9
+    ],
+    [
+     173.35,
+     175.8
+    ]
+   ]
   },
   {
    "ce": "1.1.13",
    "part": "vulgate",
    "vulgate": "rakṣitā svasya dharmasya svajanasya ca rakṣitā",
    "start": 176.05,
-   "end": 182.75
+   "end": 182.75,
+   "padas": [
+    [
+     176.45,
+     179.15
+    ],
+    [
+     179.65,
+     182.15
+    ]
+   ]
   },
   {
    "ce": "1.1.13",
    "part": "b",
    "vulgate": null,
    "start": 182.75,
-   "end": 189.3
+   "end": 189.3,
+   "padas": [
+    [
+     182.8,
+     185.5
+    ],
+    [
+     185.95,
+     188.8
+    ]
+   ]
   },
   {
    "ce": "1.1.14",
    "part": "a",
    "vulgate": null,
    "start": 189.3,
-   "end": 195.75
+   "end": 195.75,
+   "padas": [
+    [
+     189.35,
+     192.0
+    ],
+    [
+     192.55,
+     195.2
+    ]
+   ]
   },
   {
    "ce": "1.1.14",
    "part": "b",
    "vulgate": null,
    "start": 195.75,
-   "end": 201.85
+   "end": 201.85,
+   "padas": [
+    [
+     195.85,
+     198.55
+    ],
+    [
+     199.0,
+     201.8
+    ]
+   ]
   },
   {
    "ce": "1.1.15",
    "part": "a",
    "vulgate": null,
    "start": 201.85,
-   "end": 208.15
+   "end": 208.15,
+   "padas": [
+    [
+     202.4,
+     204.95
+    ],
+    [
+     205.5,
+     208.0
+    ]
+   ]
   },
   {
    "ce": "1.1.15",
    "part": "b",
    "vulgate": null,
    "start": 208.15,
-   "end": 214.5
+   "end": 214.5,
+   "padas": [
+    [
+     208.65,
+     211.1
+    ],
+    [
+     211.7,
+     214.45
+    ]
+   ]
   },
   {
    "ce": "1.1.16",
    "part": "a",
    "vulgate": null,
    "start": 214.5,
-   "end": 220.8
+   "end": 220.8,
+   "padas": [
+    [
+     215.05,
+     217.6
+    ],
+    [
+     218.1,
+     220.75
+    ]
+   ]
   },
   {
    "ce": "1.1.16",
    "part": "b",
    "vulgate": null,
    "start": 220.8,
-   "end": 227.2
+   "end": 227.2,
+   "padas": [
+    [
+     221.3,
+     223.95
+    ],
+    [
+     224.45,
+     227.1
+    ]
+   ]
   },
   {
    "ce": "1.1.17",
    "part": "a",
    "vulgate": null,
    "start": 227.2,
-   "end": 233.2
+   "end": 233.2,
+   "padas": [
+    [
+     227.45,
+     230.1
+    ],
+    [
+     230.45,
+     233.15
+    ]
+   ]
   },
   {
    "ce": "1.1.17",
    "part": "b",
    "vulgate": null,
    "start": 233.2,
-   "end": 239.85
+   "end": 239.85,
+   "padas": [
+    [
+     233.7,
+     236.35
+    ],
+    [
+     236.85,
+     239.35
+    ]
+   ]
   },
   {
    "ce": "1.1.18",
    "part": "a",
    "vulgate": null,
    "start": 239.85,
-   "end": 246.15
+   "end": 246.15,
+   "padas": [
+    [
+     239.95,
+     242.7
+    ],
+    [
+     243.15,
+     245.75
+    ]
+   ]
   },
   {
    "ce": "1.1.18",
    "part": "b",
    "vulgate": null,
    "start": 246.15,
-   "end": 252.2
+   "end": 252.2,
+   "padas": [
+    [
+     246.2,
+     248.65
+    ],
+    [
+     249.2,
+     251.85
+    ]
+   ]
   },
   {
    "ce": "1.1.19",
    "part": "a",
    "vulgate": null,
    "start": 252.2,
-   "end": 258.2
+   "end": 258.2,
+   "padas": [
+    [
+     252.25,
+     254.75
+    ],
+    [
+     255.25,
+     257.8
+    ]
+   ]
   },
   {
    "ce": "1.1.19",
    "part": "vulgate",
    "vulgate": "prakṛtīnāṃ hitair yuktaṃ prakṛtipriyakāmyayā",
    "start": 258.2,
-   "end": 264.7
+   "end": 264.7,
+   "padas": [
+    [
+     258.25,
+     261.0
+    ],
+    [
+     261.55,
+     264.25
+    ]
+   ]
   },
   {
    "ce": "1.1.19",
    "part": "b",
    "vulgate": null,
    "start": 264.7,
-   "end": 270.95
+   "end": 270.95,
+   "padas": [
+    [
+     264.85,
+     267.0
+    ],
+    [
+     267.2,
+     270.5
+    ]
+   ]
   }
- ]
+ ],
+ "_padas": "padas: [onset, end] of each quarter-verse as voiced, from RMS in 50 ms windows (voiced above 25% of median loudness, gaps under 0.3 s merged). Measured by mytwiki-C22, 12 Nov 2026. 1.1.1a opens with om at 1.60-3.05, before its first quarter, so word sync starts at 3.15. The 1.1.1 a/b break moved from 6.95 to 9.65. 1.1.16b, 1.1.17a and 1.1.19b were split by hand at the deepest dip, and 1.1.13a and 1.1.19a joined across a short internal dip. The 1.1.19b split (267.0 / 267.2) is the least certain."
 }
