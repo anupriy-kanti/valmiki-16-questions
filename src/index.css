@@ -145,7 +145,11 @@ h1, h2, h3 { text-wrap: balance; }
 .pager-dot:hover .pager-mark { background: rgb(201 168 92 / .5); }
 .bottom-line { background: linear-gradient(to top, var(--color-paper) 45%, rgb(26 20 16 / 0)); }
 
-/* ─── The second fold: three sentences, then the scatter ─── */
+/* English blocks: each sentence is a block that balances itself. */
+.en .sn { display: block; text-wrap: balance; }
+.en-flow .en .sn { display: inline; }
+
+/* ─── The second fold: short sentences, with the scatter among them ─── */
 .fold-copy { font-style: italic; font-size: 1.3rem; line-height: 1.5; text-align: center; max-width: 46rem; }
 @media (min-width: 640px) { .fold-copy { font-size: 1.6rem; } }
 @media (min-width: 1024px) { .fold-copy { font-size: 1.9rem; } }
@@ -309,6 +313,11 @@ h1, h2, h3 { text-wrap: balance; }
 .lens-row button { text-transform: uppercase; letter-spacing: .14em; padding: .45rem .8rem; border: 1px solid rgb(201 168 92 / .3); border-radius: 999px; color: var(--color-muted); transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease; }
 .lens-row button:hover { color: var(--color-ink); }
 .lens-row button[aria-pressed="true"] { color: var(--color-gold-bright); border-color: var(--color-gold); background: rgb(201 168 92 / .1); }
+.pat-frame { max-width: 44rem; margin: .9rem auto 1rem; text-align: center; font-size: 1.05rem; line-height: 1.45; color: var(--color-ink); }
+.pat-frame p + p { margin-top: .6rem; }
+@media (min-width: 768px) { .pat-frame { font-size: 1.2rem; } }
+.pat-back { margin-top: 1.4rem; text-align: center; }
+.pat-back .note-link { font-size: 10.5px; margin-top: 0; text-wrap: balance; }
 .pat-grid { display: grid; gap: 1.2rem; }
 .pat-note { min-height: 8rem; }
 .pat-note-text { font-style: italic; font-size: 1.05rem; line-height: 1.5; text-align: center; animation: route-fade 400ms ease both; }
@@ -363,4 +372,22 @@ h1, h2, h3 { text-wrap: balance; }
   .has-note .vs-pair > * { grid-area: 1 / 1; }
   .has-note .vs-note { margin-top: 0; padding-top: 0; border-top: 0; align-self: start; }
   .has-note.note-on .stage-trans.is-on { opacity: 0; }
+}
+
+/* Small phones: the note leaves the block under the verse, and a one-line
+   button shows it in place of the English (MILESTONE-05 §7). The one that is
+   not shown is taken out of the flow, so the block is only as tall as the
+   one that is. */
+.note-btn { display: block; margin: 0 auto .45rem; padding: .3rem .2rem 1px; font-size: 9.5px; color: var(--color-gold-bright); border-bottom: 1px solid var(--color-gold); opacity: 0; visibility: hidden; transition: opacity 500ms ease, visibility 0s 500ms; }
+.note-btn.is-on { opacity: 1; visibility: visible; transition: opacity 500ms ease, visibility 0s; }
+.note-btn[aria-pressed="true"] { background: rgb(201 168 92 / .12); }
+@media (max-width: 767px) {
+  .is-compact .vs-pair, .is-tight .vs-pair { position: relative; }
+  .is-compact .vs-pair { display: block; }
+  /* The vulgate line keeps no space of its own: it shows over the English. */
+  .is-tight .vs-body { position: relative; }
+  .is-tight .vs-vulgate { position: absolute; z-index: 1; left: 0; right: 0; top: 0; margin: 0; }
+  .is-tight .vs-pair > * { transition: opacity 400ms ease; }
+  .is-tight.vul-on .vs-pair > * { opacity: 0 !important; }
+  .is-compact:not(.note-on) .vs-note, .is-compact.note-on .stage-trans { position: absolute; left: 0; right: 0; top: 0; }
 }

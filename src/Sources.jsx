@@ -45,16 +45,16 @@ export default function Sources() {
         <p className="my-2">
           The primary Sanskrit on every verse is the Baroda Critical Edition (constituted text), in IAST from
           GRETIL and in Devanāgarī from John Smith’s Unicode file. The Gita Press Sanskrit is the vulgate
-          recension. It appears only where it has lines the Critical Edition does not.
+          recension. It appears only in the three half-lines heard in the recitation that the Critical Edition
+          does not have.
         </p>
         <p className="my-2">
-          In the scroll story, the Devanāgarī is transliterated from the GRETIL IAST word by word, so each word
-          lines up with its romanisation. The reference views show the Devanāgarī e-text as published.
-          The scroll story pairs the Critical Edition Sanskrit with the two CE translations. The Gita Press
-          (vulgate) translation appears in the reference views.
+          In the Conversation, the Devanāgarī is transliterated from the GRETIL IAST word by word, so each word
+          lines up with its romanisation. The Critical Edition Sanskrit is shown with the two English
+          translations made from it, Goldman’s and Debroy’s.
         </p>
         <ul className="space-y-2">
-          {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
+          {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute,{'\u00a0'}1960–75).</>)}
           {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}
           {item('deva', <>John Smith, <i>Vālmīki Rāmāyaṇa</i>, Devanāgarī e-text, <A href="https://bombay.indology.info/ramayana/">bombay.indology.info/ramayana</A> (Bālakāṇḍa file dated 21 Oct 2021). Source of the Devanāgarī text.</>)}
           {AUDIO_ENABLED && item('audio', <AudioCredit />)}
@@ -63,7 +63,7 @@ export default function Sources() {
         <ul className="space-y-2">
           {item('goldman', <>Robert P. Goldman et al., trans., <i>The Rāmāyaṇa of Vālmīki: The Complete English Translation</i>, revised and edited by Robert P. Goldman and Sally J. Sutherland Goldman (Princeton: Princeton University Press, 2021), 51–52. Bālakāṇḍa translated by Robert P. Goldman. <A href="https://press.princeton.edu/">Publisher’s page</A>.</>)}
           {item('debroy', <>Bibek Debroy, trans., <i>The Valmiki Ramayana</i>, vol. 1 (Gurgaon: Penguin Random House India, 2017). <A href="https://www.penguin.co.in/">Publisher’s page</A>.</>)}
-          {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī in the “Gita Press reading” boxes is transcribed verbatim from the Gita Press pages. Minor transcription slips are possible.</>)}
+          {item('gp', <><i>Śrīmad Vālmīki Rāmāyaṇa</i>, with Sanskrit text and English translation (Gorakhpur: Gita Press), [p. ?]. <A href="https://www.gitapress.org/">gitapress.org</A>. The Devanāgarī of the three vulgate half-lines is transcribed verbatim from the Gita Press pages. Minor transcription slips are possible.</>)}
         </ul>
       </section>
 
@@ -122,11 +122,11 @@ export default function Sources() {
         <Lines lines={COPY.count} className="my-3" />
         <ul className="list-disc space-y-2 pl-5">
           <li>The sixteen questions are the qualities Vālmīki names in CE 1.1.2–4, numbered Q1 to Q16 in the order the verses give them.</li>
-          <li>A question tag on an answer verse marks a verse read as answering that question. These readings are Anupriy Kanti’s, made first on the Gita Press text and moved to the Critical Edition numbers with the concordance above.</li>
-          <li>Echo pills mark where the answer reuses the question’s own Sanskrit word: verbatim (the same word), inverted (the same word, meaning turned around) or adjacency (a word close in meaning, not an answer).</li>
+          <li>Each mark in the matrix is Anupriy Kanti’s reading of where a verse of Nārada’s answer meets one of the sixteen qualities. The readings are still being checked against the printed Critical Edition.</li>
+          <li>A mark is graded by how closely Nārada’s words meet Vālmīki’s: the same word, other words with the same sense, in part, or turned around. A quality with no mark is not answered in these verses.</li>
           <li>The nine colour themes are one way of grouping the questions for this site, not a classification from the text itself.</li>
           <li>Goldman translates in paragraphs that cover groups of verses (1.1.1–5, 6–11, 12–15, 16–24). This site splits each paragraph into one piece per verse, verbatim and in Goldman’s order. The split is MYT’s, not Goldman’s, and each piece links to the whole paragraph. Goldman carries 1.1.18b into the sentence shown under 1.1.19. The last paragraph is shown only to the end of 1.1.19, where this site ends.</li>
-          <li>Debroy translates the Critical Edition. The Gita Press English follows the vulgate. Both are placed at the CE verse that holds the matching half-line.</li>
+          <li>Debroy also translates the Critical Edition. His English is shown at the verse it renders.</li>
           <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>
         </ul>
       </section>

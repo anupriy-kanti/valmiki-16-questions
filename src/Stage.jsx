@@ -2,12 +2,12 @@ import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRe
 import { Link, useSearchParams } from 'react-router-dom'
 import { STORY, QUALITIES, CATS, CITES, COPY, NOTES, VERSE_NOTE, AUDIO_ENABLED, qualityOf } from './content.js'
 import { partAt, Footer } from './Shell.jsx'
-import Lines, { tie, useFit } from './Lines.jsx'
+import Lines, { tie, useFit, English } from './Lines.jsx'
 import Hero from './Hero.jsx'
 import Board from './Board.jsx'
 import Matrix from './Matrix.jsx'
 import Controls, { TRANS } from './Controls.jsx'
-import { AuthorHead, AuthorPart } from './Author.jsx'
+import { AuthorHead, CopyLink } from './Author.jsx'
 import { useVerseAudio } from './audio.js'
 
 export const motionOn = () => document.documentElement.classList.contains('motion')
@@ -37,12 +37,14 @@ const EYEBROW = (v, k) =>
 function beatsFor(view, narrow) {
   const run = narrow ? 1 : 1.4
   const verse = v => ({ id: 'v' + v.n, type: 'verse', v, len: run + (VERSE_NOTE[v.n] ? 0.35 : 0) })
+  const fold = (lines, j) => ({ id: 'fold' + j, type: 'fold', lines, len: 0.7 })
   if (view === 'questions') return [...STORY.slice(1, 4).map(verse), { id: 'qfold', type: 'qfold', len: 0.6 }]
   if (view === 'answers') return [...STORY.slice(7).map(verse), { id: 'matrix', type: 'matrix', len: 0.6 }]
   return [
     { id: 'hero', type: 'hero', len: 1 },
-    ...COPY.fold.map((lines, j) => ({ id: 'fold' + j, type: 'fold', lines, len: 0.7 })),
+    ...COPY.fold.slice(0, COPY.foldScatterAfter).map(fold),
     { id: 'scatter', type: 'scatter', len: 1.5 },
+    ...COPY.fold.slice(COPY.foldScatterAfter).map((l, j) => fold(l, j + COPY.foldScatterAfter)),
     ...STORY.map(verse),
     { id: 'none', type: 'none', len: 0.7 },
     { id: 'matrix', type: 'matrix', len: 1 },
@@ -62,7 +64,7 @@ function Translation({ v, which }) {
   const src = missing ? 'goldman' : which
   return (
     <>
-      <p className="stage-trans-text">{tie(text)}</p>
+      <English text={text} className="stage-trans-text" />
       <p className="stage-trans-meta">
         {src === 'goldman' ? <>Goldman (CE) · <span className="italic">verse split by MYT, draft</span> · </> : <>Debroy (CE) · </>}
         <Link to={`/sources?ref=${src}`} className="underline whitespace-nowrap">{CITES[src]}</Link>
@@ -84,16 +86,52 @@ function Note({ note, lens, on }) {
 // One verse, anchored at the exact centre of the screen. `k` is how many
 // words are lit. Lighting is visual only: the full verse is in the page for
 // screen readers.
-const VerseBeat = memo(function VerseBeat({ v, k, on, note, which, vulgate }) {
+const VerseBeat = memo(function VerseBeat({ v, k, on, note, hold, which, vulgate }) {
   const below = useRef(null)
-  // The English and the note share the space under the verse. On small
-  // screens they scale down a little to fit it, in place.
-  useFit(below, el => {
+  const nd = VERSE_NOTE[v.n]
+  // Small phones. No block under a verse may scale below 85% (MILESTONE-05 §7).
+  // Where it would, three steps are tried in order, each only if the one
+  // before was not enough:
+  // 1. The English gives up its sentence-end breaks and flows as a paragraph.
+  // 2. A vulgate line no longer keeps its own space. While it is heard, it
+  //    shows in place of the English.
+  // 3. If the note is taller than the English, the note leaves the block and
+  //    a one-line button under the verse shows it in place of the English.
+  const [mode, setMode] = useState({ flow: false, compact: false, tight: false })
+  const { flow, compact, tight } = mode
+  const [open, setOpen] = useState(false)
+  useEffect(() => { if (!note) setOpen(false) }, [note])
+  const room = el => {
     const stage = el.closest('.tl-stage')
     const verse = el.parentElement
     return stage.clientHeight / 2 - verse.offsetHeight / 2 - (window.innerWidth < 768 ? 56 : 64)
-  }, [which])
-  const nd = VERSE_NOTE[v.n]
+  }
+  useLayoutEffect(() => {
+    const el = below.current
+    if (!el) return
+    const h = n => el.querySelector(n)?.offsetHeight || 0
+    // The height the block has with the English and the note in one place.
+    const full = () => el.offsetHeight - h('.vs-pair') - h('.note-btn') + Math.max(h('.stage-trans'), h('.vs-note'))
+    const measure = () => {
+      const phone = window.innerWidth < 768
+      const small = () => room(el) / full() < 0.85
+      el.classList.remove('en-flow', 'is-tight')
+      const flow = small()
+      el.classList.toggle('en-flow', flow)
+      const tight = phone && !!el.querySelector('.vs-vulgate') && small()
+      el.classList.toggle('is-tight', tight)
+      const compact = !!nd && phone && small() && h('.vs-note') > h('.stage-trans')
+      setMode(m => (m.flow === flow && m.compact === compact && m.tight === tight ? m : { flow, compact, tight }))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    document.fonts?.ready.then(measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [which]) // eslint-disable-line react-hooks/exhaustive-deps
+  // The English and the note share the space under the verse. On small
+  // screens they scale down a little to fit it, in place.
+  useFit(below, room, [which])
+  const noteOn = compact ? note && open : note
   return (
     <section className={'beat beat-verse' + (on ? ' is-on' : '')} aria-hidden={!on} aria-labelledby={`st${v.n}`}>
       <div className="vs">
@@ -130,22 +168,27 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, which, vulgate }) {
           <p lang="sa-Deva" className="sr-only">{v.lines.map(l => l.map(u => u.d).join(' ')).join(' । ')} ॥</p>
           <p lang="sa-Latn" className="sr-only">{v.lines.map(l => l.map(u => u.i).join(' ')).join(' / ')}</p>
         </div>
-        <div ref={below} className={'vs-below' + (nd ? ' has-note' : '') + (note ? ' note-on' : '')}>
-          {v.audio?.vulgate.length > 0 && (
-            <div className="vs-vulgate" aria-live="off">
-              {v.audio.vulgate.map((w, j) => (
-                <p key={j} className={vulgate === j ? 'is-on' : ''} aria-hidden={vulgate !== j}>
-                  <span className="vs-vlabel caps">{COPY.vulgate}</span>
-                  <i lang="sa-Latn">{w.iast}</i>
-                </p>
-              ))}
-            </div>
+        <div ref={below} className={'vs-below' + (nd ? ' has-note' : '') + (noteOn ? ' note-on' : '') + (compact ? ' is-compact' : '') + (flow ? ' en-flow' : '') + (tight ? ' is-tight' : '') + (vulgate >= 0 ? ' vul-on' : '')}>
+          {nd && compact && (
+            <button type="button" className={'note-btn caps' + (note ? ' is-on' : '')} aria-pressed={open} aria-hidden={!note} tabIndex={on && note ? 0 : -1} onClick={() => setOpen(!open)}>{COPY.readNote}</button>
           )}
-          <div className="vs-pair">
-            <div className={'stage-trans' + (k >= 1 ? ' is-on' : '')}>
-              <Translation v={v} which={which} />
+          <div className="vs-body">
+            {v.audio?.vulgate.length > 0 && (
+              <div className="vs-vulgate" aria-live="off">
+                {v.audio.vulgate.map((w, j) => (
+                  <p key={j} className={vulgate === j ? 'is-on' : ''} aria-hidden={vulgate !== j}>
+                    <span className="vs-vlabel caps">{COPY.vulgate}</span>
+                    <i lang="sa-Latn">{w.iast}</i>
+                  </p>
+                ))}
+              </div>
+            )}
+            <div className="vs-pair">
+              <div className={'stage-trans' + (k >= 1 || hold ? ' is-on' : '')}>
+                <Translation v={v} which={which} />
+              </div>
+              {nd && <Note note={nd.note} lens={nd.lens} on={noteOn} />}
             </div>
-            {nd && <Note note={nd.note} lens={nd.lens} on={note} />}
           </div>
         </div>
       </div>
@@ -153,7 +196,8 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, which, vulgate }) {
   )
 })
 
-// Beat 4a: the sixteen qualities, scattered, one at a time, in dim gold.
+// The sixteen qualities, scattered, one at a time, in dim gold. The scatter
+// sits inside the second fold, after its third sentence (MILESTONE-05 §2).
 // Offsets are fixed, so the scatter is the same on every visit.
 const JIT = [[-18, 10], [14, -22], [-6, 24], [20, 6], [8, -14], [-22, -4], [16, 20], [-10, -24], [22, -10], [-14, 16], [4, 26], [-24, 2], [12, -6], [-4, -18], [18, 14], [-16, -12]]
 const ORDER = [5, 12, 0, 9, 3, 14, 7, 1, 10, 15, 4, 8, 13, 2, 11, 6]
@@ -208,7 +252,7 @@ function QuestionsFold({ on, which }) {
                 <span aria-hidden="true" className="danda is-lit">{li === 0 ? '।' : `॥ ${devNum(v.n)} ॥`}</span>
               </p>
             ))}
-            <p className="qf-en">{tie(v.goldman.text)}</p>
+            <English text={v.goldman.text} className="qf-en" />
           </div>
         ))}
         {which === 'debroy' && <p className="qf-note">{tie(COPY.debroy)}</p>}
@@ -307,7 +351,7 @@ export default function Stage({ view }) {
   // Audio: verse windows, and the sync that moves the scroll with the voice.
   const [sound, setSoundState] = useState(false)
   const yForK = useCallback(k => (verse ? yFor(st.i, pForLit(verse, k)) : null), [verse, st.i, yFor])
-  const { vulgate, unlock } = useVerseAudio(AUDIO_ENABLED && sound, verse, yForK)
+  const { vulgate, unlock, rewind } = useVerseAudio(AUDIO_ENABLED && sound, verse, yForK)
   const setSound = useCallback(on => { if (on) unlock(); setSoundState(on) }, [unlock])
 
   // Deep links: ?v=1.1.14 opens that verse fully lit. ?at=answer opens a part.
@@ -350,7 +394,7 @@ export default function Stage({ view }) {
           )
           if (b.type === 'scatter') return <Scatter key={b.id} on={on} count={on ? st.k : j < st.i ? 16 : 0} />
           if (b.type === 'verse') return (
-            <VerseBeat key={b.id} v={b.v} on={on} k={on ? st.k : j < st.i ? b.v.total : 0} note={on ? st.note : j < st.i} which={which} vulgate={on ? vulgate : -1} />
+            <VerseBeat key={b.id} v={b.v} on={on} k={on ? (rewind ? 0 : st.k) : j < st.i ? b.v.total : 0} note={on ? st.note && !rewind : j < st.i} hold={on && rewind} which={which} vulgate={on ? vulgate : -1} />
           )
           if (b.type === 'none') return (
             <section key={b.id} className={'beat' + (on ? ' is-on' : '')} aria-hidden={!on}>
@@ -360,9 +404,9 @@ export default function Stage({ view }) {
           if (b.type === 'matrix') return <Fit key={b.id} on={on} aria-label={COPY.matrixTitle}><Matrix /></Fit>
           if (b.type === 'qfold') return <QuestionsFold key={b.id} on={on} which={which} />
           if (b.type === 'author') return <Fit key={b.id} on={on} aria-labelledby="author-name"><AuthorHead /></Fit>
-          return <Fit key={b.id} on={on}><AuthorPart /><Footer /></Fit>
+          return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
-        <Board n={vn} k={verse ? st.k : 0} allAsked={view === 'answers'} shown={!!boardOn} />
+        <Board n={vn} k={verse ? (rewind ? 0 : st.k) : 0} allAsked={view === 'answers'} shown={!!boardOn} />
         <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
       </div>
       <Transcript view={view} />

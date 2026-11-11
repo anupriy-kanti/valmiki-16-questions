@@ -157,7 +157,7 @@ export const VERSES = data.verses.map(v => ({ ...v, ...META[v.n] }))
 // ─── Editorial cards (Sources & method) ─────────────────────────────────────
 export const EDITORIAL = [
   { id: 'divergence', title: 'Edition divergence ⚠',
-    body: 'At 1.1.17, kṣamayā pṛthivīsamaḥ is in the Critical Edition’s constituted text. Goldman renders it “yet he rivals the earth in forbearance.” Debroy’s English omits this fourth pāda: a translator’s prose compression, not a textual absence in the CE. In the other direction, three Gita Press half-lines (GP 13a, 14a and 20b) are not in the Critical Edition’s constituted text, so they are absent from the CE translations. They are shown in muted “Gita Press reading” boxes at 1.1.13 and 1.1.19.' },
+    body: 'At 1.1.17, kṣamayā pṛthivīsamaḥ is in the Critical Edition’s constituted text. Goldman renders it “yet he rivals the earth in forbearance.” Debroy’s English omits this fourth pāda: a translator’s prose compression, not a textual absence in the CE. In the other direction, three Gita Press half-lines (GP 13a, 14a and 20b) are not in the Critical Edition’s constituted text, so they are absent from the CE translations. They are heard in the recitation, and shown under 1.1.13 and 1.1.19 while they play.' },
   { id: 'provenance', title: 'On translation provenance',
     body: 'Both Debroy and Goldman translate the Baroda CE, but they are not comparable undertakings. Debroy’s distinction is being the first single-handed English translator of the complete CE (all seven kāṇḍas, ~2017). Goldman (Princeton, 1984–2016) is CE-based and complete but a multi-scholar consortium across four decades — so “Goldman vs. Debroy” is not a like-for-like comparison of solo work, even though both are legitimately CE-sourced.' },
 ]
@@ -194,8 +194,12 @@ export const qualityOf = id => QUALITIES.find(q => q.id === id)
 export const GRADE_NAME = { exact: 'Same word', clear: 'Other words', partial: 'In part', turned: 'Turned', none: 'Not answered here' }
 
 // ─── Audio windows per verse (data/audio-timings.json) ──────────────────────
-// Word times inside each half-line window are spread by syllable count (the
-// vowels of each IAST word). Vulgate windows carry no words.
+// Each half-line has two quarter-verses (`padas`), measured where the voice
+// is. The half-line's syllables (the vowels of each IAST word) are split at
+// half their total. The first half is spread across the first quarter, the
+// second across the second, by syllable count. Lead-in silence, the oṃ at
+// 1.1.1 and the pause between quarters belong to no word, so the highlight
+// holds there. Vulgate windows carry no words.
 const syllables = w => Math.max(0.5, (w.match(/ai|au|[aāiīuūṛṝḷeo]/g) || []).length)
 const audioFor = v => {
   const wins = timings.halfLines.filter(h => h.ce === v.ce)
@@ -205,8 +209,14 @@ const audioFor = v => {
     if (h.vulgate) continue
     const line = v.words[h.part === 'a' ? 0 : 1]
     const total = line.reduce((s, w) => s + syllables(w.i), 0)
+    const half = total / 2
     let acc = 0
-    for (const w of line) { wordAt.push(h.start + (acc / total) * (h.end - h.start)); acc += syllables(w.i) }
+    for (const w of line) {
+      const [from, to] = h.padas[acc < half ? 0 : 1]
+      const x = acc < half ? acc / half : (acc - half) / (total - half)
+      wordAt.push(from + x * (to - from))
+      acc += syllables(w.i)
+    }
   }
   return {
     start: wins[0].start, end: wins[wins.length - 1].end, wordAt,
@@ -231,13 +241,20 @@ export const STORY = VERSES.map(v => {
 // Where each quality's asking word sits in its verse (1.1.2–4).
 for (const q of QUALITIES) q.askK = STORY[q.v - 1].lines.flat().find(u => u.q === q.id).k
 
-// ─── Fixed copy (MILESTONE-04 §9), line breaks as given ─────────────────────
+// ─── Fixed copy (MILESTONE-04 §9, MILESTONE-05 §2 and §5), breaks as given ──
 export const COPY = {
+  // The second fold (MILESTONE-05 §2). The scatter sits after the third entry.
   fold: [
     ['Before it tells a story,', 'the Rāmāyaṇa asks a question.'],
-    ['The poet Vālmīki asks the sage Nārada', 'whether anyone alive today', 'holds sixteen qualities, and names them.'],
-    ['Nārada knows of one man.', 'He names him, Rāma,', 'and the story grows out of his answer.'],
+    ['The poet Vālmīki asks', 'the sage Nārada'],
+    ['whether anyone alive today', 'holds sixteen qualities.'],
+    ['Nārada takes a moment to think.', 'Such qualities are hard to find together.'],
+    ['But one man', 'comes to his mind.'],
+    ['His name is Rāma,', 'and he has them all.'],
+    ['Nārada’s answer', 'to Vālmīki’s questions'],
+    ['is where the whole story', 'of the epic begins.'],
   ],
+  foldScatterAfter: 3,
   board: ['Each quality appears as Vālmīki asks for it,', 'and takes its colour when Nārada’s answer reaches it.'],
   matrixTitle: 'What Vālmīki asked, and where Nārada answers',
   matrixCaption: ['Rows are the qualities Vālmīki asks about,', 'columns the verses of Nārada’s answer.', 'A dot marks where a verse answers a quality.'],
@@ -247,6 +264,13 @@ export const COPY = {
   count: ['Sixteen is the count tradition gives. Some readers divide the questions', 'differently, for instance by taking guṇavān as a heading for the rest.'],
   questionsFold: 'Sixteen qualities, asked in three verses.',
   patternsLink: 'See it in Patterns',
+  // Patterns framing (MILESTONE-05 §5).
+  patternsFrame: [
+    ['Before the Rāmāyaṇa tells Rāma’s story,', 'it describes him, quality by quality,', 'in answer to Vālmīki’s sixteen questions.'],
+    ['This table shows where the answer meets each question,', 'and where it leaves a question open.'],
+  ],
+  patternsBack: 'See where the description becomes the story',
+  readNote: 'Read the note',
 }
 export const NOTES = {
   asked: ['Vālmīki asks in three verses.', 'Nārada answers in twelve, from 1.1.8 to 1.1.19.'],
