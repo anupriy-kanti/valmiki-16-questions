@@ -241,3 +241,17 @@ Local checks ran on `vite preview` with Playwright (Chromium), by script. The li
 - **Keyboard.** Tab reaches the menu, the pager, the hero cue, the source link, Goldman, Debroy and Sound, with a focus ring. Enter and Space work on the controls, the lenses, the matrix marks and the quality words on the Questions fold. Beats that are not on stage are out of the tab order.
 - **Lighthouse 12, mobile, local.** Performance / accessibility: Conversation 98 / 98, Questions 98 / 100, Answers 99 / 100, Patterns 99 / 96, Sources & method 98 / 100, About 98 / 100. LCP 2.1 to 2.3 s. The Conversation 98 was a heading-order fault, corrected after the run. Patterns 96 is `target-size`: twelve columns cannot each be 24px wide on a 360px phone, so the marks are about 17 × 26px there.
 - **Not tested:** Safari and iOS (audio start after the Sound tap, `text-wrap: balance` needs Safari 17.5), real phones, a screen reader. Chromium only.
+
+### Live site (https://anupriy-kanti.github.io/valmiki-16-questions/)
+
+The container could not reach the Pages host at first (the network proxy refused it). You approved a personal cloud environment named `valmiki-16-questions` that allows `anupriy-kanti.github.io`, and the checks below then ran on the live site.
+
+- **Deploys.** Runs 55 (`3945064`) and 56 (`c991855`) of "Deploy to GitHub Pages" succeeded. The live page serves the same bundle as the local build. The live mp3 is byte-identical to `assets-src/audio/vr-1-1-1-to-19-bhide.mp3` (`cmp`).
+- **Scroll check, live, 360, 768 and 1440px** (run 55): 0 lone last words, 0 vertical transforms, 0 reverse-scroll differences, 0 console errors, visible verse text 0px from the centre. Board at the end of 1.1.19: 16 slots, 13 lit, 3 unlit, the turn mark on jitakrodha.
+- **Audio, live.** Same results as local. The first live run showed one error: during the fade-out a volume value of 1.005 was refused by the browser, which could leave the old verse playing. The value is now clamped (`c991855`). The re-run on run 56 shows the audio paused 0.5 s after leaving the verse and 0 errors.
+- **Reduced motion, keyboard, lenses, Questions fold, live:** same results as local.
+- **Lighthouse 12, mobile, live.** Performance / accessibility: Conversation 97 / 100, Questions 98 / 100, Answers 97 / 100, Patterns 98 / 96 (`target-size`, see above), Sources & method 97 / 100, About 94 / 100. LCP 2.4 to 2.9 s, CLS 0 to 0.002.
+
+### Raised after the build (your words needed)
+
+- **The site and the SAI27 paper.** You said the site can outlast the paper, so it can name the paper as its origin but must not read as a part of it. One block does that now: the last beat of Conversation and the About page (`AuthorPart` in `src/Author.jsx`), with the label "Part of" and the sentence "This site supplements the paper …". Copy is fixed, so it is unchanged. It needs a new label and sentence from you. Nothing else on the site names the paper or the conference.
