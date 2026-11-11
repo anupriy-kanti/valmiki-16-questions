@@ -1,0 +1,293 @@
+{
+ "_about": "Half-line windows in assets-src/audio/vr-1-1-1-to-19-bhide.mp3 (seconds from clip start). Clip = 00:23.6 to 04:54.6 of archive.org VR-Balkanda-01 (Vishwas Bhide, 2018, CC BY-NC-ND 4.0), copied unedited. Line starts from Anupriy-corrected transcript; breaks set at measured breath dips (about 6% of median loudness). Measured by mytwiki-C22, 11 Nov 2026. Vulgate rows are recited half-lines not in the CE constituted text, per data/gp-ce-concordance.md.",
+ "source": "https://archive.org/details/Valmiki-Ramayana-Sanskrit-Samhita/VR-Balkanda-01.mp3",
+ "halfLines": [
+  {
+   "ce": "1.1.1",
+   "part": "a",
+   "vulgate": null,
+   "start": 0.15,
+   "end": 6.95
+  },
+  {
+   "ce": "1.1.1",
+   "part": "b",
+   "vulgate": null,
+   "start": 6.95,
+   "end": 16.3
+  },
+  {
+   "ce": "1.1.2",
+   "part": "a",
+   "vulgate": null,
+   "start": 16.3,
+   "end": 23.95
+  },
+  {
+   "ce": "1.1.2",
+   "part": "b",
+   "vulgate": null,
+   "start": 23.95,
+   "end": 30.75
+  },
+  {
+   "ce": "1.1.3",
+   "part": "a",
+   "vulgate": null,
+   "start": 30.75,
+   "end": 36.35
+  },
+  {
+   "ce": "1.1.3",
+   "part": "b",
+   "vulgate": null,
+   "start": 36.35,
+   "end": 43.85
+  },
+  {
+   "ce": "1.1.4",
+   "part": "a",
+   "vulgate": null,
+   "start": 43.85,
+   "end": 51.15
+  },
+  {
+   "ce": "1.1.4",
+   "part": "b",
+   "vulgate": null,
+   "start": 51.15,
+   "end": 57.9
+  },
+  {
+   "ce": "1.1.5",
+   "part": "a",
+   "vulgate": null,
+   "start": 57.9,
+   "end": 65.1
+  },
+  {
+   "ce": "1.1.5",
+   "part": "b",
+   "vulgate": null,
+   "start": 65.1,
+   "end": 71.8
+  },
+  {
+   "ce": "1.1.6",
+   "part": "a",
+   "vulgate": null,
+   "start": 71.8,
+   "end": 79.95
+  },
+  {
+   "ce": "1.1.6",
+   "part": "b",
+   "vulgate": null,
+   "start": 79.95,
+   "end": 87.15
+  },
+  {
+   "ce": "1.1.7",
+   "part": "a",
+   "vulgate": null,
+   "start": 87.15,
+   "end": 93.65
+  },
+  {
+   "ce": "1.1.7",
+   "part": "b",
+   "vulgate": null,
+   "start": 93.65,
+   "end": 99.75
+  },
+  {
+   "ce": "1.1.8",
+   "part": "a",
+   "vulgate": null,
+   "start": 99.75,
+   "end": 106.3
+  },
+  {
+   "ce": "1.1.8",
+   "part": "b",
+   "vulgate": null,
+   "start": 106.3,
+   "end": 112.65
+  },
+  {
+   "ce": "1.1.9",
+   "part": "a",
+   "vulgate": null,
+   "start": 112.65,
+   "end": 119.3
+  },
+  {
+   "ce": "1.1.9",
+   "part": "b",
+   "vulgate": null,
+   "start": 119.3,
+   "end": 125.3
+  },
+  {
+   "ce": "1.1.10",
+   "part": "a",
+   "vulgate": null,
+   "start": 125.3,
+   "end": 131.85
+  },
+  {
+   "ce": "1.1.10",
+   "part": "b",
+   "vulgate": null,
+   "start": 131.85,
+   "end": 137.9
+  },
+  {
+   "ce": "1.1.11",
+   "part": "a",
+   "vulgate": null,
+   "start": 137.9,
+   "end": 143.95
+  },
+  {
+   "ce": "1.1.11",
+   "part": "b",
+   "vulgate": null,
+   "start": 143.95,
+   "end": 149.75
+  },
+  {
+   "ce": "1.1.12",
+   "part": "a",
+   "vulgate": null,
+   "start": 149.75,
+   "end": 156.9
+  },
+  {
+   "ce": "1.1.12",
+   "part": "b",
+   "vulgate": null,
+   "start": 156.9,
+   "end": 163.15
+  },
+  {
+   "ce": "1.1.13",
+   "part": "vulgate",
+   "vulgate": "prajāpatisamaḥ śrīmān dhātā ripuniṣūdanaḥ",
+   "start": 163.15,
+   "end": 169.65
+  },
+  {
+   "ce": "1.1.13",
+   "part": "a",
+   "vulgate": null,
+   "start": 169.65,
+   "end": 176.05
+  },
+  {
+   "ce": "1.1.13",
+   "part": "vulgate",
+   "vulgate": "rakṣitā svasya dharmasya svajanasya ca rakṣitā",
+   "start": 176.05,
+   "end": 182.75
+  },
+  {
+   "ce": "1.1.13",
+   "part": "b",
+   "vulgate": null,
+   "start": 182.75,
+   "end": 189.3
+  },
+  {
+   "ce": "1.1.14",
+   "part": "a",
+   "vulgate": null,
+   "start": 189.3,
+   "end": 195.75
+  },
+  {
+   "ce": "1.1.14",
+   "part": "b",
+   "vulgate": null,
+   "start": 195.75,
+   "end": 201.85
+  },
+  {
+   "ce": "1.1.15",
+   "part": "a",
+   "vulgate": null,
+   "start": 201.85,
+   "end": 208.15
+  },
+  {
+   "ce": "1.1.15",
+   "part": "b",
+   "vulgate": null,
+   "start": 208.15,
+   "end": 214.5
+  },
+  {
+   "ce": "1.1.16",
+   "part": "a",
+   "vulgate": null,
+   "start": 214.5,
+   "end": 220.8
+  },
+  {
+   "ce": "1.1.16",
+   "part": "b",
+   "vulgate": null,
+   "start": 220.8,
+   "end": 227.2
+  },
+  {
+   "ce": "1.1.17",
+   "part": "a",
+   "vulgate": null,
+   "start": 227.2,
+   "end": 233.2
+  },
+  {
+   "ce": "1.1.17",
+   "part": "b",
+   "vulgate": null,
+   "start": 233.2,
+   "end": 239.85
+  },
+  {
+   "ce": "1.1.18",
+   "part": "a",
+   "vulgate": null,
+   "start": 239.85,
+   "end": 246.15
+  },
+  {
+   "ce": "1.1.18",
+   "part": "b",
+   "vulgate": null,
+   "start": 246.15,
+   "end": 252.2
+  },
+  {
+   "ce": "1.1.19",
+   "part": "a",
+   "vulgate": null,
+   "start": 252.2,
+   "end": 258.2
+  },
+  {
+   "ce": "1.1.19",
+   "part": "vulgate",
+   "vulgate": "prakṛtīnāṃ hitair yuktaṃ prakṛtipriyakāmyayā",
+   "start": 258.2,
+   "end": 264.7
+  },
+  {
+   "ce": "1.1.19",
+   "part": "b",
+   "vulgate": null,
+   "start": 264.7,
+   "end": 270.95
+  }
+ ]
+}

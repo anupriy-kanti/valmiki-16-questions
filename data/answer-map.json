@@ -1,0 +1,256 @@
+{
+ "_about": "Which words of Nārada’s answer (CE 1.1.8–19) answer each quality, graded exact / clear / partial / turned / none. Transcribed by mytwiki-C22 (11 Nov 2026) from the vault note SAI27-scaffold-a-sixteen-qualities.md (mytwiki-C20, mapped on the GRETIL CE text, not yet read by Anupriy on the printed page). Words are CE IAST forms as they appear in data/ce-sanskrit-1.1.1-21.json. Replaces the artefact’s answers/echoes for the board, matrix and lenses. Do not add or regrade without Anupriy.",
+ "tally": {
+  "exact": 3,
+  "clear": 6,
+  "partial": 4,
+  "none": 3,
+  "note": "jitakrodha is partial and turned"
+ },
+ "qualities": [
+  {
+   "q": "Q1",
+   "iast": "guṇavān",
+   "gloss": "virtuous",
+   "grade": "partial",
+   "answers": [
+    {
+     "ce": "1.1.16",
+     "word": "sarvaguṇopetaḥ"
+    },
+    {
+     "ce": "1.1.18",
+     "word": "evaṃguṇasaṃpannaṃ"
+    }
+   ]
+  },
+  {
+   "q": "Q2",
+   "iast": "vīryavān",
+   "gloss": "valorous",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.8",
+     "word": "mahāvīryo"
+    },
+    {
+     "ce": "1.1.17",
+     "word": "vīrye"
+    }
+   ]
+  },
+  {
+   "q": "Q3",
+   "iast": "dharmajña",
+   "gloss": "knower of dharma",
+   "grade": "exact",
+   "answers": [
+    {
+     "ce": "1.1.12",
+     "word": "dharmajñaḥ"
+    }
+   ]
+  },
+  {
+   "q": "Q4",
+   "iast": "kṛtajña",
+   "gloss": "grateful",
+   "grade": "none",
+   "answers": [],
+   "lens": {
+    "name": "two-senses",
+    "gloss": "knowing what is to be done",
+    "grade": "partial",
+    "answers": [
+     {
+      "ce": "1.1.9",
+      "word": "nītimān"
+     },
+     {
+      "ce": "1.1.14",
+      "word": "vicakṣaṇaḥ"
+     }
+    ]
+   }
+  },
+  {
+   "q": "Q5",
+   "iast": "satyavākya",
+   "gloss": "truthful in speech",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.12",
+     "word": "satyasaṃdhaś"
+    },
+    {
+     "ce": "1.1.18",
+     "word": "satye"
+    }
+   ]
+  },
+  {
+   "q": "Q6",
+   "iast": "dṛḍhavrata",
+   "gloss": "firm in vows",
+   "grade": "partial",
+   "answers": [
+    {
+     "ce": "1.1.8",
+     "word": "dhṛtimān"
+    },
+    {
+     "ce": "1.1.12",
+     "word": "satyasaṃdhaś"
+    }
+   ]
+  },
+  {
+   "q": "Q7",
+   "iast": "cāritreṇa yuktaḥ",
+   "gloss": "of good conduct",
+   "grade": "partial",
+   "answers": [
+    {
+     "ce": "1.1.12",
+     "word": "śucir"
+    },
+    {
+     "ce": "1.1.14",
+     "word": "sādhur"
+    },
+    {
+     "ce": "1.1.15",
+     "word": "āryaḥ"
+    }
+   ]
+  },
+  {
+   "q": "Q8",
+   "iast": "sarvabhūteṣu hitaḥ",
+   "gloss": "benevolent to all beings",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.12",
+     "word": "hite"
+    },
+    {
+     "ce": "1.1.13",
+     "word": "jīvalokasya"
+    }
+   ]
+  },
+  {
+   "q": "Q9",
+   "iast": "vidvān",
+   "gloss": "learned",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.9",
+     "word": "buddhimān"
+    },
+    {
+     "ce": "1.1.12",
+     "word": "jñānasaṃpannaḥ"
+    },
+    {
+     "ce": "1.1.13",
+     "word": "vedavedāṅgatattvajño"
+    }
+   ]
+  },
+  {
+   "q": "Q10",
+   "iast": "samartha",
+   "gloss": "capable",
+   "grade": "none",
+   "answers": []
+  },
+  {
+   "q": "Q11",
+   "iast": "ekapriyadarśana",
+   "gloss": "alone a pleasure to behold",
+   "grade": "exact",
+   "answers": [
+    {
+     "ce": "1.1.15",
+     "word": "sadaikapriyadarśanaḥ"
+    },
+    {
+     "ce": "1.1.17",
+     "word": "priyadarśanaḥ"
+    }
+   ]
+  },
+  {
+   "q": "Q12",
+   "iast": "ātmavān",
+   "gloss": "self-possessed",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.8",
+     "word": "niyatātmā"
+    },
+    {
+     "ce": "1.1.8",
+     "word": "vaśī"
+    }
+   ]
+  },
+  {
+   "q": "Q13",
+   "iast": "jitakrodha",
+   "gloss": "anger conquered",
+   "grade": "turned",
+   "answers": [
+    {
+     "ce": "1.1.17",
+     "word": "krodhe"
+    },
+    {
+     "ce": "1.1.17",
+     "word": "kṣamayā"
+    }
+   ]
+  },
+  {
+   "q": "Q14",
+   "iast": "dyutimān",
+   "gloss": "radiant",
+   "grade": "exact",
+   "answers": [
+    {
+     "ce": "1.1.8",
+     "word": "dyutimān"
+    }
+   ]
+  },
+  {
+   "q": "Q15",
+   "iast": "anasūyaka",
+   "gloss": "free from envy",
+   "grade": "none",
+   "answers": []
+  },
+  {
+   "q": "Q16",
+   "iast": "kasya bibhyati devāḥ … saṃyuge",
+   "gloss": "feared by the gods in battle",
+   "grade": "clear",
+   "answers": [
+    {
+     "ce": "1.1.17",
+     "word": "kālāgnisadṛśaḥ"
+    },
+    {
+     "ce": "1.1.17",
+     "word": "viṣṇunā"
+    }
+   ]
+  }
+ ]
+}
