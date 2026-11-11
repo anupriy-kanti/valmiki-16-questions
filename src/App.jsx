@@ -1,30 +1,19 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import Reading from './Reading.jsx'
-import Story from './Story.jsx'
-import Hero, { IMAGE_CREDIT } from './Hero.jsx'
+import Stage from './Stage.jsx'
+import Patterns from './Patterns.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
-import { SideByline, Pager, BottomLine } from './Shell.jsx'
+import { SideByline, Pager, BottomLine, Footer } from './Shell.jsx'
 
 const NAV = [
-  ['/', 'All', true],
+  ['/', 'Conversation', true],
   ['/questions', 'Questions', true],
   ['/answers', 'Answers', true],
   ['/patterns', 'Patterns', false],
   ['/sources', 'Sources & method', false],
   ['/about', 'About', false],
 ]
-
-// The verse at the top of the screen when a reading tab is clicked, so the
-// next tab can open at the same verse if it shows it.
-const anchor = { id: null, top: 0 }
-function rememberVerse() {
-  const nav = document.querySelector('nav')?.getBoundingClientRect().bottom || 0
-  const el = [...document.querySelectorAll('article[id^="v"]')].find(a => a.getBoundingClientRect().bottom > nav + 8)
-  anchor.id = el && window.scrollY > 200 ? el.id : null
-  anchor.top = el ? el.getBoundingClientRect().top : 0
-}
 
 // On the landing the nav floats over the hero, transparent, and turns solid
 // once the reader scrolls past the first fold.
@@ -42,7 +31,6 @@ function useSolid(over) {
 }
 
 function Nav({ over }) {
-  const { search } = useLocation()
   const solid = useSolid(over)
   const cls = over
     ? 'fixed inset-x-0 border-b nav-over' + (solid === 2 ? ' is-solid backdrop-blur' : solid === 1 ? ' is-scrim backdrop-blur' : '')
@@ -50,11 +38,10 @@ function Nav({ over }) {
   return (
     <nav aria-label="Main" className={'no-print top-0 z-20 ' + cls}>
       <ul className="mx-auto flex max-w-[760px] gap-4 overflow-x-auto px-4 py-2 caps text-xs lg:max-w-[1040px] lg:justify-between lg:gap-8 lg:px-8 lg:text-[13px]">
-        {NAV.map(([to, label, keepQ]) => (
+        {NAV.map(([to, label]) => (
           <li key={to} className="shrink-0">
             <NavLink
-              to={{ pathname: to, search: keepQ ? search.replace(/([?&])v=[^&]*&?/, '$1').replace(/[?&]$/, '') : '' }}
-              onClick={keepQ ? rememberVerse : () => { anchor.id = null }}
+              to={to}
               end
               className={({ isActive }) =>
                 'nav-tab block border-b-2 px-1 py-1.5 ' +
@@ -70,56 +57,35 @@ function Nav({ over }) {
   )
 }
 
-function Footer() {
-  return (
-    <footer className="mt-16 border-t border-line">
-      <div className="mx-auto max-w-[760px] space-y-2 px-4 py-8 font-sans text-sm text-muted">
-        <p>
-          Translations are quoted for scholarly commentary and comparison. Copyright remains with the
-          translators and publishers. To request removal, write to{' '}
-          <a className="underline" href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</a>.
-        </p>
-        <p>
-          A non-commercial project by Anupriy Kanti for Mythematical ·{' '}
-          <a className="underline" href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</a> ·{' '}
-          <a className="underline" href="https://instagram.com/mythematical">Instagram @mythematical</a>
-        </p>
-        <p className="print-only">{IMAGE_CREDIT}</p>
-      </div>
-    </footer>
-  )
-}
+const STAGES = { '/': 'conversation', '/questions': 'questions', '/answers': 'answers' }
 
 export default function App() {
   const { pathname, search } = useLocation()
   useLayoutEffect(() => {
-    if (new URLSearchParams(search).has('v')) return
-    const el = anchor.id && document.getElementById(anchor.id)
-    if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - anchor.top)
-    else window.scrollTo(0, 0)
-    anchor.id = null
+    const q = new URLSearchParams(search)
+    if (!q.has('v') && !q.has('at')) window.scrollTo(0, 0)
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+  const view = STAGES[pathname]
   return (
     <>
       <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
-      <Nav over={pathname === '/'} />
+      <Nav over={!!view} />
       <SideByline />
       {pathname === '/' && <><Pager /><BottomLine /></>}
-      {pathname === '/' && <Hero />}
-      <main id="main" tabIndex={-1} className="mx-auto max-w-[760px] px-4">
+      <main id="main" tabIndex={-1} className={view ? '' : pathname === '/patterns' ? 'mx-auto max-w-[1120px] px-4' : 'mx-auto max-w-[760px] px-4'}>
         <div key={pathname} className="route-fade">
-        <Routes>
-          <Route path="/" element={<Story />} />
-          <Route path="/questions" element={<Reading mode="questions" />} />
-          <Route path="/answers" element={<Reading mode="answers" />} />
-          <Route path="/patterns" element={<Reading mode="patterns" />} />
-          <Route path="/sources" element={<Sources />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<Story />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Stage view="conversation" />} />
+            <Route path="/questions" element={<Stage view="questions" />} />
+            <Route path="/answers" element={<Stage view="answers" />} />
+            <Route path="/patterns" element={<Patterns />} />
+            <Route path="/sources" element={<Sources />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Stage view="conversation" />} />
+          </Routes>
         </div>
       </main>
-      <Footer />
+      {!view && <Footer />}
     </>
   )
 }

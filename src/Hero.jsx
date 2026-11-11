@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 const BASE = import.meta.env.BASE_URL
 export const HERO_ALT = 'At a forest hermitage at dusk, the sage Nārada, holding a vīṇā, speaks, while the elder sage Vālmīki listens with folded hands.'
@@ -6,33 +6,12 @@ export const IMAGE_CREDIT = 'Nārada answering Vālmīki’s question. An AI-gen
 
 const clamp = x => Math.max(0, Math.min(1, x))
 
-// First fold: the image alone, whole and uncropped, edges masked into the
-// page, vertically centred, with its caption and a scroll cue. The hero is
-// pinned for about one more screen: a uniform dark overlay (60%) fades over
-// it, then the title block fades in, centred in the viewport. Under reduced
-// motion (no `.motion` class) the title block sits below the image, static.
-export default function Hero() {
+// First beat of the Conversation stage: the image alone, whole and uncropped,
+// edges masked into the page, with its caption and a scroll cue. As the
+// visitor scrolls, a uniform dark overlay (60%) fades over it, then the title
+// block fades in, centred, in place. The stage sets --ov and --tt.
+export default function Hero({ on, scrolled, onNext }) {
   const track = useRef(null)
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const el = track.current
-    const motion = document.documentElement.classList.contains('motion')
-    let frame = 0
-    const update = () => {
-      frame = 0
-      setScrolled(window.scrollY > 8)
-      if (!motion) return
-      const run = el.offsetHeight - window.innerHeight
-      const p = run > 0 ? clamp(window.scrollY / run) : 0
-      el.style.setProperty('--ov', (clamp(p / 0.35) * 0.6).toFixed(3))
-      el.style.setProperty('--tt', clamp((p - 0.3) / 0.3).toFixed(3))
-    }
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
-  }, [])
 
   // The subtitle fills the title's width: one line from 640px. On phones
   // both title and subtitle are two set lines.
@@ -68,14 +47,8 @@ export default function Hero() {
     return () => { window.removeEventListener('resize', fit); document.fonts?.removeEventListener?.('loadingdone', fit) }
   }, [])
 
-  const next = () => {
-    const motion = document.documentElement.classList.contains('motion')
-    const y = motion ? (track.current.offsetHeight - window.innerHeight) * 0.75 : track.current.querySelector('.hero-tblock').getBoundingClientRect().top + window.scrollY - 80
-    window.scrollTo({ top: y, behavior: motion ? 'smooth' : 'auto' })
-  }
-
   return (
-    <header ref={track} className="hero-track">
+    <header ref={track} className={'beat beat-hero' + (on ? ' is-on' : '')} aria-hidden={!on}>
       <div className="hero-stage">
         <figure className="hero-fig">
           <picture>
@@ -106,7 +79,8 @@ export default function Hero() {
         </div>
         <button
           type="button"
-          onClick={next}
+          onClick={onNext}
+          tabIndex={scrolled ? -1 : 0}
           aria-label="Scroll to the title"
           className={'hero-cue caps no-print absolute bottom-2 left-1/2 flex -translate-x-1/2 flex-col items-center rounded px-3 py-1 text-[11px] text-gold' + (scrolled ? ' is-hidden' : '')}
         >

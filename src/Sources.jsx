@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { IMAGE_CREDIT } from './Hero.jsx'
+import { EDITORIAL, COPY, AUDIO_ENABLED } from './content.js'
+import { AudioCredit } from './Controls.jsx'
+import Lines from './Lines.jsx'
 
 const A = ({ href, children }) => (
   <a className="text-accent underline" href={href}>{children}</a>
@@ -54,6 +57,7 @@ export default function Sources() {
           {item('ce', <>G. H. Bhatt et al., eds., <i>The Vālmīki-Rāmāyaṇa: Critical Edition</i>, 7 vols. (Baroda: Oriental Institute, 1960–75).</>)}
           {item('gretil', <>“Rāmāyaṇa (Critical Edition),” data entry Muneo Tokunaga, contribution John Smith, GRETIL version 2020-04-16, <A href="https://gretil.sub.uni-goettingen.de/">gretil.sub.uni-goettingen.de</A>. Licence <A href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</A>. Source of the IAST text.</>)}
           {item('deva', <>John Smith, <i>Vālmīki Rāmāyaṇa</i>, Devanāgarī e-text, <A href="https://bombay.indology.info/ramayana/">bombay.indology.info/ramayana</A> (Bālakāṇḍa file dated 21 Oct 2021). Source of the Devanāgarī text.</>)}
+          {AUDIO_ENABLED && item('audio', <AudioCredit />)}
         </ul>
         <h3 className="mt-4 caps text-xs font-semibold text-gold-ink">Translations</h3>
         <ul className="space-y-2">
@@ -115,6 +119,7 @@ export default function Sources() {
 
       <section>
         <h2 className="text-2xl font-semibold">How the mapping was made</h2>
+        <Lines lines={COPY.count} className="my-3" />
         <ul className="list-disc space-y-2 pl-5">
           <li>The sixteen questions are the qualities Vālmīki names in CE 1.1.2–4, numbered Q1 to Q16 in the order the verses give them.</li>
           <li>A question tag on an answer verse marks a verse read as answering that question. These readings are Anupriy Kanti’s, made first on the Gita Press text and moved to the Critical Edition numbers with the concordance above.</li>
@@ -125,6 +130,12 @@ export default function Sources() {
           <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>
         </ul>
       </section>
+      {EDITORIAL.map(p => (
+        <aside key={p.id} className="rounded-lg border border-line bg-card p-4">
+          <h2 className="text-xl font-semibold">{p.title}</h2>
+          <p className="mt-2">{p.body}</p>
+        </aside>
+      ))}
     </div>
   )
 }

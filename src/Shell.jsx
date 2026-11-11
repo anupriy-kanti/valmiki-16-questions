@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { IMAGE_CREDIT } from './Hero.jsx'
 
 // The frame around the page, after the Mahābhārata site.
 
 // Left edge: vertical byline, from 1024px.
 export function SideByline() {
   return (
-    <p aria-hidden="true" className="side-byline caps no-print fixed left-3 top-1/2 z-10 hidden text-[10px] text-gold/80 lg:block">
+    <p aria-hidden="true" className="side-byline caps no-print fixed inset-y-0 left-3 z-10 hidden text-[10px] text-gold/80 lg:flex">
       Anupriy Kanti · Mythematical
     </p>
   )
@@ -20,25 +21,16 @@ export const PARTS = [
   ['author', 'The Author'],
 ]
 
-// Where each part starts on the page. `part-story` may carry data-offset, the
-// scroll distance into its section where that part begins.
-// A part that starts inside a section registers a function giving its page y.
+// Where each part starts: the Conversation stage registers a function per
+// part that gives its scroll position.
 export const partAt = {}
-const partTop = id => {
-  if (partAt[id] && document.getElementById('part-' + id)) return partAt[id]()
-  const el = document.getElementById('part-' + id)
-  if (!el) return null
-  return el.getBoundingClientRect().top + window.scrollY + Number(el.dataset.offset || 0)
-}
 
 export function jumpTo(id) {
-  const y = partTop(id)
-  if (y == null) return
-  const smooth = document.documentElement.classList.contains('motion')
-  window.scrollTo({ top: Math.max(0, y - (id === 'frame' ? 0 : 1)), behavior: smooth ? 'smooth' : 'auto' })
+  const y = partAt[id]?.()
+  if (y != null) window.scrollTo(0, y)
 }
 
-// Right edge: a dot pager for the parts of the All story. Labels show from
+// Right edge: a dot pager for the parts of the Conversation. Labels show from
 // 1280px, on hover or when active. Dots are links.
 export function Pager() {
   const [active, setActive] = useState(null)
@@ -47,11 +39,10 @@ export function Pager() {
     let frame = 0
     const update = () => {
       frame = 0
-      const tops = PARTS.map(([id]) => [id, partTop(id)]).filter(([, y]) => y != null)
+      const tops = PARTS.map(([id]) => [id, partAt[id]?.()]).filter(([, y]) => y != null)
       setPresent(p => (p.length === tops.length ? p : tops.map(([id]) => id)))
-      const line = window.scrollY + window.innerHeight * 0.5
       let cur = null
-      for (const [id, y] of tops) if (y <= line) cur = id
+      for (const [id, y] of tops) if (y <= window.scrollY + 4) cur = id
       setActive(cur)
     }
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
@@ -62,7 +53,7 @@ export function Pager() {
     return () => { clearTimeout(t); cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
   }, [])
   return (
-    <nav aria-label="Parts of the story" className="pager no-print fixed right-2 top-1/2 z-20 hidden -translate-y-1/2 md:block">
+    <nav aria-label="Parts of the story" className="pager no-print fixed inset-y-0 right-2 z-20 hidden items-center md:flex">
       <ol className="flex flex-col items-end gap-1">
         {PARTS.filter(([id]) => present.includes(id)).map(([id, label]) => (
           <li key={id}>
@@ -86,8 +77,28 @@ export function Pager() {
 // Bottom line, on the All story only.
 export function BottomLine() {
   return (
-    <p className="bottom-line caps no-print pointer-events-none fixed inset-x-0 bottom-0 z-10 hidden pb-1.5 pt-4 text-center text-[9px] text-muted md:block">
+    <p className="bottom-line caps no-print pointer-events-none fixed inset-x-0 bottom-0 z-10 hidden pb-1.5 pt-4 text-center text-[9px] text-muted xl:block">
       Critical Edition text from GRETIL · translations by Goldman and Debroy
     </p>
+  )
+}
+
+export function Footer() {
+  return (
+    <footer className="site-foot mt-16 border-t border-line">
+      <div className="mx-auto max-w-[760px] space-y-2 px-4 py-8 font-sans text-sm text-muted">
+        <p>
+          Translations are quoted for scholarly commentary and comparison. Copyright remains with the
+          translators and publishers. To request removal, write to{' '}
+          <a className="underline" href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</a>.
+        </p>
+        <p>
+          A non-commercial project by Anupriy Kanti for Mythematical ·{' '}
+          <a className="underline" href="mailto:anupriy.kanti@gmail.com">anupriy.kanti@gmail.com</a> ·{' '}
+          <a className="underline" href="https://instagram.com/mythematical">Instagram @mythematical</a>
+        </p>
+        <p className="print-only">{IMAGE_CREDIT}</p>
+      </div>
+    </footer>
   )
 }
