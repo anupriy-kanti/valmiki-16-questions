@@ -36,6 +36,9 @@ h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 600; 
 .deva { font-family: var(--font-deva); line-height: 1.9; }
 ::selection { background: rgb(201 168 92 / .4); color: #fff; }
 :focus-visible { outline: 2px solid var(--color-gold-bright); outline-offset: 2px; }
+/* The skip link is fixed, so focusing it does not scroll a pinned stage back to the top. */
+.skip-link { position: fixed !important; left: .5rem; top: .5rem; z-index: 40; }
+.skip-link:focus { padding: .3rem .7rem; background: var(--color-paper); border-radius: .25rem; }
 
 /* Print: no nav or hero, all three translations, black on white. */
 .print-only { display: none; }

@@ -68,7 +68,7 @@ export default function App() {
   const view = STAGES[pathname]
   return (
     <>
-      <button type="button" onClick={() => document.getElementById('main')?.focus()} className="no-print sr-only focus:not-sr-only">Skip to content</button>
+      <button type="button" onClick={() => document.getElementById('main')?.focus()} className="skip-link no-print sr-only focus:not-sr-only">Skip to content</button>
       <Nav over={!!view} />
       <SideByline />
       {pathname === '/' && <><Pager /><BottomLine /></>}
