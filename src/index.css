@@ -250,7 +250,10 @@ html:has(.tl-stage) { overscroll-behavior: none; }
    word answers in place (a hairline outline and an echo) and its slot on the
    rail answers in place (a bloom and a card). ─── */
 .u.is-pick { cursor: pointer; border-radius: 3px; padding: 0 .22em; margin-left: -.22em; margin-right: -.22em; }
-.u-line { position: absolute; left: .22em; right: .22em; bottom: -.28em; height: 1px; border-radius: 1px; background: var(--color-gold-bright); box-shadow: 0 0 6px rgb(232 200 122 / .7); pointer-events: none; animation: line 600ms ease-out both; }
+.is-sel > .u-d, .is-sel > .u-i { position: relative; }
+.u-d > .u-line { bottom: .14em; }
+.u-i > .u-line { bottom: -.3em; }
+.u-line { position: absolute; left: 0; right: 0; height: 1px; border-radius: 1px; background: var(--color-gold-bright); box-shadow: 0 0 6px rgb(232 200 122 / .7); pointer-events: none; animation: line 600ms ease-out both; }
 @keyframes line { from { transform: scaleX(0); opacity: 0 } to { transform: scaleX(1); opacity: 1 } }
 .u-echo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; pointer-events: none; color: var(--c); animation: echo 600ms ease-out both; }
 @keyframes echo { from { opacity: .85; transform: scale(1); filter: blur(0) } to { opacity: 0; transform: scale(1.08); filter: blur(5px) } }

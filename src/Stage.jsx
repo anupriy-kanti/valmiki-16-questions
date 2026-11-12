@@ -155,10 +155,9 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
                       onClick: choose, onKeyDown: e => { if (e.key === 'Enter') { e.preventDefault(); choose() } },
                     } : {})}
                   >
-                    <span aria-hidden="true" className="u-d" lang="sa-Deva">{u.d}</span>
-                    <span aria-hidden="true" className="u-i" lang="sa-Latn">{u.i}</span>
-                    {/* The mark of a selected word: a gold underline that draws itself from the centre. */}
-                    {picked && <span aria-hidden="true" className="u-line" />}
+                    {/* The mark of a selected word: a gold underline under the Devanāgarī and under the IAST. Each draws itself from the centre. */}
+                    <span aria-hidden="true" className="u-d" lang="sa-Deva">{u.d}{picked && <span className="u-line" />}</span>
+                    <span aria-hidden="true" className="u-i" lang="sa-Latn">{u.i}{picked && <span className="u-line" />}</span>
                     {/* The echo: a copy of the word, in place, that scales up a little, blurs and fades. */}
                     {picked && motionOn() && (
                       <span aria-hidden="true" className="u-echo">
