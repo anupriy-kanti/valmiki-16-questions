@@ -451,7 +451,7 @@ The card is checked on the first and the last selectable word of each verse (90 
 - The strip starts 0.35rem lower. The card under it moves with it.
 - The hidden English no longer takes taps while the note is shown.
 - The recitation credit is in the bottom left corner while sound is on, inside the band that the stage keeps free under every beat (two lines, up to 15rem wide on desktop). It was above the controls, bottom right. This is a change of place, not of words. Say if you want it somewhere else.
-- The credit does not show on the hero, where no verse is heard. It shows on every other beat while sound is on.
+- The credit does not show on the hero, where no verse is heard. It shows on every other beat while sound is on. (Changed after Anupriy's question: see "Does any recitation play on the hero?" at the end of this section.)
 
 **Second run, on the live build of `1790386`.** At all ten sizes (1440 × 900, 1280 × 800, 1280 × 720, 1024 × 768, 1366 × 768, 1536 × 864, 1920 × 1080, 1024 × 700, 360 × 640, 768 × 1024): 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 console errors.
 
@@ -476,3 +476,34 @@ The card is checked on the first and the last selectable word of each verse (90 
 - The nav's tabs are not in it: on phones the tab row scrolls sideways by design. The vertical byline is not in it.
 - It checks that text is not covered by the stage's furniture. It does not check hover states, and it does not judge whether two things are too near to each other.
 - On a very short screen (800 × 400, tried once on the old build) a quality word could not be clicked. Such screens are outside the sizes of the brief, and I did not change anything for them.
+
+### Does any recitation play on the hero? (Anupriy's question)
+
+Anupriy accepted the credit at the bottom left. On the hero the rule is his: if no recitation plays there, no credit. If some plays, the credit must show while it plays, clear of the `Scroll` button.
+
+**The answer: yes, in one case, for about 0.3 s.** Measured on the live build of `1790386` with sound on, at 1440 × 900 and 360 × 640. The script reads the clip in every frame and counts a frame as heard when the clip is not paused, not muted and its volume is above 0.
+
+| Case, with the hero on stage | Heard |
+|---|---|
+| Sound is switched on | No. The clip plays muted for 10 to 25 frames, which unlocks later playback, and is then paused |
+| The reader waits on the hero (4 s) | No |
+| The reader steps back from the first fold to the hero | No |
+| Sound is switched off and on again | No |
+| **The reader presses Home while a verse is being recited** | **Yes: the fade-out, from 0 to about 0.31 s after the key** |
+
+The Home key is the only way from a verse straight to the hero. A step back goes to the fold before the verse, a pager dot goes to a fold or a verse, and a tab in the nav stops the clip at once.
+
+**The change (`faaa053`).** The clock in `src/audio.js` now reports while the recitation fades out. On the hero the credit shows during that fade and goes when the fade ends. It is set narrower there, so that it keeps to the left of the `Scroll` button. On the other beats nothing changed.
+
+**Result on the live build of `faaa053`**, at 1440 × 900, 1024 × 768, 768 × 1024 and 360 × 640:
+
+- After Home during a verse, the recitation is heard for 20 frames (0 to about 0.31 s). The credit shows in 19 of the 20. It is absent in the first frame, about 0.016 s, before the page has drawn it.
+- The credit never lies over the `Scroll` button. The gap between them is 418px, 210px, 82px and 14px at the four sizes.
+- The credit is gone after the fade.
+- In the four other cases nothing is heard and no credit shows.
+
+**Also run again on the live build of `faaa053`**, all pass: the "nothing is cut off" check at 360 × 640, 768 × 1024, 1024 × 768 and 1440 × 900. Stepping during the recitation, keys, touch, pager and deep link. The timing with sound on for 1.1.1 to 1.1.4. One checkpoint walk (Questions, flings, 1280 × 800).
+
+**Not run again on `faaa053`:** the other checkpoint walks, the timing of 1.1.5 to 1.1.19 and with sound off, selection, the Patterns checks, small phones, the unchanged rules, Lighthouse and the accessibility tree. The commit adds one value to the clock and one class to the credit.
+
+**Two limits.** A credit that shows for 0.3 s is too short to read. It meets the rule as written, and the same credit shows for the whole of every verse. And headless Chromium has no sound output here, so "heard" means that the clip is playing with its volume above 0, not that I heard it.
