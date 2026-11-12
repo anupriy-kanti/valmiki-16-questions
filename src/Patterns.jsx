@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { COPY, NOTES, LENSES, CATS, GRADE_NAME, QUALITIES, qualityOf } from './content.js'
 import Matrix, { Mark } from './Matrix.jsx'
@@ -6,6 +6,8 @@ import Lines, { tie } from './Lines.jsx'
 
 // True from 1024px: Patterns is then one fold, with a detail panel.
 const WIDE = '(min-width: 1024px)'
+const ROW_MAX = 32
+const ROW_MIN = 17
 const useWide = () => useSyncExternalStore(
   f => { const m = window.matchMedia(WIDE); m.addEventListener('change', f); return () => m.removeEventListener('change', f) },
   () => window.matchMedia(WIDE).matches,
@@ -52,6 +54,27 @@ export default function Patterns() {
   }, [pick])
   useEffect(() => { if (!wide) setPick(null) }, [wide])
 
+  // One fold: the matrix rows are as tall as the screen allows, from ROW_MAX
+  // down to ROW_MIN px, so that the whole left column (title to link) fits
+  // under the nav with nothing cut off.
+  const page = useRef(null)
+  const col = useRef(null)
+  useLayoutEffect(() => {
+    if (!wide) return
+    const fit = () => {
+      const box = page.current
+      const cs = getComputedStyle(box)
+      const room = window.innerHeight - box.getBoundingClientRect().top - window.scrollY - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)
+      let row = ROW_MAX
+      box.style.setProperty('--row', row + 'px')
+      while (col.current.offsetHeight > room && row > ROW_MIN) { row -= 0.5; box.style.setProperty('--row', row + 'px') }
+    }
+    fit()
+    window.addEventListener('resize', fit)
+    document.fonts?.ready.then(fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [wide, lens])
+
   const frame = (
     <div className="pat-frame">
       {COPY.patternsFrame.map((l, j) => (wide ? <p key={j}>{tie(l.join(' '))}</p> : <Lines key={j} lines={l} />))}
@@ -59,8 +82,8 @@ export default function Patterns() {
   )
   const lensNote = lens && <Lines key={lens} lines={NOTES[lens]} className="pat-note-text" />
   return (
-    <div className={'pat' + (wide ? ' pat-wide' : ' py-6')}>
-      <div className="pat-main">
+    <div ref={page} className={'pat' + (wide ? ' pat-wide' : ' py-6')}>
+      <div ref={col} className="pat-main">
         <h1 className="mx-title">{COPY.matrixTitle}</h1>
         {!wide && frame}
         <Lines lines={COPY.matrixCaption} className="mx-caption" />
