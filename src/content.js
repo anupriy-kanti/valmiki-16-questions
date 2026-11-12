@@ -271,7 +271,6 @@ export const COPY = {
     ['This table shows where the answer meets each question,', 'and where it leaves a question open.'],
   ],
   patternsBack: 'See where the description becomes the story',
-  readNote: 'Read the note',
 }
 export const NOTES = {
   asked: ['Vālmīki asks in three verses.', 'Nārada answers in twelve, from 1.1.8 to 1.1.19.'],

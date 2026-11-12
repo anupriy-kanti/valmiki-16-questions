@@ -44,6 +44,10 @@ function beatsFor(view) {
 }
 const hasNote = v => !!VERSE_NOTE[v.n]
 
+// Screens under SHORT px tall may set the verse smaller, down to VZ_MIN of its size.
+const SHORT = 700
+const VZ_MIN = 0.6
+
 const TRANS_KEY = 'v16q-translation'
 const readTrans = () => { try { const t = localStorage.getItem(TRANS_KEY); return TRANS.some(([k]) => k === t) ? t : 'goldman' } catch { return 'goldman' } }
 
@@ -80,18 +84,17 @@ function Note({ note, lens, on }) {
 const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate, sel, onSel }) {
   const below = useRef(null)
   const nd = VERSE_NOTE[v.n]
-  // Small phones. No block under a verse may scale below 85% (MILESTONE-05 §7).
-  // Where it would, three steps are tried in order, each only if the one
-  // before was not enough:
+  // Small screens. No block under a verse may scale below 85%. Where it
+  // would, three steps are tried in order, each only if the one before was
+  // not enough:
   // 1. The English gives up its sentence-end breaks and flows as a paragraph.
   // 2. A vulgate line no longer keeps its own space. While it is heard, it
   //    shows in place of the English.
-  // 3. If the note is taller than the English, the note leaves the block and
-  //    a one-line button under the verse shows it in place of the English.
-  const [mode, setMode] = useState({ flow: false, compact: false, tight: false })
-  const { flow, compact, tight } = mode
-  const [open, setOpen] = useState(false)
-  useEffect(() => { if (!note) setOpen(false) }, [note])
+  // 3. On screens under 700px tall, the verse itself (Devanāgarī and IAST)
+  //    is set smaller, step by step (MILESTONE-06 §6 item 3).
+  const beat = useRef(null)
+  const [mode, setMode] = useState({ flow: false, tight: false })
+  const { flow, tight } = mode
   const room = el => {
     const stage = el.closest('.tl-stage')
     const verse = el.parentElement
@@ -100,19 +103,17 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
   useLayoutEffect(() => {
     const el = below.current
     if (!el) return
-    const h = n => el.querySelector(n)?.offsetHeight || 0
-    // The height the block has with the English and the note in one place.
-    const full = () => el.offsetHeight - h('.vs-pair') - h('.note-btn') + Math.max(h('.stage-trans'), h('.vs-note'))
     const measure = () => {
       const phone = window.innerWidth < 768
-      const small = () => room(el) / full() < 0.85
+      const small = () => room(el) / el.offsetHeight < 0.85
       el.classList.remove('en-flow', 'is-tight')
+      beat.current.style.removeProperty('--vz')
       const flow = small()
       el.classList.toggle('en-flow', flow)
       const tight = phone && !!el.querySelector('.vs-vulgate') && small()
       el.classList.toggle('is-tight', tight)
-      const compact = !!nd && phone && small() && h('.vs-note') > h('.stage-trans')
-      setMode(m => (m.flow === flow && m.compact === compact && m.tight === tight ? m : { flow, compact, tight }))
+      if (window.innerHeight < SHORT) for (let z = 1; small() && z > VZ_MIN + 0.001;) { z -= 0.03; beat.current.style.setProperty('--vz', z.toFixed(2)) }
+      setMode(m => (m.flow === flow && m.tight === tight ? m : { flow, tight }))
     }
     measure()
     window.addEventListener('resize', measure)
@@ -122,9 +123,8 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
   // The English and the note share the space under the verse. On small
   // screens they scale down a little to fit it, in place.
   useFit(below, room, [which])
-  const noteOn = compact ? note && open : note
   return (
-    <section className={'beat beat-verse' + (on ? ' is-on' : '') + (done ? ' is-done' : '')} aria-hidden={!on} aria-labelledby={`st${v.n}`}>
+    <section ref={beat} className={'beat beat-verse' + (on ? ' is-on' : '') + (done ? ' is-done' : '')} aria-hidden={!on} aria-labelledby={`st${v.n}`}>
       <div className="vs">
         <div className="vs-above">
           <p className="stage-eyebrow caps" aria-hidden="true">{EYEBROW(v, k)}</p>
@@ -154,6 +154,8 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
                   >
                     <span aria-hidden="true" className="u-d" lang="sa-Deva">{u.d}</span>
                     <span aria-hidden="true" className="u-i" lang="sa-Latn">{u.i}</span>
+                    {/* The outline: a gold hairline, round-edged, that draws itself around the word. */}
+                    {picked && <svg aria-hidden="true" className="u-ring"><rect pathLength="1" /></svg>}
                     {/* The echo: a copy of the word, in place, that scales up a little, blurs and fades. */}
                     {picked && motionOn() && (
                       <span aria-hidden="true" className="u-echo">
@@ -180,10 +182,7 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
           <p lang="sa-Deva" className="sr-only">{v.lines.map(l => l.map(u => u.d).join(' ')).join(' । ')} ॥</p>
           <p lang="sa-Latn" className="sr-only">{v.lines.map(l => l.map(u => u.i).join(' ')).join(' / ')}</p>
         </div>
-        <div ref={below} className={'vs-below' + (nd ? ' has-note' : '') + (noteOn ? ' note-on' : '') + (compact ? ' is-compact' : '') + (flow ? ' en-flow' : '') + (tight ? ' is-tight' : '') + (vulgate >= 0 ? ' vul-on' : '')}>
-          {nd && compact && (
-            <button type="button" className={'note-btn caps' + (note ? ' is-on' : '')} aria-pressed={open} aria-hidden={!note} tabIndex={on && note ? 0 : -1} onClick={() => setOpen(!open)}>{COPY.readNote}</button>
-          )}
+        <div ref={below} className={'vs-below' + (nd ? ' has-note' : '') + (note ? ' note-on' : '') + (flow ? ' en-flow' : '') + (tight ? ' is-tight' : '') + (vulgate >= 0 ? ' vul-on' : '')}>
           <div className="vs-body">
             {v.audio?.vulgate.length > 0 && (
               <div className="vs-vulgate" aria-live="off">
@@ -199,7 +198,7 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
               <div className={'stage-trans' + (k >= 1 ? ' is-on' : '')}>
                 <Translation v={v} which={which} />
               </div>
-              {nd && <Note note={nd.note} lens={nd.lens} on={noteOn} />}
+              {nd && <Note note={nd.note} lens={nd.lens} on={note} />}
             </div>
           </div>
         </div>
