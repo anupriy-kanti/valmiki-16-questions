@@ -141,6 +141,10 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 .side-byline p { writing-mode: vertical-rl; rotate: 180deg; letter-spacing: .2em; white-space: nowrap; }
 /* Full-height wrappers must not catch clicks meant for the stage. */
 .pager, .side-byline { pointer-events: none; }
+/* The vertical byline gives way to the quality rail: it fades out with the
+   rail's fade in, on every beat where the rail shows, and comes back after. */
+.side-byline { transition: opacity 400ms ease, visibility 0s; }
+body:has(.tl-stage.has-rail) .side-byline { opacity: 0; visibility: hidden; transition: opacity 400ms ease, visibility 0s 400ms; }
 .pager ol { pointer-events: auto; }
 .pager-label { display: none; }
 @media (min-width: 1280px) {
@@ -271,6 +275,10 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 .qc-grade { white-space: nowrap; }
 .qc-ans .mk-svg { display: inline-block; width: 12px; height: 12px; vertical-align: -.08em; margin-right: .15em; }
 .q-card .note-link { margin-top: .2rem; font-size: 9px; }
+/* Short phones: the card would lie over the eyebrow and the citation line
+   above the verse, so they fade out while the card is open. */
+.vs-above { transition: opacity 300ms ease; }
+@media (max-width: 1023px) and (max-height: 620px) { .tl-stage.has-card .vs-above { opacity: 0; } }
 @media (min-width: 1024px) {
   /* 1024 to 1599px: the card opens at the top of the stage, beside the rail's head. */
   .q-card { left: 13.5rem; right: auto; top: 3.3rem; width: 16rem; margin: 0; padding: .6rem .8rem .7rem; text-align: left; font-size: .92rem; }

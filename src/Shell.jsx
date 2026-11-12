@@ -3,7 +3,8 @@ import { stageInfo, useStageInfo } from './steps.js'
 
 // The frame around the page, after the Mahābhārata site.
 
-// Left edge: vertical byline, from 1024px.
+// Left edge: vertical byline, from 1024px. It is hidden on the beats where
+// the quality rail shows (CSS, .side-byline).
 export function SideByline() {
   return (
     <div aria-hidden="true" className="side-byline no-print fixed inset-y-0 left-3 z-10 hidden items-center lg:flex">

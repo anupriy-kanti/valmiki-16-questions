@@ -402,7 +402,7 @@ export default function Stage({ view }) {
 
   return (
     <div className="tl-track">
-      <div className={'tl-stage' + (boardOn ? ' has-rail' : '')} style={vars} data-cp={idx} data-beat={beat.id} data-c={c} data-of={cps.length}>
+      <div className={'tl-stage' + (boardOn ? ' has-rail' : '') + (verse && sel?.n === verse.n ? ' has-card' : '')} style={vars} data-cp={idx} data-beat={beat.id} data-c={c} data-of={cps.length}>
         <Decor />
         {beats.map((b, j) => {
           if (Math.abs(j - cur.i) > 1) return null
