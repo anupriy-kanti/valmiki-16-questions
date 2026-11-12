@@ -21,9 +21,11 @@ const Speaker = ({ on }) => (
 // Bottom right, always on the stage: Goldman · Debroy · Sound. The recitation
 // credit shows in the bottom left corner while sound is on.
 // On phones: two small icons (translation and sound).
-// `credit` is false on the hero, where no verse is heard and the credit would
-// lie over the Scroll button on phones.
-export default function Controls({ which, setWhich, sound, setSound, credit = true }) {
+// `credit` says where the recitation credit shows while sound is on.
+// 'on': on every beat but the hero. 'off': on the hero, where no verse is
+// heard. 'hero': on the hero while a recitation is still fading out (after
+// Home during a verse). It is then set narrow, clear of the Scroll button.
+export default function Controls({ which, setWhich, sound, setSound, credit = 'on' }) {
   const [open, setOpen] = useState(false)
   const box = useRef(null)
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function Controls({ which, setWhich, sound, setSound, credit = tr
   }, [open])
   return (
     <>
-    {AUDIO_ENABLED && <AudioCredit className={'ctl-credit no-print' + (sound && credit ? ' is-on' : '')} />}
+    {AUDIO_ENABLED && <AudioCredit className={'ctl-credit no-print' + (sound && credit !== 'off' ? ' is-on' : '') + (credit === 'hero' ? ' on-hero' : '')} />}
     <div className="ctl no-print">
       <div className="ctl-wide caps">
         <span role="group" aria-label="Translation">

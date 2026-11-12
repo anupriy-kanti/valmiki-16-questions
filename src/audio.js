@@ -16,6 +16,9 @@ import { T } from './steps.js'
 export function useVerseClock(sound, verse, playing, onEnd) {
   const [lit, setLit] = useState({ n: null, k: 0 })
   const [vulgate, setVulgate] = useState(-1)
+  // True while the recitation fades out after a verse is left or completed.
+  // It is still heard then, so its credit must still show.
+  const [fading, setFading] = useState(false)
   // mode: 'audio' (the clip's time), 'silent' (a timer), 'wait' (held at
   // `base` until the clip starts).
   const r = useRef({ audio: null, mode: null, base: 0, t0: 0, raf: 0, fade: 0, verse: null, k: 0, sound, onEnd })
@@ -40,9 +43,10 @@ export function useVerseClock(sound, verse, playing, onEnd) {
       const x = Math.max(0, Math.min(1, (now - t0) / T.AUDIO_FADE))
       a.volume = 1 - x
       if (x < 1) s.fade = requestAnimationFrame(step)
-      else { a.pause(); a.volume = 1 }
+      else { a.pause(); a.volume = 1; setFading(false) }
     }
     cancelAnimationFrame(s.fade)
+    setFading(true)
     s.fade = requestAnimationFrame(step)
   }, [])
 
@@ -53,6 +57,7 @@ export function useVerseClock(sound, verse, playing, onEnd) {
     const a = s.audio
     const v = s.verse
     cancelAnimationFrame(s.fade)
+    setFading(false)
     s.mode = 'wait'
     s.base = t
     a.volume = 1
@@ -103,7 +108,7 @@ export function useVerseClock(sound, verse, playing, onEnd) {
   // from where it is.
   useEffect(() => {
     const s = r.current
-    if (!s.verse || !s.mode) { if (!sound && s.audio) { cancelAnimationFrame(s.fade); s.audio.pause() } return }
+    if (!s.verse || !s.mode) { if (!sound && s.audio) { cancelAnimationFrame(s.fade); setFading(false); s.audio.pause() } return }
     const t = clock()
     if (sound && s.audio && s.mode === 'silent') toAudio(t)
     else if (!sound && s.mode !== 'silent') { cancelAnimationFrame(s.fade); s.audio?.pause(); silentFrom(t) }
@@ -122,5 +127,5 @@ export function useVerseClock(sound, verse, playing, onEnd) {
     a.play().then(() => { if (s.mode !== 'audio' && s.mode !== 'wait') a.pause(); a.muted = false }).catch(() => { a.muted = false })
   }, [])
 
-  return { lit, vulgate, unlock }
+  return { lit, vulgate, unlock, fading }
 }

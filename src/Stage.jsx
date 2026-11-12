@@ -340,7 +340,7 @@ export default function Stage({ view }) {
   const [sound, setSoundState] = useState(false)
   const playing = !!verse && c === 1
   const onEnd = useCallback(() => arrive(idx), [arrive, idx])
-  const { lit, vulgate, unlock } = useVerseClock(AUDIO_ENABLED && sound, verse, playing, onEnd)
+  const { lit, vulgate, unlock, fading } = useVerseClock(AUDIO_ENABLED && sound, verse, playing, onEnd)
   const setSound = useCallback(on => { if (on) unlock(); setSoundState(on) }, [unlock])
   // Words lit in the verse on stage. At the first checkpoint: none, always.
   const k = !verse || c === 0 ? 0 : c === 1 ? (lit.n === verse.n ? Math.max(1, lit.k) : 1) : verse.total
@@ -429,7 +429,7 @@ export default function Stage({ view }) {
           return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
         <Rail view={view} n={vn} k={k} shown={!!boardOn} sel={verse && sel?.n === verse.n ? sel.q : null} />
-        <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} credit={beat.type !== 'hero'} />
+        <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} credit={beat.type !== 'hero' ? 'on' : fading ? 'hero' : 'off'} />
       </div>
       <Transcript view={view} />
     </div>
