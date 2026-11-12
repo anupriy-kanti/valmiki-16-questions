@@ -126,7 +126,7 @@ On the live site after each deploy, at 360 × 640, 768 × 1024, 1280 × 800 and 
 - **Words in time.** With sound off and with sound on: at checkpoint 2, the first word is lit within 0.15 s of the step; the last word lights within 0.15 s of the last quarter's end; checkpoint 3 is reached by itself. Stepping during playback lights all words and fades the audio.
 - **Scatter.** All sixteen visible at the end of its stagger, at every input speed.
 - **Back and links.** Stepping back reverses every step. `?v=1.1.19` lands on 1.1.19, all lit, note shown.
-- **Patterns.** No vertical scroll at 1440 × 900 and 1280 × 800. Default panel shows the framing. A dot click shows its detail, and a lens shows its note.
+- **Patterns.** No vertical scroll at 1440 × 900 and 1280 × 800. Default panel shows the framing. A dot click shows its detail, and a lens shows its note. Added after the defect of 12 Nov (REVIEW §10): also at 1024 × 768 and 1280 × 720, and "fits" means that no element is cut off by the screen or by a clipping parent, and that the link under the matrix can be clicked.
 - **The rail.** Sixteen slots at 1024px and up, the strip at 360 and 768px, readable at 360px (report the smallest font size). The verse is still at the exact centre at 1024, 1280 and 1440px.
 - **Selection.** Every selectable word in 1.1.2 to 4 and 1.1.8 to 19 opens the right slot's card. Reduced motion: no echo, no bloom.
 - **Small phones.** Every block under a verse at 85% or more at 360 × 640 and 360 × 560.

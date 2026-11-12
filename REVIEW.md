@@ -362,7 +362,7 @@ Three commits came after these checks (`b267cf9`, `d921ced`, `a0aa382`). The che
 - **Scatter.** All sixteen visible at the end of the stagger in every walk.
 - **Back and links.** Every walk went back to the first checkpoint, one step at a time. `?v=1.1.19` lands on 1.1.19, 11 of 11 words lit, note shown, eyebrow "V · The Story Begins". The six pager dots land on the first checkpoint of their parts.
 - **Keys and touch.** Arrow Down, Page Down and Space step forward. Arrow Up, Page Up and Shift+Space step back. Home and End go to the first and last checkpoint. A swipe up or down moves one checkpoint and a tap moves none (360 × 640, touch events).
-- **Patterns.** No vertical scroll at 1440 × 900, 1280 × 800 and 1024 × 768. Row height 32px, 26.8px and 24.8px. The panel shows the framing by default, the dot's detail after a click, the framing again after Escape or a second click, and the lens's note for a lens. At 360 and 768px a dot opens its tooltip in place and the lens note shows under the matrix.
+- **Patterns.** (This result was wrong for 1024 × 768. See "Defect found after the build" at the end of this section.) No vertical scroll at 1440 × 900, 1280 × 800 and 1024 × 768. Row height 32px, 26.8px and 24.8px. The panel shows the framing by default, the dot's detail after a click, the framing again after Escape or a second click, and the lens's note for a lens. At 360 and 768px a dot opens its tooltip in place and the lens note shows under the matrix.
 - **The rail.** Sixteen slots at 1024, 1152, 1280 and 1440px. The strip at 360 and 768px, two rows. The verse is at the exact centre at every size (largest offset 0.008px).
 - **Selection.** 82 selectable words across the three views (16 + 25 in the Conversation, 16 in Questions, 25 in Answers). At 360 × 640, 360 × 560, 768 × 1024, 1024 × 768, 1280 × 800 and 1440 × 900 each one opened the right slot's card, with the gloss and the link. A second click, Escape and a step clear it. Enter selects. No word off the stage can be reached with Tab. Reduced motion (1440 × 900 and 360 × 640): no echo and no bloom. The card never covers the verse. At 360 × 560 it covers the eyebrow and the citation line above the verse.
 - **Small phones.** Every block under a verse is at 85% or more at 360 × 640 (lowest 85.7%) and at 360 × 560 (lowest 85.5%), with Goldman and with Debroy.
@@ -391,7 +391,7 @@ The full §7 set ran once, before Anupriy's last three changes. After each of th
   - **Checkpoints.** The same twelve walks (each view with single events, bursts and flings, over the four sizes). Every single event, burst and fling moved exactly one checkpoint, forward to the end and back to the start. 74, 11 and 39 checkpoints. At every verse's first checkpoint: 0 words lit. The scatter showed all sixteen in every walk.
   - **Words in time (1440 × 900, all 19 verses).** Sound off: first word at most 0.043 s after the step, each later word at most 0.041 s after its time, arrival at "all lit" 0.018 to 0.038 s after the window's end. Sound on: 0.017 s and 0.035 s (against the recitation's own time), arrival 0.10 to 0.16 s after the window's end by the clock on the wall. No word went dark again. Lead-in 3.0 s at 1.1.1 and 6.95 s at 1.1.13. The last word still lights 0.6 to 2.7 s before the end of the last quarter, as recorded above.
   - **Stepping during the recitation, keys, touch, pager, deep link, reduced motion.** The same results as on `03cec9d` (volume 0.54 after 0.15 s, paused after 0.75 s).
-  - **Patterns.** No vertical scroll at 1440 × 900, 1280 × 800 and 1024 × 768. Rows 32px, 26.8px and 24.8px. Framing, dot detail, Escape, second click, lens note and `?q=` as before. 23 marks.
+  - **Patterns.** (Wrong for 1024 × 768, see the defect below.) No vertical scroll at 1440 × 900, 1280 × 800 and 1024 × 768. Rows 32px, 26.8px and 24.8px. Framing, dot detail, Escape, second click, lens note and `?q=` as before. 23 marks.
   - **The rail (on the left).** Sixteen slots at 1024, 1152, 1280 and 1440px. Gaps to the verse and its English: 49px, 45px, 109px and 175px, gloss 44px at 1440px. The strip: two rows, 9.7px at 360px and 15px at 768px. The verse is at the exact centre at every size (largest offset 0.008px).
   - **Selection.** 82 words, the right card each time, at 360 × 640, 360 × 560, 768 × 1024, 1024 × 768, 1280 × 800 and 1440 × 900, and with reduced motion at 1440 × 900 and 360 × 640 (no echo, no bloom). The card never covers the verse or a verse word. At 360 × 560 it covers the eyebrow and the citation line.
   - **Small phones.** Lowest block 85.7% at 360 × 640 and 85.5% at 360 × 560. Smallest verse as recorded above (13.9px and 9.1px). At 1024 × 768, 1.1.19 with Goldman is at 84.7%, as before.
@@ -401,3 +401,29 @@ The full §7 set ran once, before Anupriy's last three changes. After each of th
   - **Screen reader, by the accessibility tree.** The same order as recorded above. The rail is now on the left on screen, and its place in the reading order did not change.
 
 **Not possible here, as before:** Safari or WebKit, real phones, a real screen reader, and the sync by ear. The timing runs are at 1440 × 900 only, and 12 of the 36 walk combinations ran.
+
+### Defect found after the build: Patterns at 1024 × 768
+
+Found by mytwiki-C23 in a browser check of the live site (`b1aed89`) and sent to this session for Anupriy.
+
+- **The defect.** On Patterns at 1024 × 768 the link "See where the description becomes the story" was at 759 to 778px in a 768px screen. It was cut off, and no wheel or mouse action could reach it.
+- **Why my checks did not find it.** The check measured only that the page had no vertical scroll. The page had `overflow: hidden`, so the part that did not fit was hidden and the page did not scroll. Both full runs passed on a page that was broken. The row height came from a fixed sum that was right only where the lens row has two lines and the title one.
+- **The fix (`4c49f7a`).** The page no longer clips. The matrix rows are measured to the screen in `src/Patterns.jsx`, from 32px down to 17px in steps of 0.5px, until the left column (title to link) fits under the nav. On screens under 800px tall the title, caption, lens row, legend and link have tighter spacing. If a screen is too short even for 17px rows, the page scrolls, so nothing can be out of reach. No copy changed.
+- **The new check.** For each size: no vertical scroll, no element cut off by the screen or by the nav, no clipping parent with hidden content, and the link is the element under the mouse at its centre. In four states: default, a dot clicked, the lens "Two senses", the lens "Not answered here". It is added to `MILESTONE-06.md` §7.
+- **The new check on the old live build (`b1aed89`).** It fails at 1024 × 768 (link 759 to 778) and at 1024 × 700 (695 to 714), and passes at the six other sizes. So it finds the defect.
+- **The new check on the live build of `4c49f7a`.** It passes at all eight sizes, in all four states, with 0 console errors:
+
+  | Screen | Row height | Link (top to bottom) |
+  |---|---|---|
+  | 1440 × 900 | 32px | 855 to 873 |
+  | 1280 × 800 | 30px | 772 to 791 |
+  | 1280 × 720 | 25px | 692 to 711 |
+  | 1024 × 768 | 28px | 740 to 759 |
+  | 1366 × 768 | 28px | 740 to 759 |
+  | 1536 × 864 | 31px | 829 to 847 |
+  | 1920 × 1080 | 32px | 945 to 963 |
+  | 1024 × 700 | 23.5px | 670 to 688 |
+
+- **Also run again on the live build of `4c49f7a`.** The Patterns checks of §7 (framing by default, dot detail, Escape, second click, lens note, tooltip and lens note at 360 and 768px, `?q=`), and the unchanged rules at 1280 × 800 and 360 × 640 (0 lone last words except the known heading, 0 vertical transforms, 0 console errors, 23 marks). All pass.
+- **Not run again on `4c49f7a`.** The checkpoint walks, the timing runs, selection, the rail, small phones, Lighthouse and the accessibility tree. The commit changes `src/Patterns.jsx` and the Patterns rules in `src/index.css` only. [Inference] So the stage results of `b1aed89` are expected to hold, but they are not verified on this build.
+- **The same kind of fault elsewhere.** The stage also hides what does not fit (`.tl-stage` has `overflow: hidden`), and there the blocks are scaled to fit and measured (the 85% checks). I did not find another place where a control is cut off, but I did not run a "nothing is cut off" check on every stage beat at every size. That check does not exist yet.
