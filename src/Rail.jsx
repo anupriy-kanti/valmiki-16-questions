@@ -26,7 +26,8 @@ const Turn = () => (
 
 // The one key to the sixteen qualities (MILESTONE-06 §5.1), in all three
 // stage views.
-// From 1024px: a column down the right edge, IAST over Devanāgarī.
+// From 1024px: a column down the left edge, IAST over Devanāgarī. The
+// pager's dots keep the right edge.
 // - Conversation: a slot appears when its word lights in 1.1.2–4.
 // - Questions: every slot is there from the start, and lights in gold as
 //   its word lights.
@@ -69,9 +70,9 @@ export default function Rail({ view, n, k, shown, sel }) {
             return (
               <li key={q.id} className={'slot' + (present ? ' is-in' : '') + (gold ? ' is-asked' : '') + (lit ? ' is-lit' : '') + (now ? ' is-now' : '') + (sel === q.id ? ' is-sel' : '')} style={{ '--c': c.dot, '--t': c.text, '--lv': LEVEL[q.grade] || 1 }} aria-hidden={!present}>
                 <span className="slot-w">
+                  <span aria-hidden="true" className="slot-dot" />
                   <i lang="sa-Latn">{q.short}</i>
                   {lit && q.grade === 'turned' && <Turn />}
-                  <span aria-hidden="true" className="slot-dot" />
                 </span>
                 <span lang="sa-Deva" className="slot-dev">{q.dev}</span>
                 <span className="slot-g">{lit ? q.gloss : ''}</span>
