@@ -307,3 +307,70 @@ All checks ran by script (Playwright, Chromium) on the live site, https://anupri
 - **Small phones.** At 360 × 640 every block under a verse is at 85% or more, except 1.1.2 with Debroy (73%). See "look first" items 3 and 4.
 - **Not tested.** Safari or WebKit: Playwright's WebKit is not installed in this container and I may not install browsers here. This matters for the audio start after the Sound tap and for `text-wrap: balance` (Safari 17.5). Also not tested: real phones, a screen reader, Lighthouse.
 
+
+
+## 10. Milestone 06 (c.v16q-06, 12 Nov 2026)
+
+Built from `MILESTONE-06.md`, in the order of its §1. Each item was pushed to `main` after its checks. There is no `[copy needed]` placeholder on the site. Two changes came from Anupriy during the session and are not in the brief: the spacing and width of the English on desktop, and the look of the outline around a selected word.
+
+### Look at and listen to these first
+
+1. **The hero.** The brief gives the hero one checkpoint. Before, the first scroll brought the overlay and the title. Now the image shows alone for 1.6 s, then the overlay and title fade in by themselves (1.2 s). A step forward is possible at any time. Say if you prefer the title from the start, or a second checkpoint for it. `HERO_HOLD` and `HERO_TITLE` in `src/steps.js` set the two times.
+2. **Stepping back inside a verse.** The brief says that stepping back reverses the steps. So a step back from "all lit" goes to the second checkpoint, and the words light again from the first word, with the recitation if sound is on. A reader who steps back through many verses hears each one start. Say if a step back from "all lit" must go straight to grey.
+3. **The echo and the bloom.** I can check them by script and in still screenshots only. I cannot judge by eye how they read in motion. [Inference] At 1440px the slot is about 400 to 500px from the word, so the eye may not connect the two. If it reads as too quiet, the alternative I would try is the one in the brief: a faint thread of light, drawn from the word to its slot with the same stroke technique as the outline (drawn in place, not moved). It is not built.
+4. **The outline.** After your message it is a gold hairline in a round-edged rectangle that draws itself in 0.7 s, with a soft gold glow. The brief asked for the group's colour. The echo, the slot and the card's name keep the group's colour. Say if the outline must be in the group's colour too.
+5. **The English on desktop (your request).** From 1024px the English is one balanced paragraph, up to the width of the verse (760px). This replaces the rule of `MILESTONE-05.md` §4 "one block per sentence" on desktop, for all verses, not for some. The function words stay bound. Below 1024px nothing changed. The space above the English is 2.1rem (it was 1.1rem), and the source line is 0.75rem under the English (it was 0.3rem). On screens under 860px tall the values are 1.5rem and 0.55rem, so that a verse with a note still fits.
+6. **The strip on phones.** All sixteen qualities in two rows at 360px need 9.7px type. That is the smallest font size on the rail, and in my view it is at the limit of what is readable. The dimmed colour is #a39686. The turn mark is not on the strip. Two options if it is too small: three rows at about 11.5px, or only the IAST of the current verse's qualities at a larger size. Both change the brief, so I did not build them.
+7. **The rail on desktop.** It has the title `16 Qualities` and the sixteen slots. The board's caption ("Each quality appears as Vālmīki asks for it…") and the colour key are not on the rail, because sixteen two-line slots use the full height at 800px. `COPY.board` is still in `src/content.js`, not shown. The gloss beside a lit slot shows from 1440px only (see the measurements below).
+8. **The card.** On phones it opens under the strip. From 1024 to 1599px it opens at the top of the stage, beside the head of the rail, not beside its slot. From 1600px it opens beside its slot. Cause: with the English as wide as the verse, the margin between the English and the rail is too narrow for a card below 1600px.
+9. **Patterns on desktop.** The site footer (rights line and contact) is not shown on Patterns from 1024px, because it would make the page scroll. It is still on Patterns below 1024px, on Sources & method, on About and on the last beat of the Conversation.
+
+### Measurements the brief asked for
+
+- **The rail and the verse (§5.1).** The verse and its English keep their centre and their widths at all desktop widths. Smallest horizontal gap between any verse or English text and the rail's names, Goldman, all verses: 49px at 1024px, 45px at 1152px, 109px at 1280px, 175px at 1440px. So the rail itself needs no fix. The gloss column is different: beside the slots it ran 66px into the English at 1024px and 14px at 1152px, and with the wider English it would also do so at 1280px. So the gloss shows from 1440px (gap 44px). Below that, the gloss is in the card.
+- **Smallest font on the rail.** Desktop: 13.5px at 1024 × 768, 14.3px at 1280 × 800, 16px at 1440 × 900. Strip: 9.7px at 360px, 15px at 768px.
+- **Smallest verse on short screens (§6 item 3).** At 360 × 640: Devanāgarī 16.4px, IAST 10.7px (1.1.2 with Debroy, 79% of its size). At 360 × 560: Devanāgarī 13.9px, IAST 9.1px (1.1.2 with Debroy, 67%). The lower limit in the code is 60% (`VZ_MIN`).
+- **Checkpoints per view.** Conversation 74, Questions 11, Answers 39.
+
+### Judgement calls
+
+- **One gesture.** A stream of wheel events with gaps under 0.2 s is one gesture, and only its first event steps (`WHEEL_GAP`). Without this, a long trackpad fling took a second step after the cooldown. A reader who turns a mouse wheel without a pause moves one step, then must pause.
+- **Other durations.** The brief gives four. I added: the note 0.6 s, the scatter stagger 1.5 s (each quality fades for 0.6 s), the audio fade 0.3 s, a swipe of 40px or more. All are in the same block.
+- **The scatter.** Arriving from above, input is ignored for the swap, the stagger and the cooldown (2.75 s). Arriving from below, all sixteen are there with the beat, with no stagger.
+- **Sound on or off in the middle of a verse.** The words go on from where they are. With sound switched on, the recitation starts at that place.
+- **`?v=`.** I found no code that updated `?v=` as the reader moved, so I added it. On a beat that is not a verse, `?v=` is removed. A `?at=` link works when the page loads.
+- **Which words can be selected.** The question words of 1.1.2 to 4 in Questions and also in the Conversation. The answering words of 1.1.8 to 19 in the Conversation and in Answers: 25 words. The two words of kṛtajña's second sense (nītimān, vicakṣaṇa) cannot be selected, because they never light the rail. satyasaṃdhaś answers two qualities in `answer-map.json` (satyavākya and dṛḍhavrata). It opens satyavākya, the first. Say if it must open both.
+- **The card's words.** The quality, its gloss, the verse numbers, the grade name from the legend, and `See it in Patterns`. For a quality with no answer the card says `Not answered here`.
+- **`?q=` on Patterns.** The quality's row and dots are marked and the other dots are dimmed. From 1024px the panel shows the quality with all its answering words. A lens or a dot click replaces it.
+- **Patterns panel.** A dot's detail has the line `Vālmīki Rāmāyaṇa 1.1.12` (words from the stage), the quality in its full form, the gloss, the grade and the answering words. In the "Two senses" lens the gloss is the second sense's. From 1024px a dot has no hover tooltip, because the panel takes its place.
+- **Questions view.** A slot lights in gold as its word lights. In the Conversation a slot appears unlit at that moment, as the board did.
+- **The hero's cue.** The `Scroll` button now steps forward. Its hidden label "Scroll to the title" is removed, so its name is `Scroll`.
+- **Icon.** `index.html` declares an empty icon. A real icon needs your design.
+- **Removed.** `Read the note` and its code, `COPY.readNote`, the scroll track, `litAt`, `LIT_FROM`, `LIT_TO`, the settle pause and the fade back.
+
+### Checks
+
+All checks ran by script (Playwright, Chromium) on the live site, https://anupriy-kanti.github.io/valmiki-16-questions/, on the build of commit `a19396d` or the one before it (`03cec9d`). The two differ only in the reading order for screen readers.
+
+- **Checkpoints.** Twelve walks forward to the end and back to the start: each view with single wheel events, with bursts of 20 events in 200 ms, and with a simulated fling (about 100 events in 1.6 s), spread over 360 × 640, 768 × 1024, 1280 × 800 and 1440 × 900. Every single event, burst and fling moved exactly one checkpoint. A step at the last checkpoint does nothing. Not every view was walked in every mode at every size: 12 of the 36 combinations ran, and each size had each mode and each view at least once.
+- **The partial-lighting bug.** At every verse's first checkpoint: 0 words lit and no English, straight after the input and when settled, in all twelve walks.
+- **Words in time (1440 × 900, all 19 verses).** Sound off: the first word is lit at most 0.017 s after the step, each later word at most 0.040 s after its time, and the verse arrives at "all lit" 0.018 to 0.037 s after the end of its window. Sound on (measured against the recitation's own time): 0.016 s and 0.040 s. The arrival at "all lit" is 0.12 to 0.17 s after the window's end by the clock on the wall, because the audio takes that long to start. No word went dark again. During the lead-in the first word waits: 3.0 s at 1.1.1, 6.95 s at 1.1.13.
+- **One check does not hold as written.** The brief asks that "the last word lights within 0.15 s of the last quarter's end". The last word lights at its own start, as the sync has always worked, and that is 0.6 to 2.7 s before the end of the last quarter (the length of the word). It lights within 0.04 s of its own time. I did not change the sync.
+- **Stepping during the recitation.** At 1.1.11 with sound on: all 12 words lit, the volume was 0.53 after 0.15 s and the audio was paused after 0.75 s. A step back to grey also stops it.
+- **Scatter.** All sixteen visible at the end of the stagger in every walk.
+- **Back and links.** Every walk went back to the first checkpoint, one step at a time. `?v=1.1.19` lands on 1.1.19, 11 of 11 words lit, note shown, eyebrow "V · The Story Begins". The six pager dots land on the first checkpoint of their parts.
+- **Keys and touch.** Arrow Down, Page Down and Space step forward. Arrow Up, Page Up and Shift+Space step back. Home and End go to the first and last checkpoint. A swipe up or down moves one checkpoint and a tap moves none (360 × 640, touch events).
+- **Patterns.** No vertical scroll at 1440 × 900, 1280 × 800 and 1024 × 768. Row height 32px, 26.8px and 24.8px. The panel shows the framing by default, the dot's detail after a click, the framing again after Escape or a second click, and the lens's note for a lens. At 360 and 768px a dot opens its tooltip in place and the lens note shows under the matrix.
+- **The rail.** Sixteen slots at 1024, 1152, 1280 and 1440px. The strip at 360 and 768px, two rows. The verse is at the exact centre at every size (largest offset 0.008px).
+- **Selection.** 82 selectable words across the three views (16 + 25 in the Conversation, 16 in Questions, 25 in Answers). At 360 × 640, 360 × 560, 768 × 1024, 1024 × 768, 1280 × 800 and 1440 × 900 each one opened the right slot's card, with the gloss and the link. A second click, Escape and a step clear it. Enter selects. No word off the stage can be reached with Tab. Reduced motion (1440 × 900 and 360 × 640): no echo and no bloom. The card never covers the verse. At 360 × 560 it covers the eyebrow and the citation line above the verse.
+- **Small phones.** Every block under a verse is at 85% or more at 360 × 640 (lowest 85.7%) and at 360 × 560 (lowest 85.5%), with Goldman and with Debroy.
+- **One case below 85% on desktop.** At 1024 × 768, 1.1.19 with Goldman and its note is at 84.7%. The brief's limit is for small phones, so I left it.
+- **Unchanged.** At the four sizes, over every checkpoint of the three views (Goldman and Debroy), Patterns, About and Sources & method: 0 lone last words, except the heading "On translation provenance" at 360px, as in milestones 04 and 05. 0 English lines ending on a `MILESTONE-05.md` §4 word. 0 elements with a vertical transform or translate, also in the middle of a step. 0 console errors. 23 matrix marks. The live mp3 is byte-identical to `assets-src/audio/vr-1-1-1-to-19-bhide.mp3` (1,627,085 bytes). The lone-word check does not read the selection card.
+- **Reduced motion.** Same steps, transitions 0 s, no motes, the scatter shows at once.
+- **Lighthouse 13 on the live site** (performance, accessibility, best practices):
+  - Conversation: mobile 95, 100, 100. Desktop 95, 100, 100.
+  - Patterns: mobile 66 to 97 (four runs: 66, 66, 68, 97), 96, 100. Desktop 99, 100, 100.
+  - About: mobile 97, 100, 100. Desktop 99, 100, 100.
+  - Patterns on mobile: in the slow runs the first paint was at 5.0 s, in the fast run at 1.5 s. The same page gave 99 on a local server. I cannot verify the cause from this container. The accessibility score of 96 is the size of the matrix dots on phones (under 24px wide), which this milestone did not change.
+- **Screen reader, by the accessibility tree.** A verse reads in this order: citation, heading "Verse 1.1.12", the full verse in Devanāgarī, then in IAST, the selectable words as buttons ("dharmajñaḥ, dharmajña", pressed when selected), the English, the source link. Then the rail: heading "16 Qualities" and sixteen items, each with its name, Devanāgarī and gloss (on phones: the sixteen names). Then the card, the translation and sound controls, and the full text of the view.
+- **Not possible here.** Safari or WebKit, real phones (touch inertia, the rubber-band scroll of iOS, the address bar), a real screen reader, and the sync by ear. The timing checks ran at 1440 × 900 only.

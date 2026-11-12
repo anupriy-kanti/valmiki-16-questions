@@ -1,5 +1,20 @@
 # Changelog
 
+## Site v3.2 (milestone 06, c.v16q-06, Nov 2026)
+
+Built by cloud session c.v16q-06 from `MILESTONE-06.md`. Look-first items, judgement calls and checks are in `REVIEW.md` §10.
+
+- **c.v16q-06 · Syllable count.** A unit with no vowel (`nv` at 1.1.2a) counts 0 syllables, not 0.5. Every CE half-line now counts 16.
+- **c.v16q-06 · Checkpoints.** The Conversation, Questions and Answers no longer scroll. One gesture (wheel, trackpad, swipe or key) moves one checkpoint, and input is ignored during a step and for a cooldown after it. Every duration is in one block at the top of `src/steps.js`. The Conversation has 74 checkpoints, Questions 11, Answers 39.
+- **c.v16q-06 · Words in time.** At a verse's second checkpoint the words light in time with the recitation, with sound on or off (`src/audio.js`). During a lead-in the first word is lit and waits. At the end of the recitation the verse arrives at "all lit" by itself. A step forward during the recitation lights all the words and fades the audio.
+- **c.v16q-06 · Hero.** One checkpoint. The image shows alone, then its overlay and title fade in by themselves.
+- **c.v16q-06 · Links.** `?v=1.1.19` opens that verse at its last checkpoint. `?v=` follows the reader. A pager dot jumps to the first checkpoint of its part.
+- **c.v16q-06 · Patterns.** From 1024px the page is one fold with no scroll. A panel beside the matrix shows the framing as prose, a lens's note, or a dot's detail (quality, gloss, verse, grade, answering words). `?q=Q11` marks one quality's dots. Below 1024px the page is one column, as before.
+- **c.v16q-06 · The quality rail.** The board panel and the strip under the tabs are replaced by one rail (`src/Rail.jsx`). From 1024px: a column down the right edge with all sixteen qualities, IAST over Devanāgarī. Below 1024px: a two-row strip above the verse, all sixteen in IAST.
+- **c.v16q-06 · Selecting a quality word.** A lit quality word can be clicked, tapped, or selected with Tab and Enter. A gold round-edged outline draws itself around the word, the word gives off an echo, its slot on the rail blooms, and a card opens with the gloss, the answering verses, the grade and `See it in Patterns`. Under reduced motion: the outline and the card only.
+- **c.v16q-06 · Under the verse.** On desktop there is more space between the verse, its English and the source line, and the English runs as wide as the verse as one balanced paragraph (Anupriy, during the session). On screens under 700px tall the verse is set smaller until every block under it is at 85% or more. The `Read the note` button and its code are removed.
+- **c.v16q-06 · Small things.** An empty icon is declared, so the browser does not ask for `/favicon.ico` (a 404 in the console). For screen readers, a verse's full text comes before its selectable words.
+
 ## Site v3.1 (milestone 05, c.v16q-05, Nov 2026)
 
 Built by cloud session c.v16q-05 from `MILESTONE-05.md`. Look-first items, judgement calls and checks are in `REVIEW.md` §9.
