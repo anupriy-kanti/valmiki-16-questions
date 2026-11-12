@@ -33,16 +33,19 @@ const lensState = (lens, q, isLensMark) => {
 
 // Rows: the 16 qualities in their colour groups. Columns: 1.1.8 to 1.1.19.
 // The data is data/answer-map.json, read as it is.
-export default function Matrix({ lens = null, level = 2, titled = true }) {
+// With `onPick` (Patterns from 1024px) a dot does not open a tooltip: it
+// hands its detail to the page's panel, and `picked` is the dot that is marked.
+export default function Matrix({ lens = null, level = 2, titled = true, picked, onPick }) {
   const H = `h${level}`
-  const [open, setOpen] = useState(null)
+  const [own, setOpen] = useState(null)
+  const open = onPick ? picked : own
   useEffect(() => {
-    if (!open) return
+    if (!own) return
     const close = e => { if (e.type === 'keydown' ? e.key === 'Escape' : !e.target.closest?.('.mk')) setOpen(null) }
     window.addEventListener('keydown', close)
     window.addEventListener('click', close)
     return () => { window.removeEventListener('keydown', close); window.removeEventListener('click', close) }
-  }, [open])
+  }, [own])
   return (
     <div className={'mx' + (lens ? ' has-lens lens-' + lens : '')}>
       {titled && (
@@ -89,12 +92,15 @@ export default function Matrix({ lens = null, level = 2, titled = true }) {
                           type="button"
                           className={'mk mk-' + grade + (st ? ' is-' + st : '') + (open === id ? ' is-open' : '') + (ci > 7 ? ' tip-r' : ci < 3 ? ' tip-l' : '')}
                           aria-label={`${tip.join(', ')}, ${GRADE_NAME[grade]}`}
-                          onClick={() => setOpen(open === id ? null : id)}
+                          aria-pressed={onPick ? open === id : undefined}
+                          onClick={() => (onPick ? onPick(open === id ? null : { id, q: q.id, n, grade, gloss: lensMark ? q.lens.gloss : q.gloss, words }) : setOpen(open === id ? null : id))}
                         >
                           <Mark grade={grade} />
-                          <span aria-hidden="true" className="mk-tip">
-                            {tip.map(t => <span key={t} className="block whitespace-nowrap">{t}</span>)}
-                          </span>
+                          {!onPick && (
+                            <span aria-hidden="true" className="mk-tip">
+                              {tip.map(t => <span key={t} className="block whitespace-nowrap">{t}</span>)}
+                            </span>
+                          )}
                         </button>
                       )}
                     </td>
