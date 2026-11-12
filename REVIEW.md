@@ -540,3 +540,42 @@ The same at all four sizes. In the Home case the verse (1.1.5, second checkpoint
 **Not run again on `08e642e`:** the checkpoint walks, the timing runs, selection, the Patterns checks, small phones, the unchanged rules, Lighthouse and the accessibility tree. Against `1790386`, the code differs by one new effect in the clock and one argument in `src/Stage.jsx`.
 
 **The limit is the same as before.** This browser has no sound output, so "heard" is measured from the clip's state, not listened to.
+
+### The byline and the rail (Anupriy's decision)
+
+The request came from mytwiki-C23. Anupriy had told this session four times to leave the byline, so the session asked him, and he confirmed the change.
+
+- **The change (`295ffc4`).** The vertical byline "Anupriy Kanti · Mythematical" fades out (0.4 s) on every beat where the rail shows, and comes back on the beats without it. Below 1024px the byline was already not shown, so nothing changed there. No copy changed.
+- **Also in this commit, found by the extended check.** At 360 × 560 the quality card lay over the eyebrow and the citation line above the verse (recorded above as a known case). On phones and tablets under 620px tall, those two lines now fade out while a card is open, and come back when it closes. The card still never covers the verse.
+
+### Final run: every §7 check once, on the live build of `295ffc4`
+
+**The build.** Commit `295ffc4`. The live files were `index-38Z7n4W8.js` and `index-BlsBCEa9.css` at the start and at the end of the run, and they are the files of a fresh build of that commit. All checks ran by script (Playwright, Chromium) on https://anupriy-kanti.github.io/valmiki-16-questions/.
+
+**Results.**
+
+- **Checkpoints.** Twelve walks, forward to the end and back to the start: each view with single events, bursts (20 events in 200 ms) and flings, over 360 × 640, 768 × 1024, 1280 × 800 and 1440 × 900. Every gesture moved exactly one checkpoint. 74, 11 and 39 checkpoints. 0 words lit at every verse's first checkpoint. All sixteen qualities visible at the end of the scatter. 12 of the 36 combinations of view, input and size ran, as before.
+- **Words in time (1440 × 900, all 19 verses).** Sound off: first word at most 0.016 s after the step, each later word at most 0.040 s after its time, "all lit" 0.019 to 0.034 s after the window's end. Sound on: 0.016 s and 0.036 s against the recitation's own time, "all lit" 0.10 to 0.15 s after the window's end by the clock on the wall. No word went dark again. Lead-in 3.0 s at 1.1.1 and 6.95 s at 1.1.13.
+- **Stepping during the recitation.** All words lit, volume 0.49 after 0.15 s, paused after 0.75 s. Sound off and on in the middle of a verse goes on from the same place.
+- **Home and the hero** (1440 × 900, 1024 × 768, 768 × 1024, 360 × 640, sound on). 0 frames heard on the hero and no credit in all five cases.
+- **Keys, touch, pager, deep link, reduced motion.** As before: all keys step or jump correctly, a swipe moves one checkpoint and a tap none, the six dots land on the first checkpoint of their parts, `?v=1.1.19` lands all lit with its note, reduced motion gives the same steps with 0 s transitions and no motes.
+- **Patterns.** The fit check passes at 1440 × 900, 1280 × 800, 1280 × 720, 1024 × 768, 1366 × 768, 1536 × 864, 1920 × 1080 and 1024 × 700 in four states (rows 32, 30, 25, 28, 28, 31, 32 and 23.5px). Framing, dot detail, Escape, second click, lens note, the tooltip and lens note at 360 and 768px, and `?q=` as before. 23 marks.
+- **The rail and the strip.** Sixteen slots. Gaps to the verse and its English 49px (1024), 45px (1152), 109px (1280) and 175px (1440), gloss 44px at 1440px. The strip: two rows, 9.7px at 360px, 15px at 768px. The verse is at the exact centre (largest offset 0.008px).
+- **Selection.** 82 words with the right card at 360 × 640, 360 × 560, 768 × 1024, 1024 × 768, 1280 × 800 and 1440 × 900, and with reduced motion at 1440 × 900 and 360 × 640 (no echo, no bloom). The card never covers the verse.
+- **Small phones.** Lowest block 85.7% at 360 × 640 and 85.5% at 360 × 560. Smallest verse 13.9px Devanāgarī and 9.1px IAST (1.1.2 with Debroy at 360 × 560).
+- **Unchanged.** At the four sizes: 0 English lines ending on a §4 word, 0 vertical transforms, 0 console errors, 23 marks, and 0 lone last words except the one named below. The live mp3 is byte-identical (1,627,085 bytes).
+- **Nothing is cut off**, at eleven sizes (the ten, and 360 × 560), 237 checkpoints and 90 cards for each: 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 faults in the nav's tabs, 0 faults in the byline. From 1024px the byline is shown in 45 scans (the beats without the rail) and gone in 284. Below 1024px it is gone in all 329.
+- **Lighthouse** (performance, accessibility, best practices). Conversation: mobile 94, 100, 100. Desktop 96, 100, 100. Patterns: mobile 67 to 97 (four runs: 67, 97, 97, 97), 96, 100. Desktop 98, 100, 100. About: mobile 93, 100, 100. Desktop 98, 100, 100.
+- **Accessibility tree.** The same reading order as recorded above.
+
+**Exceptions. Each one was recorded before, and none is new in this run.**
+
+1. **A §7 check that does not hold as written.** "The last word lights within 0.15 s of the last quarter's end": the last word lights at its own start, 0.6 to 2.7 s before that end, and within 0.04 s of its own time. The sync was not changed.
+2. **A §7 check with one known case.** One lone last word: the heading "On translation provenance" on Sources & method at 360px, the same as in milestones 04 and 05.
+3. **Lighthouse, one slow run.** Patterns on mobile gave 67 once (first paint at 5.2 s), then 97 three times (1.5 to 1.6 s). In earlier runs the slow page was a different one. [Inference] A difference between runs from this container. Not verified.
+4. **Lighthouse accessibility 96 on Patterns, mobile.** The matrix dots are under 24px wide on phones. Not changed in this milestone.
+5. **Outside §7.** At 1024 × 768, 1.1.19 with Goldman and its note is at 84.7%. The 85% limit of the brief is for small phones.
+
+**Limits of the run.** 12 of the 36 walk combinations. Timing at 1440 × 900 only. The cut-off check reads settled checkpoints with reduced motion, and not the vulgate lines in the middle of 1.1.13 and 1.1.19. "Heard" is measured from the clip's state. Not possible here: Safari or WebKit, real phones, a real screen reader, and the sync by ear.
+
+**Status.** The build of milestone 06 is complete, and the final run found nothing new. This session did not mark the milestone closed, because exceptions 1 and 2 are §7 checks that do not pass as written. Closing it is Anupriy's decision (`MILESTONE-06.md` §8).
