@@ -426,4 +426,53 @@ Found by mytwiki-C23 in a browser check of the live site (`b1aed89`) and sent to
 
 - **Also run again on the live build of `4c49f7a`.** The Patterns checks of §7 (framing by default, dot detail, Escape, second click, lens note, tooltip and lens note at 360 and 768px, `?q=`), and the unchanged rules at 1280 × 800 and 360 × 640 (0 lone last words except the known heading, 0 vertical transforms, 0 console errors, 23 marks). All pass.
 - **Not run again on `4c49f7a`.** The checkpoint walks, the timing runs, selection, the rail, small phones, Lighthouse and the accessibility tree. The commit changes `src/Patterns.jsx` and the Patterns rules in `src/index.css` only. [Inference] So the stage results of `b1aed89` are expected to hold, but they are not verified on this build.
-- **The same kind of fault elsewhere.** The stage also hides what does not fit (`.tl-stage` has `overflow: hidden`), and there the blocks are scaled to fit and measured (the 85% checks). I did not find another place where a control is cut off, but I did not run a "nothing is cut off" check on every stage beat at every size. That check does not exist yet.
+- **The same kind of fault elsewhere.** See "Nothing is cut off on the stage" below. That check now exists, and it found four faults.
+
+### Nothing is cut off on the stage (check added on Anupriy's request)
+
+**The check** (in `MILESTONE-06.md` §7). At every checkpoint of five passes: the Conversation with Goldman, the Conversation with Debroy and sound on, Questions, Answers with Goldman, Answers with Debroy and sound on. That is 237 checkpoints for each screen size, 329 scans with the hero before its title and the cards. At each one:
+
+1. Every visible text of the beat and of the stage's furniture is inside the screen and below the nav.
+2. Every link and button is the element under the mouse at its centre, so it can be clicked or tapped.
+3. No text of the beat lies under the rail, the strip, the controls, the recitation credit, the pager, the bottom line or the card.
+
+The card is checked on the first and the last selectable word of each verse (90 cards for each size).
+
+**First run, on the live build of `4c49f7a`.** The eight desktop sizes had nothing cut off and no control out of reach. The check found four faults:
+
+- **The strip under the nav (360 × 640 and 768 × 1024).** The first row of the quality strip was 3 to 4px under the nav's lower edge, at every verse.
+- **A link that could not be tapped (360 × 640).** On a verse with a note (1.1.4, 1.1.17, 1.1.19) the note takes the place of the English. The English was hidden but still lay on top, so a tap on `See it in Patterns` did not reach the link. [Inference] This fault is older than milestone 06, because the note has taken the English's place on phones since milestone 04.
+- **The recitation credit over the English (360 × 640, sound on).** The credit above the two round buttons covered the end of the English, its source link (which could not be tapped in 28 checkpoints) and the note's link at 1.1.19.
+- **The credit against other text (1024 × 768 and 1024 × 700, sound on).** It touched the hero's caption and the line "This mapping is still being checked…" under the matrix.
+- **With these, on phones and tablets:** the credit's box lay over the hero's `Scroll` button when sound was on.
+
+**The fixes (`1790386`).**
+
+- The strip starts 0.35rem lower. The card under it moves with it.
+- The hidden English no longer takes taps while the note is shown.
+- The recitation credit is in the bottom left corner while sound is on, inside the band that the stage keeps free under every beat (two lines, up to 15rem wide on desktop). It was above the controls, bottom right. This is a change of place, not of words. Say if you want it somewhere else.
+- The credit does not show on the hero, where no verse is heard. It shows on every other beat while sound is on.
+
+**Second run, on the live build of `1790386`.** At all ten sizes (1440 × 900, 1280 × 800, 1280 × 720, 1024 × 768, 1366 × 768, 1536 × 864, 1920 × 1080, 1024 × 700, 360 × 640, 768 × 1024): 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 console errors.
+
+**Also run again on the live build of `1790386`**, because the fixes could affect them. All pass:
+
+- Selection at 360 × 640, 360 × 560, 768 × 1024 and 1280 × 800 (82 words each). At 360 × 560 the card still covers the eyebrow and the citation line, as recorded above.
+- Small phones: lowest block 85.7% at 360 × 640 and 85.5% at 360 × 560. The verse is at the exact centre at seven sizes.
+- The strip: two rows, 9.7px at 360px. Its gap to the eyebrow is now 78px at 360 × 640 (it was 83px).
+- The rail's gaps (49px, 45px, 109px, 175px).
+- The Patterns fit check at its eight sizes.
+- The unchanged rules at 360 × 640 and 1440 × 900.
+- Keys, touch, pager, deep link, reduced motion, and stepping during the recitation.
+- Two checkpoint walks (Questions with bursts at 360 × 640, Answers with single events at 768 × 1024).
+
+**Not run again on `1790386`:** ten of the twelve checkpoint walks, the timing runs, Lighthouse and the accessibility tree. The commit changes the place of the credit, the top of the strip and one pointer rule. The engine is not changed.
+
+**What this check does not cover.**
+
+- It runs with reduced motion, so it reads each checkpoint when it is settled, not in the middle of a transition.
+- At a verse's second checkpoint it reads the stage 0.4 s after the step. So it sees the vulgate line at the start of 1.1.13, but not the vulgate lines in the middle of 1.1.13 and 1.1.19.
+- It does not read 360 × 560 or other sizes outside the ten.
+- The nav's tabs are not in it: on phones the tab row scrolls sideways by design. The vertical byline is not in it.
+- It checks that text is not covered by the stage's furniture. It does not check hover states, and it does not judge whether two things are too near to each other.
+- On a very short screen (800 × 400, tried once on the old build) a quality word could not be clicked. Such screens are outside the sizes of the brief, and I did not change anything for them.
