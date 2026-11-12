@@ -35,7 +35,8 @@ const lensState = (lens, q, isLensMark) => {
 // The data is data/answer-map.json, read as it is.
 // With `onPick` (Patterns from 1024px) a dot does not open a tooltip: it
 // hands its detail to the page's panel, and `picked` is the dot that is marked.
-export default function Matrix({ lens = null, level = 2, titled = true, picked, onPick }) {
+// `mark` is a quality whose row and dots are marked (Patterns ?q=).
+export default function Matrix({ lens = null, mark = null, level = 2, titled = true, picked, onPick }) {
   const H = `h${level}`
   const [own, setOpen] = useState(null)
   const open = onPick ? picked : own
@@ -69,7 +70,7 @@ export default function Matrix({ lens = null, level = 2, titled = true, picked, 
         <tbody>
           {QUALITIES.map((q, qi) => {
             const first = qi === 0 || QUALITIES[qi - 1].cat !== q.cat
-            const rowOn = (lens === 'none' && q.grade === 'none') || (lens === 'senses' && q.lens)
+            const rowOn = (lens === 'none' && q.grade === 'none') || (lens === 'senses' && q.lens) || mark === q.id
             return (
               <tr key={q.id} className={(first ? 'g-first ' : '') + (q.grade === 'none' ? 'is-none ' : '') + (rowOn ? 'row-on' : '')}>
                 <th scope="row">
@@ -83,7 +84,7 @@ export default function Matrix({ lens = null, level = 2, titled = true, picked, 
                   const words = (lensMark ? q.lens.answers : q.answers).filter(a => a.n === n)
                   const grade = lensMark ? q.lens.grade : q.grade
                   const id = q.id + '-' + n
-                  const st = words.length ? lensState(lens, q, lensMark) : ''
+                  const st = !words.length ? '' : mark ? (mark === q.id ? 'on' : 'off') : lensState(lens, q, lensMark)
                   const tip = words.map(w => `${w.word} · ${w.dev} · ${w.ce}`)
                   return (
                     <td key={n} className={lens === 'story' && n === 19 ? 'col-on' : ''}>

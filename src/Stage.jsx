@@ -9,7 +9,7 @@ import Matrix from './Matrix.jsx'
 import Controls, { TRANS } from './Controls.jsx'
 import { AuthorHead, CopyLink } from './Author.jsx'
 import { useVerseClock } from './audio.js'
-import { T, checkpoints, useSteps, stageInfo } from './steps.js'
+import { T, checkpoints, useSteps, stageInfo, motionOn } from './steps.js'
 
 const DEV_DIGITS = '०१२३४५६७८९'
 const devNum = n => String(n).replace(/\d/g, d => DEV_DIGITS[d])
@@ -77,7 +77,7 @@ function Note({ note, lens, on }) {
 // One verse, anchored at the exact centre of the screen. `k` is how many
 // words are lit. Lighting is visual only: the full verse is in the page for
 // screen readers.
-const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate }) {
+const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate, sel, onSel }) {
   const below = useRef(null)
   const nd = VERSE_NOTE[v.n]
   // Small phones. No block under a verse may scale below 85% (MILESTONE-05 §7).
@@ -136,10 +136,31 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
             <p key={li} className="stage-line">
               {line.map((u, ui) => {
                 const st = u.k < k ? (on && u.k === k - 1 && k < v.total ? ' is-now' : ' is-lit') : ''
+                // A lit quality word can be selected (MILESTONE-06 §5.2): the
+                // question words of 1.1.2–4 and the answering words of 1.1.8–19.
+                const qid = u.q || u.a[0]
+                const pick = on && qid && u.k < k
+                const picked = pick && sel === u.k
+                const choose = () => onSel(v.n, u.k, qid)
                 const unit = (
-                  <span key={u.k} className={'u' + st}>
+                  <span
+                    key={u.k}
+                    className={'u' + st + (pick ? ' is-pick' : '') + (picked ? ' is-sel' : '')}
+                    {...(pick ? {
+                      role: 'button', tabIndex: 0, 'aria-pressed': picked, 'aria-label': `${u.i}, ${qualityOf(qid).short}`,
+                      style: { '--c': CATS[qualityOf(qid).cat].dot },
+                      onClick: choose, onKeyDown: e => { if (e.key === 'Enter') { e.preventDefault(); choose() } },
+                    } : {})}
+                  >
                     <span aria-hidden="true" className="u-d" lang="sa-Deva">{u.d}</span>
                     <span aria-hidden="true" className="u-i" lang="sa-Latn">{u.i}</span>
+                    {/* The echo: a copy of the word, in place, that scales up a little, blurs and fades. */}
+                    {picked && motionOn() && (
+                      <span aria-hidden="true" className="u-echo">
+                        <span className="u-d" lang="sa-Deva">{u.d}</span>
+                        <span className="u-i" lang="sa-Latn">{u.i}</span>
+                      </span>
+                    )}
                   </span>
                 )
                 // A space between units gives balanced wrapping its break points.
@@ -325,6 +346,18 @@ export default function Stage({ view }) {
   // Words lit in the verse on stage. At the first checkpoint: none, always.
   const k = !verse || c === 0 ? 0 : c === 1 ? (lit.n === verse.n ? Math.max(1, lit.k) : 1) : verse.total
 
+  // A selected quality word: { n, k, q }. A second click or tap, Escape, or
+  // a step to another checkpoint clears it.
+  const [sel, setSel] = useState(null)
+  const onSel = useCallback((n, k, q) => setSel(s => (s && s.n === n && s.k === k ? null : { n, k, q })), [])
+  useEffect(() => setSel(null), [idx])
+  useEffect(() => {
+    if (!sel) return
+    const close = e => { if (e.key === 'Escape') setSel(null) }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, [sel])
+
   // The hero: the image alone, then its overlay and title by themselves.
   const [title, setTitle] = useState(idx > 0)
   useEffect(() => {
@@ -384,7 +417,7 @@ export default function Stage({ view }) {
           )
           if (b.type === 'scatter') return <Scatter key={b.id} on={on} back={on && dir < 0} />
           if (b.type === 'verse') return (
-            <VerseBeat key={b.id} v={b.v} on={on} k={on ? k : past ? b.v.total : 0} note={on ? c === 3 : past} done={on ? c >= 2 : past} which={which} vulgate={on && playing ? vulgate : -1} />
+            <VerseBeat key={b.id} v={b.v} on={on} k={on ? k : past ? b.v.total : 0} note={on ? c === 3 : past} done={on ? c >= 2 : past} which={which} vulgate={on && playing ? vulgate : -1} sel={on && sel?.n === b.v.n ? sel.k : -1} onSel={onSel} />
           )
           if (b.type === 'none') return (
             <section key={b.id} className={'beat' + (on ? ' is-on' : '')} aria-hidden={!on}>
@@ -396,7 +429,7 @@ export default function Stage({ view }) {
           if (b.type === 'author') return <Fit key={b.id} on={on} aria-labelledby="author-name"><AuthorHead /></Fit>
           return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
-        <Rail view={view} n={vn} k={k} shown={!!boardOn} />
+        <Rail view={view} n={vn} k={k} shown={!!boardOn} sel={verse && sel?.n === verse.n ? sel.q : null} />
         <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
       </div>
       <Transcript view={view} />

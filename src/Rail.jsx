@@ -1,4 +1,6 @@
-import { QUALITIES, CATS } from './content.js'
+import { Link } from 'react-router-dom'
+import { QUALITIES, CATS, COPY, GRADE_NAME, qualityOf } from './content.js'
+import { Mark } from './Matrix.jsx'
 
 const LEVEL = { exact: 1, clear: 0.82, partial: 0.64, turned: 0.64 }
 
@@ -33,7 +35,27 @@ const Turn = () => (
 // its gloss beside it. The qualities with no answer stay unlit.
 // Below 1024px: a strip above the verse, all sixteen in IAST, the verse's
 // own qualities at full strength.
-export default function Rail({ view, n, k, shown }) {
+// `sel` is the quality of the selected word (§5.2): its slot blooms and its
+// card opens, with the gloss, the verses that answer it, their grade and the
+// link to Patterns. Every word of the card is existing copy.
+function Card({ id }) {
+  const q = qualityOf(id)
+  const i = QUALITIES.indexOf(q)
+  const verses = [...new Set(q.answers.map(a => a.ce))]
+  return (
+    <div className="q-card" data-pos={i < 2 ? 'top' : i > 13 ? 'bottom' : 'mid'} style={{ '--i': i, '--c': CATS[q.cat].dot, '--t': CATS[q.cat].text }}>
+      <p className="qc-name"><i lang="sa-Latn">{q.short}</i> <span lang="sa-Deva" className="qc-dev">{q.dev}</span></p>
+      <p className="qc-gloss">{q.gloss}</p>
+      <p className="qc-ans">
+        {verses.length > 0 && <span className="qc-verses">{verses.join(' · ')}</span>}
+        <span className="qc-grade"><Mark grade={q.grade} /> {GRADE_NAME[q.grade]}</span>
+      </p>
+      <Link to={`/patterns?q=${q.id}`} className="note-link caps">{COPY.patternsLink}</Link>
+    </div>
+  )
+}
+
+export default function Rail({ view, n, k, shown, sel }) {
   const state = railState(n, k)
   return (
     <div className={'rail-wrap no-print' + (shown ? ' is-shown' : '')} aria-hidden={!shown}>
@@ -45,7 +67,7 @@ export default function Rail({ view, n, k, shown }) {
             const present = view !== 'conversation' || asked
             const gold = view === 'questions' && asked
             return (
-              <li key={q.id} className={'slot' + (present ? ' is-in' : '') + (gold ? ' is-asked' : '') + (lit ? ' is-lit' : '') + (now ? ' is-now' : '')} style={{ '--c': c.dot, '--t': c.text, '--lv': LEVEL[q.grade] || 1 }} aria-hidden={!present}>
+              <li key={q.id} className={'slot' + (present ? ' is-in' : '') + (gold ? ' is-asked' : '') + (lit ? ' is-lit' : '') + (now ? ' is-now' : '') + (sel === q.id ? ' is-sel' : '')} style={{ '--c': c.dot, '--t': c.text, '--lv': LEVEL[q.grade] || 1 }} aria-hidden={!present}>
                 <span className="slot-g">{lit ? q.gloss : ''}</span>
                 <span className="slot-w">
                   <i lang="sa-Latn">{q.short}</i>
@@ -61,11 +83,12 @@ export default function Rail({ view, n, k, shown }) {
 
       <ul className="strip" aria-label="16 Qualities">
         {state.map(({ q, lit, now }) => (
-          <li key={q.id} className={'chip' + (now ? ' is-now' : '') + (now && lit ? ' is-lit' : '')} style={{ '--c': CATS[q.cat].dot, '--t': CATS[q.cat].text, '--lv': LEVEL[q.grade] || 1 }}>
+          <li key={q.id} className={'chip' + (now ? ' is-now' : '') + (now && lit ? ' is-lit' : '') + (sel === q.id ? ' is-sel' : '')} style={{ '--c': CATS[q.cat].dot, '--t': CATS[q.cat].text, '--lv': LEVEL[q.grade] || 1 }}>
             <i lang="sa-Latn">{q.short}</i>
           </li>
         ))}
       </ul>
+      <div className="q-card-wrap" aria-live="polite">{sel && <Card key={sel} id={sel} />}</div>
     </div>
   )
 }

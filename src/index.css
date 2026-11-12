@@ -229,6 +229,7 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 /* The gloss sits beside a lit slot, from 1280px: below that it would run into the English. */
 .slot-g { display: none; position: absolute; right: calc(100% + .9em); top: 50%; translate: 0 -50%; font-size: .88em; font-style: italic; color: var(--color-muted); opacity: 0; transition: opacity 600ms ease; }
 .slot.is-lit .slot-g { opacity: 1; }
+.slot.is-lit.is-sel .slot-g { opacity: 0; }
 .slot.is-asked { color: var(--color-gold-bright); }
 .slot.is-asked .slot-dot { background: var(--color-gold); box-shadow: 0 0 6px rgb(232 200 122 / .5); }
 .slot.is-lit, .chip.is-lit { color: color-mix(in srgb, var(--t) calc(var(--lv) * 100%), #81766a); }
@@ -245,6 +246,42 @@ html:has(.tl-stage) { overscroll-behavior: none; }
   .strip { display: none; }
 }
 @media (min-width: 1280px) { .slot-g { display: block; } }
+/* ─── Selecting a quality word (MILESTONE-06 §5.2). Nothing travels: the
+   word answers in place (a hairline outline and an echo) and its slot on the
+   rail answers in place (a bloom and a card). ─── */
+.u.is-pick { cursor: pointer; border-radius: 3px; padding: 0 .22em; margin-left: -.22em; margin-right: -.22em; }
+.u.is-sel { box-shadow: 0 0 0 1px var(--c); }
+.u-echo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; pointer-events: none; color: var(--c); animation: echo 600ms ease-out both; }
+@keyframes echo { from { opacity: .85; transform: scale(1); filter: blur(0) } to { opacity: 0; transform: scale(1.08); filter: blur(5px) } }
+@keyframes bloom { from { filter: blur(5px) brightness(.8); opacity: .35 } to { filter: blur(0) brightness(1); opacity: 1 } }
+.motion .slot.is-sel, .motion .chip.is-sel { animation: bloom 600ms ease-out both; color: var(--t); text-shadow: 0 0 12px color-mix(in srgb, var(--c) 70%, transparent); }
+.motion .slot.is-sel .slot-dot { background: var(--c); opacity: 1; box-shadow: 0 0 9px var(--c); }
+.q-card { position: absolute; z-index: 17; left: .6rem; right: .6rem; top: calc(2.75rem + 3 * clamp(9.7px, 2.7vw, 15px) + .3rem); margin: 0 auto; max-width: 26rem; padding: .4rem .7rem .5rem; text-align: center; font-size: .82rem; line-height: 1.35; color: var(--color-ink); background: rgb(13 10 8 / .94); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: .35rem; animation: route-fade 600ms ease both; }
+.qc-name { color: var(--t); font-size: 1.05em; display: inline; }
+.qc-dev { font-family: var(--font-deva); font-size: .92em; margin-left: .2em; }
+.qc-gloss { display: inline; font-style: italic; }
+.qc-gloss::before { content: " · "; font-style: normal; color: var(--color-muted); }
+.qc-ans { color: var(--color-gold-bright); }
+.qc-verses::after { content: " · "; color: var(--color-muted); }
+.qc-grade { white-space: nowrap; }
+.qc-ans .mk-svg { display: inline-block; width: 12px; height: 12px; vertical-align: -.08em; margin-right: .15em; }
+.q-card .note-link { margin-top: .2rem; font-size: 9px; }
+@media (min-width: 1024px) {
+  /* 1024 to 1279px: the card opens at the top of the stage, beside the rail's head. */
+  .q-card { left: auto; right: 13.5rem; top: 3.3rem; width: 16rem; margin: 0; padding: .6rem .8rem .7rem; text-align: left; font-size: .92rem; }
+}
+@media (min-width: 1280px) {
+  /* From 1280px: the card opens beside its slot, in the margin between the verse and the rail. */
+  .q-card { --slot: calc((100svh - 10.4rem) / 16); right: calc(2.6rem + clamp(11.5px, calc(var(--slot) * .36), 16px) * 8.6 + .9rem); top: calc(4.8rem + (var(--i) + .5) * var(--slot)); translate: 0 -50%; width: clamp(8.6rem, calc(50vw - 500px), 14rem); }
+  .q-card[data-pos="top"] { top: calc(4.8rem + var(--i) * var(--slot)); translate: none; }
+  .q-card[data-pos="bottom"] { top: calc(4.8rem + (var(--i) + 1) * var(--slot)); translate: 0 -100%; }
+  .qc-name { display: none; }
+  .qc-gloss { display: block; }
+  .qc-gloss::before { content: none; }
+  .qc-verses { display: block; }
+  .qc-verses::after { content: none; }
+}
+
 /* The rail takes the right margin: the pager's labels give way to it. */
 body:has(.tl-stage.has-rail) .pager-label { display: none; }
 

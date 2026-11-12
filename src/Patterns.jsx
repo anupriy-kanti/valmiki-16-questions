@@ -1,6 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { COPY, NOTES, LENSES, CATS, GRADE_NAME, qualityOf } from './content.js'
+import { COPY, NOTES, LENSES, CATS, GRADE_NAME, QUALITIES, qualityOf } from './content.js'
 import Matrix, { Mark } from './Matrix.jsx'
 import Lines, { tie } from './Lines.jsx'
 
@@ -17,7 +17,7 @@ function Detail({ pick }) {
   const c = CATS[q.cat]
   return (
     <div className="pd" style={{ '--c': c.dot, '--t': c.text }}>
-      <p className="pd-cite caps">Vālmīki Rāmāyaṇa 1.1.{pick.n}</p>
+      {pick.n && <p className="pd-cite caps">Vālmīki Rāmāyaṇa 1.1.{pick.n}</p>}
       <p className="pd-name"><i lang="sa-Latn">{q.full}</i> <span lang="sa-Deva" className="pd-dev">{q.fullDev}</span></p>
       <p className="pd-gloss">{pick.gloss}</p>
       <p className="pd-grade"><Mark grade={pick.grade} /> {GRADE_NAME[pick.grade]}</p>
@@ -40,6 +40,9 @@ export default function Patterns() {
   const lens = LENSES.some(([id]) => id === params.get('lens')) ? params.get('lens') : null
   const wide = useWide()
   const [pick, setPick] = useState(null)
+  // ?q=Q3 (from a selected quality word on the stage) marks that quality's dots.
+  const mark = !lens && QUALITIES.some(q => q.id === params.get('q')) ? params.get('q') : null
+  const marked = mark && qualityOf(mark)
   const choose = id => { setPick(null); setParams(id === lens ? {} : { lens: id }, { replace: true }) }
   useEffect(() => {
     if (!pick) return
@@ -66,13 +69,13 @@ export default function Patterns() {
             <button key={id} type="button" aria-pressed={lens === id} onClick={() => choose(id)}>{label}</button>
           ))}
         </div>
-        <Matrix lens={lens} titled={false} picked={wide ? pick?.id ?? null : undefined} onPick={wide ? setPick : undefined} />
+        <Matrix lens={lens} mark={mark} titled={false} picked={wide ? pick?.id ?? null : undefined} onPick={wide ? setPick : undefined} />
         {!wide && <div className="pat-note" aria-live="polite">{lensNote}</div>}
         <p className="pat-back"><Link to="/?v=1.1.19" className="note-link caps">{tie(COPY.patternsBack)}</Link></p>
       </div>
       {wide && (
         <aside className="pat-panel" aria-live="polite">
-          {pick ? <Detail key={pick.id} pick={pick} /> : lens ? lensNote : frame}
+          {pick ? <Detail key={pick.id} pick={pick} /> : lens ? lensNote : marked ? <Detail key={mark} pick={{ q: mark, grade: marked.grade, gloss: marked.gloss, words: marked.answers }} /> : frame}
         </aside>
       )}
     </div>
