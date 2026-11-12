@@ -123,7 +123,7 @@ On the live site after each deploy, at 360 × 640, 768 × 1024, 1280 × 800 and 
 
 - **Checkpoints.** For each view, step through every checkpoint with single wheel events, then with a burst of 20 wheel events in 200 ms, then with a simulated trackpad fling. A burst or a fling moves exactly one checkpoint. Report the checkpoint count per view.
 - **The partial-lighting bug.** At every verse's checkpoint 1, 0 words lit, at every input speed.
-- **Words in time.** With sound off and with sound on: at checkpoint 2, the first word is lit within 0.15 s of the step; the last word lights within 0.15 s of the last quarter's end; checkpoint 3 is reached by itself. Stepping during playback lights all words and fades the audio.
+- **Words in time.** With sound off and with sound on: at checkpoint 2, the first word is lit within 0.15 s of the step; every word, the last word included, lights within 0.15 s of its own start time (its entry in `wordAt`, from the quarter-verse timings). The last word therefore lights before the end of the last quarter, by the length of the word (0.6 to 2.7 s in these verses). Checkpoint 3 is reached by itself, within 0.2 s of the end of the verse's window. (Rewritten on 12 Nov when the milestone was closed: the first wording, "the last word lights within 0.15 s of the last quarter's end", did not describe how the sync works.) Stepping during playback lights all words and fades the audio.
 - **Scatter.** All sixteen visible at the end of its stagger, at every input speed.
 - **Back and links.** Stepping back reverses every step. `?v=1.1.19` lands on 1.1.19, all lit, note shown.
 - **Patterns.** No vertical scroll at 1440 × 900 and 1280 × 800. Default panel shows the framing. A dot click shows its detail, and a lens shows its note. Added after the defect of 12 Nov (REVIEW §10): also at 1024 × 768 and 1280 × 720, and "fits" means that no element is cut off by the screen or by a clipping parent, and that the link under the matrix can be clicked.
@@ -138,4 +138,17 @@ On the live site after each deploy, at 360 × 640, 768 × 1024, 1280 × 800 and 
 
 ## 8. Status (added by c.v16q-06, 12 Nov 2026)
 
-The build is complete. Every §7 check ran once on the final live build, commit `295ffc4` (JavaScript `index-38Z7n4W8.js`, CSS `index-BlsBCEa9.css`). All pass, except the recorded exceptions in `REVIEW.md` §10, "Final run". Two of them are §7 checks that do not hold as written (the last word and the end of the last quarter, and one lone last word in a heading on Sources & method at 360px). Because of these two, c.v16q-06 did not mark the milestone closed. Closing it is Anupriy's decision.
+**Milestone 06 is closed.**
+
+- Every §7 check ran once on the final live build, commit `295ffc4` (JavaScript `index-38Z7n4W8.js`, CSS `index-BlsBCEa9.css`). Results are in `REVIEW.md` §10, "Final run".
+- Two exceptions were accepted when the milestone was closed. The acceptance reached c.v16q-06 in a message from mytwiki-C23, sent for Anupriy.
+  1. **The last word.** The §7 line "Words in time" is rewritten above, so that it describes how the sync works. Later milestones need not flag it.
+  2. **One lone last word.** The heading "On translation provenance" on Sources & method at 360px. It is carried to milestone 07 as its first item (below).
+
+**Carried to milestone 07, first item: the heading "On translation provenance" at 360px (no copy change).**
+
+The request was to put balanced wrapping on headings. Measured on the live build: the headings already have it (`h1, h2, h3 { text-wrap: balance }` in `src/index.css`, and the browser reports `balance` for this heading). It cannot remove this case. The heading is three words (34px, 145px and 140px wide at 20px Cinzel) in a box of 294px at 360px, and 324px at 390px. It needs two lines, and every two-line break of three words leaves one word alone: "On translation / provenance", or "On / translation provenance". At 414px (box 348px) it fits on one line. So milestone 07 needs a decision between these, none of which changes the words:
+
+- a smaller heading on narrow phones, so that it fits on one line (about 17.5px or less at 360px),
+- the break "On / translation provenance", which moves the lone word to the first line (it fits at 360px with 2px to spare, and not at 320px),
+- or an accepted exception for this heading in the lone-word check.

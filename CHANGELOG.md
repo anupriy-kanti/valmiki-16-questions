@@ -17,7 +17,7 @@ Built by cloud session c.v16q-06 from `MILESTONE-06.md`. Look-first items, judge
 - **c.v16q-06 · Stage, four faults fixed.** Found by a new "nothing is cut off" check of every checkpoint. On phones and tablets the quality strip sat 3 to 4px under the nav. On phones the link `See it in Patterns` under a verse's note could not be tapped. With sound on, the recitation credit covered part of the English on phones and touched other text at 1024px: it is now in the bottom left corner, and it does not show on the hero.
 - **c.v16q-06 · Home and the hero.** Home during a verse stops the recitation at once, with no fade, so nothing is heard on the hero.
 - **c.v16q-06 · Byline.** The vertical byline is hidden on the beats where the quality rail shows, and stays on the other beats (Anupriy's decision). On short phones the eyebrow and the citation line fade while a quality card is open.
-- **c.v16q-06 · Final run.** Every check of `MILESTONE-06.md` §7 ran once on the live build of `295ffc4`. Results and exceptions are in `REVIEW.md` §10, "Final run".
+- **c.v16q-06 · Final run.** Every check of `MILESTONE-06.md` §7 ran once on the live build of `295ffc4`. Results and exceptions are in `REVIEW.md` §10, "Final run". Milestone 06 is closed on that run. One item is carried to milestone 07: the heading "On translation provenance" at 360px.
 - **c.v16q-06 · Small things.** An empty icon is declared, so the browser does not ask for `/favicon.ico` (a 404 in the console). For screen readers, a verse's full text comes before its selectable words.
 
 ## Site v3.1 (milestone 05, c.v16q-05, Nov 2026)

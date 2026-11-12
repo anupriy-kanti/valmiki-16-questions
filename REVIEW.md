@@ -578,4 +578,14 @@ The request came from mytwiki-C23. Anupriy had told this session four times to l
 
 **Limits of the run.** 12 of the 36 walk combinations. Timing at 1440 × 900 only. The cut-off check reads settled checkpoints with reduced motion, and not the vulgate lines in the middle of 1.1.13 and 1.1.19. "Heard" is measured from the clip's state. Not possible here: Safari or WebKit, real phones, a real screen reader, and the sync by ear.
 
-**Status.** The build of milestone 06 is complete, and the final run found nothing new. This session did not mark the milestone closed, because exceptions 1 and 2 are §7 checks that do not pass as written. Closing it is Anupriy's decision (`MILESTONE-06.md` §8).
+**Status.** Milestone 06 is closed. See "Milestone 06 is closed" at the end of this section.
+
+### Milestone 06 is closed
+
+**Closed on 12 Nov 2026**, on the final run of the live build of `295ffc4`. This session had asked Anupriy whether he accepts exceptions 1 and 2 of the final run. The answer came in a message from mytwiki-C23, sent for Anupriy: both are accepted, and the milestone is closed. Anupriy had said earlier that he relays through mytwiki-C23.
+
+- **Exception 1, the last word.** The line "Words in time" in `MILESTONE-06.md` §7 is rewritten. It now says that every word, the last included, lights within 0.15 s of its own start time, and that the verse reaches its third checkpoint within 0.2 s of the end of its window. The final run meets both (0.04 s and 0.15 s). The sync is not changed.
+- **Exception 2, the lone last word.** Carried to milestone 07 as its first item, with no copy change. One fact for that milestone: the request was to put balanced wrapping on headings, and the headings already have it. It cannot remove this case, because the heading is three words that need two lines at 360px, and every two-line break of three words leaves one word alone. `MILESTONE-06.md` §8 gives the measurements and three options (a smaller heading on narrow phones, the break after "On", or an accepted exception).
+- **Still open, outside the closing.** The decisions listed under "Look at and listen to these first", and the tests that are not possible here (Safari or WebKit, real phones, a real screen reader, the sync by ear).
+
+No site file changed in this commit. The live build is still that of `295ffc4`.
