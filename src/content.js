@@ -200,7 +200,8 @@ export const GRADE_NAME = { exact: 'Same word', clear: 'Other words', partial: '
 // second across the second, by syllable count. Lead-in silence, the oṃ at
 // 1.1.1 and the pause between quarters belong to no word, so the highlight
 // holds there. Vulgate windows carry no words.
-const syllables = w => Math.max(0.5, (w.match(/ai|au|[aāiīuūṛṝḷeo]/g) || []).length)
+// A unit with no vowel (nv at 1.1.2a) counts 0, so every half-line counts 16.
+const syllables = w => (w.match(/ai|au|[aāiīuūṛṝḷeo]/g) || []).length
 const audioFor = v => {
   const wins = timings.halfLines.filter(h => h.ce === v.ce)
   if (!wins.length) return null
