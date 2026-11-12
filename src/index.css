@@ -237,11 +237,12 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 .slot-turn { display: inline-block; margin-left: .3em; vertical-align: -.05em; }
 /* Below 1024px: a strip above the verse, at most two rows, all sixteen in
    IAST. The qualities of the verse on stage are at full strength. */
-.strip { position: absolute; top: 2.75rem; left: 0; right: 0; z-index: 15; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 .45em; padding: 0 .3rem; font-size: clamp(9.7px, 2.7vw, 15px); line-height: 1.5; }
+.strip { position: absolute; top: 3.1rem; left: 0; right: 0; z-index: 15; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 .45em; padding: 0 .3rem; font-size: clamp(9.7px, 2.7vw, 15px); line-height: 1.5; }
 .chip { color: #a39686; white-space: nowrap; transition: color 500ms ease, text-shadow 500ms ease; }
 .chip.is-now { color: var(--color-gold-bright); text-shadow: 0 0 10px rgb(232 200 122 / .45); }
 .chip.is-now.is-lit { text-shadow: 0 0 10px color-mix(in srgb, var(--c) 55%, transparent); }
 @media (min-width: 1024px) {
+  .ctl-credit { left: 2.6rem; }
   .rail { display: flex; }
   .strip { display: none; }
 }
@@ -260,7 +261,7 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 @keyframes bloom { from { filter: blur(5px) brightness(.8); opacity: .35 } to { filter: blur(0) brightness(1); opacity: 1 } }
 .motion .slot.is-sel, .motion .chip.is-sel { animation: bloom 600ms ease-out both; color: var(--t); text-shadow: 0 0 12px color-mix(in srgb, var(--c) 70%, transparent); }
 .motion .slot.is-sel .slot-dot { background: var(--c); opacity: 1; box-shadow: 0 0 9px var(--c); }
-.q-card { position: absolute; z-index: 17; left: .6rem; right: .6rem; top: calc(2.75rem + 3 * clamp(9.7px, 2.7vw, 15px) + .3rem); margin: 0 auto; max-width: 26rem; padding: .4rem .7rem .5rem; text-align: center; font-size: .82rem; line-height: 1.35; color: var(--color-ink); background: rgb(13 10 8 / .94); border: 1px solid rgb(201 168 92 / .5); border-radius: .6rem; box-shadow: 0 0 18px rgb(0 0 0 / .5); animation: route-fade 600ms ease both; }
+.q-card { position: absolute; z-index: 17; left: .6rem; right: .6rem; top: calc(3.1rem + 3 * clamp(9.7px, 2.7vw, 15px) + .3rem); margin: 0 auto; max-width: 26rem; padding: .4rem .7rem .5rem; text-align: center; font-size: .82rem; line-height: 1.35; color: var(--color-ink); background: rgb(13 10 8 / .94); border: 1px solid rgb(201 168 92 / .5); border-radius: .6rem; box-shadow: 0 0 18px rgb(0 0 0 / .5); animation: route-fade 600ms ease both; }
 .qc-name { color: var(--t); font-size: 1.05em; display: inline; }
 .qc-dev { font-family: var(--font-deva); font-size: .92em; margin-left: .2em; }
 .qc-gloss { display: inline; font-style: italic; }
@@ -300,12 +301,15 @@ html:has(.tl-stage) { overscroll-behavior: none; }
 .ctl-icon { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; border: 1px solid rgb(201 168 92 / .4); color: var(--color-muted); background: rgb(26 20 16 / .7); font-size: 11px; letter-spacing: 0; }
 .ctl-icon.is-on, .ctl-icon[aria-expanded="true"] { color: var(--color-gold-bright); border-color: var(--color-gold); }
 .ctl-menu { position: absolute; right: 0; bottom: calc(100% + .4rem); display: flex; flex-direction: column; align-items: flex-end; gap: .1rem; padding: .3rem .7rem; font-size: 10px; background: rgb(26 20 16 / .95); border: 1px solid rgb(201 168 92 / .35); border-radius: .4rem; }
-.ctl-credit { display: none; font-size: .68rem; line-height: 1.3; color: var(--color-muted); text-align: right; text-wrap: balance; max-width: 15rem; }
+/* The recitation credit shows while sound is on, in the bottom left corner,
+   inside the band that the stage keeps free under every beat. Beside or above
+   the controls it covered the English on phones. */
+.ctl-credit { display: none; position: absolute; z-index: 16; left: .75rem; bottom: .6rem; max-width: calc(100% - 7.2rem); font-size: .68rem; line-height: 1.3; color: var(--color-muted); text-align: left; text-wrap: balance; }
 .ctl-credit.is-on { display: block; }
 @media (min-width: 768px) {
   .ctl-wide { display: block; }
   .ctl-phone { display: none; }
-  .ctl-credit { max-width: 26rem; font-size: .72rem; }
+  .ctl-credit { left: 1.5rem; bottom: 1.3rem; max-width: 15rem; font-size: .72rem; }
 }
 
 /* ─── The matrix: a composition, gold on near-black ─── */
@@ -464,6 +468,8 @@ html:has(.tl-stage) { overscroll-behavior: none; }
   .has-note .vs-pair > * { grid-area: 1 / 1; }
   .has-note .vs-note { margin-top: 0; padding-top: 0; border-top: 0; align-self: start; }
   .has-note.note-on .stage-trans.is-on { opacity: 0; }
+  /* The hidden English must not lie over the note's link. */
+  .has-note.note-on .stage-trans { pointer-events: none; }
 }
 
 /* Small phones: a vulgate line keeps no space of its own. It shows over the English. */

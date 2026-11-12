@@ -429,7 +429,7 @@ export default function Stage({ view }) {
           return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
         <Rail view={view} n={vn} k={k} shown={!!boardOn} sel={verse && sel?.n === verse.n ? sel.q : null} />
-        <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
+        <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} credit={beat.type !== 'hero'} />
       </div>
       <Transcript view={view} />
     </div>

@@ -18,9 +18,12 @@ const Speaker = ({ on }) => (
   </svg>
 )
 
-// Bottom right, always on the stage: Goldman · Debroy · Sound.
+// Bottom right, always on the stage: Goldman · Debroy · Sound. The recitation
+// credit shows in the bottom left corner while sound is on.
 // On phones: two small icons (translation and sound).
-export default function Controls({ which, setWhich, sound, setSound }) {
+// `credit` is false on the hero, where no verse is heard and the credit would
+// lie over the Scroll button on phones.
+export default function Controls({ which, setWhich, sound, setSound, credit = true }) {
   const [open, setOpen] = useState(false)
   const box = useRef(null)
   useEffect(() => {
@@ -31,8 +34,9 @@ export default function Controls({ which, setWhich, sound, setSound }) {
     return () => { window.removeEventListener('keydown', close); window.removeEventListener('click', close) }
   }, [open])
   return (
+    <>
+    {AUDIO_ENABLED && <AudioCredit className={'ctl-credit no-print' + (sound && credit ? ' is-on' : '')} />}
     <div className="ctl no-print">
-      {AUDIO_ENABLED && <AudioCredit className={'ctl-credit' + (sound ? ' is-on' : '')} />}
       <div className="ctl-wide caps">
         <span role="group" aria-label="Translation">
           {TRANS.map(([key, label], j) => (
@@ -67,5 +71,6 @@ export default function Controls({ which, setWhich, sound, setSound }) {
         )}
       </div>
     </div>
+    </>
   )
 }
