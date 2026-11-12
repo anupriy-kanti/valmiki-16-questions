@@ -1,28 +1,18 @@
 import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { STORY, QUALITIES, CATS, CITES, COPY, NOTES, VERSE_NOTE, AUDIO_ENABLED, qualityOf } from './content.js'
-import { partAt, Footer } from './Shell.jsx'
+import { Footer } from './Shell.jsx'
 import Lines, { tie, useFit, English } from './Lines.jsx'
 import Hero from './Hero.jsx'
 import Board from './Board.jsx'
 import Matrix from './Matrix.jsx'
 import Controls, { TRANS } from './Controls.jsx'
 import { AuthorHead, CopyLink } from './Author.jsx'
-import { useVerseAudio } from './audio.js'
-
-export const motionOn = () => document.documentElement.classList.contains('motion')
-const clamp = x => Math.max(0, Math.min(1, x))
+import { useVerseClock } from './audio.js'
+import { T, checkpoints, useSteps, stageInfo } from './steps.js'
 
 const DEV_DIGITS = '०१२३४५६७८९'
 const devNum = n => String(n).replace(/\d/g, d => DEV_DIGITS[d])
-
-// Scroll within a verse's run: words light over LIT_FROM–LIT_TO, then its
-// note (if it has one) at NOTE_AT.
-const LIT_FROM = 0.05
-const LIT_TO = 0.66
-const NOTE_AT = 0.76
-const litAt = (v, p) => (p < LIT_FROM ? 0 : Math.min(v.total, Math.floor(((p - LIT_FROM) / (LIT_TO - LIT_FROM)) * v.total) + 1))
-const pForLit = (v, k) => (k <= 0 ? 0.01 : LIT_FROM + ((k - 1) / v.total) * (LIT_TO - LIT_FROM) + 0.004)
 
 const line2Start = v => v.lines[0].length
 const EYEBROW = (v, k) =>
@@ -32,26 +22,27 @@ const EYEBROW = (v, k) =>
         : v.n === 19 && k > line2Start(v) ? 'V · The Story Begins'
           : 'IV · Nārada’s Answer'
 
-// ─── The timeline: one pinned stage, a list of beats ────────────────────────
-// `len` is the scroll length of a beat in screens.
-function beatsFor(view, narrow) {
-  const run = narrow ? 1 : 1.4
-  const verse = v => ({ id: 'v' + v.n, type: 'verse', v, len: run + (VERSE_NOTE[v.n] ? 0.35 : 0) })
-  const fold = (lines, j) => ({ id: 'fold' + j, type: 'fold', lines, len: 0.7 })
-  if (view === 'questions') return [...STORY.slice(1, 4).map(verse), { id: 'qfold', type: 'qfold', len: 0.6 }]
-  if (view === 'answers') return [...STORY.slice(7).map(verse), { id: 'matrix', type: 'matrix', len: 0.6 }]
+// ─── The timeline: one stage, a list of beats ───────────────────────────────
+// Each beat is one checkpoint, except a verse, which has three or four
+// (MILESTONE-06 §3).
+function beatsFor(view) {
+  const verse = v => ({ id: 'v' + v.n, type: 'verse', v })
+  const fold = (lines, j) => ({ id: 'fold' + j, type: 'fold', lines })
+  if (view === 'questions') return [...STORY.slice(1, 4).map(verse), { id: 'qfold', type: 'qfold' }]
+  if (view === 'answers') return [...STORY.slice(7).map(verse), { id: 'matrix', type: 'matrix' }]
   return [
-    { id: 'hero', type: 'hero', len: 1 },
+    { id: 'hero', type: 'hero' },
     ...COPY.fold.slice(0, COPY.foldScatterAfter).map(fold),
-    { id: 'scatter', type: 'scatter', len: 1.5 },
+    { id: 'scatter', type: 'scatter' },
     ...COPY.fold.slice(COPY.foldScatterAfter).map((l, j) => fold(l, j + COPY.foldScatterAfter)),
     ...STORY.map(verse),
-    { id: 'none', type: 'none', len: 0.7 },
-    { id: 'matrix', type: 'matrix', len: 1 },
-    { id: 'author', type: 'author', len: 0.8 },
-    { id: 'colophon', type: 'colophon', len: 0.5 },
+    { id: 'none', type: 'none' },
+    { id: 'matrix', type: 'matrix' },
+    { id: 'author', type: 'author' },
+    { id: 'colophon', type: 'colophon' },
   ]
 }
+const hasNote = v => !!VERSE_NOTE[v.n]
 
 const TRANS_KEY = 'v16q-translation'
 const readTrans = () => { try { const t = localStorage.getItem(TRANS_KEY); return TRANS.some(([k]) => k === t) ? t : 'goldman' } catch { return 'goldman' } }
@@ -86,7 +77,7 @@ function Note({ note, lens, on }) {
 // One verse, anchored at the exact centre of the screen. `k` is how many
 // words are lit. Lighting is visual only: the full verse is in the page for
 // screen readers.
-const VerseBeat = memo(function VerseBeat({ v, k, on, note, hold, which, vulgate }) {
+const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate }) {
   const below = useRef(null)
   const nd = VERSE_NOTE[v.n]
   // Small phones. No block under a verse may scale below 85% (MILESTONE-05 §7).
@@ -133,7 +124,7 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, hold, which, vulgate
   useFit(below, room, [which])
   const noteOn = compact ? note && open : note
   return (
-    <section className={'beat beat-verse' + (on ? ' is-on' : '')} aria-hidden={!on} aria-labelledby={`st${v.n}`}>
+    <section className={'beat beat-verse' + (on ? ' is-on' : '') + (done ? ' is-done' : '')} aria-hidden={!on} aria-labelledby={`st${v.n}`}>
       <div className="vs">
         <div className="vs-above">
           <p className="stage-eyebrow caps" aria-hidden="true">{EYEBROW(v, k)}</p>
@@ -184,7 +175,7 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, hold, which, vulgate
               </div>
             )}
             <div className="vs-pair">
-              <div className={'stage-trans' + (k >= 1 || hold ? ' is-on' : '')}>
+              <div className={'stage-trans' + (k >= 1 ? ' is-on' : '')}>
                 <Translation v={v} which={which} />
               </div>
               {nd && <Note note={nd.note} lens={nd.lens} on={noteOn} />}
@@ -201,12 +192,15 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, hold, which, vulgate
 // Offsets are fixed, so the scatter is the same on every visit.
 const JIT = [[-18, 10], [14, -22], [-6, 24], [20, 6], [8, -14], [-22, -4], [16, 20], [-10, -24], [22, -10], [-14, 16], [4, 26], [-24, 2], [12, -6], [-4, -18], [18, 14], [-16, -12]]
 const ORDER = [5, 12, 0, 9, 3, 14, 7, 1, 10, 15, 4, 8, 13, 2, 11, 6]
-function Scatter({ count, on }) {
+// On arrival from above they appear in a timed stagger, in the fixed order.
+// Coming back from below, all sixteen are there with the beat.
+const SCATTER_GAP = (T.SCATTER - T.SCATTER_ITEM) / 15
+function Scatter({ on, back }) {
   return (
-    <section className={'beat beat-scatter' + (on ? ' is-on' : '')} aria-hidden={!on} aria-label="The sixteen qualities">
+    <section className={'beat beat-scatter' + (on ? ' is-on' : '') + (back ? ' is-back' : '')} aria-hidden={!on} aria-label="The sixteen qualities">
       <ul className="scatter">
         {QUALITIES.map((q, j) => (
-          <li key={q.id} className={ORDER.indexOf(j) < count ? 'is-in' : ''} style={{ left: JIT[j][0] * 0.4 + '%', top: JIT[j][1] * 0.4 + '%' }}>
+          <li key={q.id} style={{ left: JIT[j][0] * 0.4 + '%', top: JIT[j][1] * 0.4 + '%', '--d': Math.round(T.FOLD_SWAP + ORDER.indexOf(j) * SCATTER_GAP) + 'ms' }}>
             <span lang="sa-Deva" className="deva">{q.dev}</span>
             <i lang="sa-Latn">{q.short}</i>
           </li>
@@ -286,115 +280,111 @@ const Decor = () => (
 // ─── The stage ──────────────────────────────────────────────────────────────
 
 export default function Stage({ view }) {
-  const track = useRef(null)
-  const stage = useRef(null)
-  const [narrow, setNarrow] = useState(() => window.innerWidth < 768)
-  useEffect(() => {
-    const on = () => setNarrow(window.innerWidth < 768)
-    window.addEventListener('resize', on)
-    return () => window.removeEventListener('resize', on)
-  }, [])
-  const tl = useMemo(() => {
-    const beats = beatsFor(view, narrow)
-    const starts = []
-    let total = 0
-    for (const b of beats) { starts.push(total); total += b.len }
-    return { beats, starts, total }
-  }, [view, narrow])
+  const { beats, cps, firstOf, lastOf } = useMemo(() => {
+    const beats = beatsFor(view)
+    const cps = checkpoints(beats, hasNote)
+    const firstOf = id => cps.findIndex(c => beats[c.i].id === id)
+    const lastOf = id => cps.findLastIndex(c => beats[c.i].id === id)
+    return { beats, cps, firstOf, lastOf }
+  }, [view])
 
-  // Scroll position (page y) of progress p inside beat i.
-  const yFor = useCallback((i, p) => {
-    const el = track.current
-    if (!el) return null
-    const run = el.offsetHeight - window.innerHeight
-    return Math.round(el.offsetTop + (run * (tl.starts[i] + tl.beats[i].len * p)) / tl.total)
-  }, [tl])
+  // The parts of the Conversation, for the pager: each starts at the first
+  // checkpoint of a beat.
+  const parts = useMemo(() => (view !== 'conversation' ? null : {
+    frame: firstOf('fold0'), questions: firstOf('v2'), answer: firstOf('v8'),
+    story: firstOf('v19'), overview: firstOf('matrix'), author: firstOf('author'),
+  }), [view, firstOf])
 
-  // Which beat is on stage, and its state. One rAF-throttled scroll handler.
-  const [st, setSt] = useState({ i: 0, k: 0, note: false })
-  useLayoutEffect(() => {
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const el = track.current
-      const run = el.offsetHeight - window.innerHeight
-      const g = clamp((window.scrollY - el.offsetTop) / run) * tl.total
-      let i = tl.beats.length - 1
-      while (i > 0 && tl.starts[i] > g) i--
-      const b = tl.beats[i]
-      const p = clamp((g - tl.starts[i]) / b.len)
-      let k = 0
-      let note = false
-      if (b.type === 'verse') { k = litAt(b.v, p); note = p >= NOTE_AT }
-      else if (b.type === 'scatter') k = p < 0.04 ? 0 : Math.min(16, Math.ceil(((p - 0.04) / 0.7) * 16))
-      else if (b.type === 'hero') {
-        // The hero's overlay and title follow the scroll directly.
-        stage.current.style.setProperty('--ov', (clamp(p / 0.35) * 0.6).toFixed(3))
-        stage.current.style.setProperty('--tt', clamp((p - 0.3) / 0.3).toFixed(3))
-        k = window.scrollY > 8 ? 1 : 0
-      }
-      setSt(prev => (prev.i === i && prev.k === k && prev.note === note ? prev : { i, k, note }))
-    }
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
-  }, [tl])
+  // Deep links: ?v=1.1.14 opens that verse at its last checkpoint (all lit,
+  // with its note if it has one). ?at=answer opens a part.
+  const [params, setParams] = useSearchParams()
+  const target = params.get('v')
+  const landing = (v, at) => {
+    const b = v && beats.find(x => x.v?.ce === v)
+    if (b) return lastOf(b.id)
+    return at && parts?.[at] != null ? parts[at] : -1
+  }
+  const { idx, dir, go, jump, arrive } = useSteps(cps, beats, () => Math.max(0, landing(target, params.get('at'))))
+
+  const cur = cps[idx]
+  const beat = beats[cur.i]
+  const verse = beat.type === 'verse' ? beat.v : null
+  const c = cur.c
 
   const [which, setWhichState] = useState(readTrans)
   const setWhich = useCallback(t => { setWhichState(t); try { localStorage.setItem(TRANS_KEY, t) } catch { /* storage blocked */ } }, [])
 
-  const cur = tl.beats[st.i]
-  const verse = cur.type === 'verse' ? cur.v : null
-
-  // Audio: verse windows, and the sync that moves the scroll with the voice.
+  // The verse clock: at a verse's second checkpoint its words light in time
+  // with the recitation, heard or not. At its end the verse arrives at its
+  // third checkpoint by itself.
   const [sound, setSoundState] = useState(false)
-  const yForK = useCallback(k => (verse ? yFor(st.i, pForLit(verse, k)) : null), [verse, st.i, yFor])
-  const { vulgate, unlock, rewind } = useVerseAudio(AUDIO_ENABLED && sound, verse, yForK)
+  const playing = !!verse && c === 1
+  const onEnd = useCallback(() => arrive(idx), [arrive, idx])
+  const { lit, vulgate, unlock } = useVerseClock(AUDIO_ENABLED && sound, verse, playing, onEnd)
   const setSound = useCallback(on => { if (on) unlock(); setSoundState(on) }, [unlock])
+  // Words lit in the verse on stage. At the first checkpoint: none, always.
+  const k = !verse || c === 0 ? 0 : c === 1 ? (lit.n === verse.n ? Math.max(1, lit.k) : 1) : verse.total
 
-  // Deep links: ?v=1.1.14 opens that verse fully lit. ?at=answer opens a part.
-  const [params] = useSearchParams()
-  const target = params.get('v')
-  const at = params.get('at')
-  useLayoutEffect(() => {
-    const i = target ? tl.beats.findIndex(b => b.v?.ce === target) : -1
-    if (i >= 0) window.scrollTo(0, yFor(i, 0.9))
-    else if (at && partAt[at]) window.scrollTo(0, partAt[at]())
-  }, [target, at]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Where each part of the Conversation starts, for the pager.
+  // The hero: the image alone, then its overlay and title by themselves.
+  const [title, setTitle] = useState(idx > 0)
   useEffect(() => {
-    if (view !== 'conversation') return
-    const at = (id, p = 0.02) => () => yFor(tl.beats.findIndex(b => b.id === id), p)
-    Object.assign(partAt, {
-      frame: at('fold0'), questions: at('v2'), answer: at('v8'),
-      story: at('v19', pForLit(STORY[18], line2Start(STORY[18]) + 1)),
-      overview: at('matrix'), author: at('author'),
-    })
-    return () => { for (const k of Object.keys(partAt)) delete partAt[k] }
-  }, [view, tl, yFor])
+    if (title) return
+    if (idx > 0) return setTitle(true)
+    const t = setTimeout(() => setTitle(true), T.HERO_HOLD)
+    return () => clearTimeout(t)
+  }, [idx, title])
+
+  // The link follows the reader: ?v= is the verse on stage.
+  const wrote = useRef(target)
+  const ce = verse?.ce || null
+  useEffect(() => {
+    if (params.get('v') === ce && !params.has('at')) return
+    wrote.current = ce
+    setParams(ce ? { v: ce } : {}, { replace: true })
+  }, [ce]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!target || target === wrote.current) return
+    wrote.current = target
+    jump(landing(target))
+  }, [target]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // The nav's scrim and the pager's parts.
+  useEffect(() => {
+    if (!parts) return
+    stageInfo.jumpTo = id => jump(parts[id])
+    stageInfo.set({ parts: Object.keys(parts).filter(id => parts[id] >= 0) })
+    return () => { stageInfo.jumpTo = () => {}; stageInfo.set({ parts: [], part: null, scrim: false }) }
+  }, [parts, jump])
+  useEffect(() => {
+    let part = null
+    if (parts) for (const [id, at] of Object.entries(parts)) if (at >= 0 && at <= idx) part = id
+    stageInfo.set({ part, scrim: view !== 'conversation' || idx > 0 || title })
+  }, [parts, idx, title, view])
 
   const boardOn = verse && (view !== 'conversation' || verse.n >= 2)
   const vn = verse ? verse.n : view === 'answers' ? 20 : 1
+  const vars = {
+    '--t-fold': T.FOLD_SWAP + 'ms', '--t-start': T.VERSE_START + 'ms', '--t-complete': T.VERSE_COMPLETE + 'ms',
+    '--t-note': T.NOTE + 'ms', '--t-item': T.SCATTER_ITEM + 'ms', '--t-hero': T.HERO_TITLE + 'ms',
+  }
 
   return (
-    <div ref={track} className="tl-track" style={{ '--len': tl.total }}>
-      <div ref={stage} className={'tl-stage' + (boardOn ? ' has-board' : '')}>
+    <div className="tl-track">
+      <div className={'tl-stage' + (boardOn ? ' has-board' : '')} style={vars} data-cp={idx} data-beat={beat.id} data-c={c} data-of={cps.length}>
         <Decor />
-        {tl.beats.map((b, j) => {
-          if (Math.abs(j - st.i) > 1) return null
-          const on = j === st.i
-          if (b.type === 'hero') return <Hero key={b.id} on={on} scrolled={st.k > 0 || !on} onNext={() => window.scrollTo({ top: yFor(j, 0.75), behavior: motionOn() ? 'smooth' : 'auto' })} />
+        {beats.map((b, j) => {
+          if (Math.abs(j - cur.i) > 1) return null
+          const on = j === cur.i
+          const past = j < cur.i
+          if (b.type === 'hero') return <Hero key={b.id} on={on} title={title} onNext={() => go(1)} />
           if (b.type === 'fold') return (
             <section key={b.id} className={'beat' + (on ? ' is-on' : '')} aria-hidden={!on}>
               <Lines lines={b.lines} className="fold-copy" />
             </section>
           )
-          if (b.type === 'scatter') return <Scatter key={b.id} on={on} count={on ? st.k : j < st.i ? 16 : 0} />
+          if (b.type === 'scatter') return <Scatter key={b.id} on={on} back={on && dir < 0} />
           if (b.type === 'verse') return (
-            <VerseBeat key={b.id} v={b.v} on={on} k={on ? (rewind ? 0 : st.k) : j < st.i ? b.v.total : 0} note={on ? st.note && !rewind : j < st.i} hold={on && rewind} which={which} vulgate={on ? vulgate : -1} />
+            <VerseBeat key={b.id} v={b.v} on={on} k={on ? k : past ? b.v.total : 0} note={on ? c === 3 : past} done={on ? c >= 2 : past} which={which} vulgate={on && playing ? vulgate : -1} />
           )
           if (b.type === 'none') return (
             <section key={b.id} className={'beat' + (on ? ' is-on' : '')} aria-hidden={!on}>
@@ -406,7 +396,7 @@ export default function Stage({ view }) {
           if (b.type === 'author') return <Fit key={b.id} on={on} aria-labelledby="author-name"><AuthorHead /></Fit>
           return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
-        <Board n={vn} k={verse ? (rewind ? 0 : st.k) : 0} allAsked={view === 'answers'} shown={!!boardOn} />
+        <Board n={vn} k={k} allAsked={view === 'answers'} shown={!!boardOn} />
         <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
       </div>
       <Transcript view={view} />

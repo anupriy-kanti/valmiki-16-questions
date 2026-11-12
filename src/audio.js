@@ -1,71 +1,43 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AUDIO_FILE, AUDIO_SYNC } from './content.js'
+import { T } from './steps.js'
 
-const SETTLE = 500 // ms without scrolling before a verse starts
-const FADE = 300 // ms fade when the visitor leaves a verse
-const REWIND_AT = 100 // ms without scrolling before the highlight starts to fade back
-
-// Verse-window playback (MILESTONE-04 §6). The clip is played as it is: the
-// only things done to it are seeking, pausing and the volume fade.
-// `verse` is the verse on stage (or null). `yForK(k)` gives the scroll
-// position at which that verse shows k lit words.
-// `rewind` is true from the settle pause until the voice reaches the first
-// word: the stage then shows no lit word, so the highlight fades back in
-// place before the voice starts, and the page is moved only once it has.
-export function useVerseAudio(sound, verse, yForK) {
+// The verse clock (MILESTONE-06 §3). While a verse is at its second
+// checkpoint (`playing`), its words light in time with the recitation, from
+// the quarter-verse timings (`verse.audio.wordAt`).
+// - Sound on: the clock is the recitation's own time. The clip is played as
+//   it is: the only things done to it are seeking, pausing and the fade.
+// - Sound off: a silent clock runs at the same pace, from the same timings.
+// During a lead-in (the oṃ at 1.1.1, the vulgate half-line at 1.1.13) the
+// first word is lit and waits. When the clock reaches the end of the verse's
+// window, `onEnd` is called.
+// Returns { n, k }: `k` words of verse `n` are lit. It is only valid while
+// `n` is the verse on stage.
+export function useVerseClock(sound, verse, playing, onEnd) {
+  const [lit, setLit] = useState({ n: null, k: 0 })
   const [vulgate, setVulgate] = useState(-1)
-  const [rewind, setRewind] = useState(false)
-  const r = useRef({ audio: null, verse: null, started: null, driving: false, expectY: -1, timer: 0, pre: 0, raf: 0, fade: 0, lastK: -1, sound: false, yForK })
-  r.current.verse = verse
-  r.current.yForK = yForK
+  // mode: 'audio' (the clip's time), 'silent' (a timer), 'wait' (held at
+  // `base` until the clip starts).
+  const r = useRef({ audio: null, mode: null, base: 0, t0: 0, raf: 0, fade: 0, verse: null, k: 0, sound, onEnd })
+  r.current.onEnd = onEnd
   r.current.sound = sound
 
-  const stopLoop = () => { cancelAnimationFrame(r.current.raf); r.current.raf = 0; r.current.driving = false; setVulgate(-1); setRewind(false) }
-
-  const tick = useCallback(() => {
+  const clock = () => {
     const s = r.current
-    const v = s.verse
-    const a = s.audio
-    if (!a || !v || s.started !== v.n) return stopLoop()
-    const t = a.currentTime
-    if (t >= v.audio.end || a.ended) { a.pause(); return stopLoop() }
-    setVulgate(v.audio.vulgate.findIndex(w => t >= w.start && t < w.end))
-    if (s.driving) {
-      const k = v.audio.wordAt.filter(x => x <= t).length
-      if (k !== s.lastK) {
-        s.lastK = k
-        const y = s.yForK(k)
-        if (y != null) { s.expectY = y; window.scrollTo(0, y) }
-        if (k >= 1) setRewind(false)
-      }
-    }
-    s.raf = requestAnimationFrame(tick)
-  }, [])
-
-  const tryStart = useCallback(() => {
-    const s = r.current
-    const v = s.verse
-    if (!s.sound || !s.audio || !v?.audio || s.started === v.n) return setRewind(false)
-    cancelAnimationFrame(s.fade)
-    s.started = v.n
-    s.lastK = -1
-    s.driving = AUDIO_SYNC
-    const a = s.audio
-    a.volume = 1
-    a.currentTime = v.audio.start
-    a.play().then(() => { cancelAnimationFrame(s.raf); s.raf = requestAnimationFrame(tick) }).catch(() => { s.started = null; setRewind(false) })
-  }, [tick])
+    if (s.mode === 'audio') return s.audio.currentTime
+    if (s.mode === 'silent') return s.base + (performance.now() - s.t0) / 1000
+    return s.base
+  }
+  const silentFrom = t => { const s = r.current; s.mode = 'silent'; s.base = t; s.t0 = performance.now() }
 
   const fadeOut = useCallback(() => {
     const s = r.current
     const a = s.audio
-    stopLoop()
-    s.started = null
     if (!a || a.paused) return
     const t0 = performance.now()
     const step = now => {
       // A frame's timestamp can be a little earlier than t0, so clamp both ways.
-      const x = Math.max(0, Math.min(1, (now - t0) / FADE))
+      const x = Math.max(0, Math.min(1, (now - t0) / T.AUDIO_FADE))
       a.volume = 1 - x
       if (x < 1) s.fade = requestAnimationFrame(step)
       else { a.pause(); a.volume = 1 }
@@ -74,51 +46,70 @@ export function useVerseAudio(sound, verse, yForK) {
     s.fade = requestAnimationFrame(step)
   }, [])
 
-  // The settle pause. If the verse on stage has not started, its highlight
-  // fades back to the start during the pause, and the voice starts at its end.
-  const arm = useCallback(() => {
+  // Hands the clock to the clip, from time `t`. Until the clip plays, the
+  // clock waits at `t`, so no word that is lit goes dark again.
+  const toAudio = useCallback(t => {
     const s = r.current
-    clearTimeout(s.timer)
-    clearTimeout(s.pre)
-    s.timer = setTimeout(tryStart, SETTLE)
-    if (AUDIO_SYNC) s.pre = setTimeout(() => {
-      const v = s.verse
-      if (s.sound && s.audio && v?.audio && s.started !== v.n) setRewind(true)
-    }, REWIND_AT)
-  }, [tryStart])
+    const a = s.audio
+    const v = s.verse
+    cancelAnimationFrame(s.fade)
+    s.mode = 'wait'
+    s.base = t
+    a.volume = 1
+    a.currentTime = t
+    a.play().then(() => {
+      if (s.verse !== v || s.mode !== 'wait') { if (s.mode !== 'audio') a.pause(); return }
+      s.mode = 'audio'
+    }).catch(() => { if (s.verse === v && s.mode === 'wait') silentFrom(t) })
+  }, [])
 
-  // Scrolling: the visitor's scroll takes over the highlight and re-arms the
-  // settle timer. Scrolls made by the sync itself are ignored.
-  useEffect(() => {
-    if (!sound) return
-    const s = r.current
-    const onScroll = () => {
-      if (Math.abs(window.scrollY - s.expectY) <= 2) return
-      s.driving = false
-      setRewind(false)
-      arm()
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    arm()
-    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(s.timer); clearTimeout(s.pre) }
-  }, [sound, tryStart, arm])
-
-  // Leaving a verse fades its audio out. Coming back plays it from its start.
   const n = verse?.n ?? null
   useEffect(() => {
     const s = r.current
-    if (s.started != null && s.started !== n) fadeOut()
-    setRewind(false)
-    if (sound && n != null) arm()
-    else { clearTimeout(s.timer); clearTimeout(s.pre) }
-  }, [n, sound, fadeOut, arm])
+    if (!playing || !verse) return
+    const v = verse
+    if (!v.audio) { s.onEnd(); return }
+    s.verse = v
+    s.k = 1
+    setLit({ n: v.n, k: 1 })
+    if (s.sound && s.audio) toAudio(v.audio.start)
+    else silentFrom(v.audio.start)
+    const tick = () => {
+      const t = clock()
+      if (t >= v.audio.end || (s.mode === 'audio' && s.audio.ended)) {
+        if (s.mode === 'audio') s.audio.pause()
+        s.mode = null
+        s.verse = null
+        setVulgate(-1)
+        s.onEnd()
+        return
+      }
+      // The first word is lit from the start. A lit word stays lit.
+      const k = AUDIO_SYNC ? Math.max(s.k, v.audio.wordAt.filter(x => x <= t).length) : v.total
+      if (k !== s.k) { s.k = k; setLit({ n: v.n, k }) }
+      setVulgate(v.audio.vulgate.findIndex(w => t >= w.start && t < w.end))
+      s.raf = requestAnimationFrame(tick)
+    }
+    s.raf = requestAnimationFrame(tick)
+    return () => {
+      cancelAnimationFrame(s.raf)
+      if (s.verse === v) { fadeOut(); s.mode = null; s.verse = null }
+      setVulgate(-1)
+      setLit({ n: null, k: 0 })
+    }
+  }, [playing, n]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Sound switched on or off while a verse is lighting: the clock goes on
+  // from where it is.
   useEffect(() => {
     const s = r.current
-    if (!sound && s.audio) { cancelAnimationFrame(s.fade); s.audio.pause(); s.started = null; stopLoop() }
-  }, [sound])
+    if (!s.verse || !s.mode) { if (!sound && s.audio) { cancelAnimationFrame(s.fade); s.audio.pause() } return }
+    const t = clock()
+    if (sound && s.audio && s.mode === 'silent') toAudio(t)
+    else if (!sound && s.mode !== 'silent') { cancelAnimationFrame(s.fade); s.audio?.pause(); silentFrom(t) }
+  }, [sound]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => () => { const s = r.current; clearTimeout(s.timer); clearTimeout(s.pre); cancelAnimationFrame(s.raf); cancelAnimationFrame(s.fade); s.audio?.pause() }, [])
+  useEffect(() => () => { const s = r.current; cancelAnimationFrame(s.raf); cancelAnimationFrame(s.fade); s.audio?.pause() }, [])
 
   // Called inside the Sound button's click, so browsers allow later playback.
   const unlock = useCallback(() => {
@@ -128,8 +119,8 @@ export function useVerseAudio(sound, verse, yForK) {
     a.preload = 'auto'
     s.audio = a
     a.muted = true
-    a.play().then(() => { if (s.started == null) a.pause(); a.muted = false }).catch(() => { a.muted = false })
+    a.play().then(() => { if (s.mode !== 'audio' && s.mode !== 'wait') a.pause(); a.muted = false }).catch(() => { a.muted = false })
   }, [])
 
-  return { vulgate, unlock, rewind }
+  return { lit, vulgate, unlock }
 }

@@ -1,10 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useLayoutEffect } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Stage from './Stage.jsx'
 import Patterns from './Patterns.jsx'
 import Sources from './Sources.jsx'
 import About from './About.jsx'
 import { SideByline, Pager, BottomLine, Footer } from './Shell.jsx'
+import { useStageInfo } from './steps.js'
 
 const NAV = [
   ['/', 'Conversation', true],
@@ -15,23 +16,11 @@ const NAV = [
   ['/about', 'About', false],
 ]
 
-// On the landing the nav floats over the hero, transparent, and turns solid
-// once the reader scrolls past the first fold.
-function useSolid(over) {
-  const [solid, setSolid] = useState(0)
-  useEffect(() => {
-    if (!over) return
-    const update = () => setSolid(window.scrollY > 8 ? 1 : 0)
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update) }
-  }, [over])
-  return solid
-}
-
+// On the stage views the nav floats over the stage, transparent on the hero
+// image, and takes a dark scrim from the title on.
 function Nav({ over }) {
-  const solid = useSolid(over)
+  const { scrim } = useStageInfo()
+  const solid = over && scrim ? 1 : 0
   const cls = over
     ? 'fixed inset-x-0 border-b nav-over' + (solid === 2 ? ' is-solid backdrop-blur' : solid === 1 ? ' is-scrim backdrop-blur' : '')
     : 'sticky border-b border-line bg-paper/95 backdrop-blur'
@@ -60,10 +49,9 @@ function Nav({ over }) {
 const STAGES = { '/': 'conversation', '/questions': 'questions', '/answers': 'answers' }
 
 export default function App() {
-  const { pathname, search } = useLocation()
+  const { pathname } = useLocation()
   useLayoutEffect(() => {
-    const q = new URLSearchParams(search)
-    if (!q.has('v') && !q.has('at')) window.scrollTo(0, 0)
+    window.scrollTo(0, 0)
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
   const view = STAGES[pathname]
   return (

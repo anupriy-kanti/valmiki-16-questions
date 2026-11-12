@@ -6,9 +6,9 @@ export const IMAGE_CREDIT = 'Nārada answering Vālmīki’s question. An AI-gen
 
 // First beat of the Conversation stage: the image alone, whole and uncropped,
 // edges masked into the page, with its caption and a scroll cue. As the
-// visitor scrolls, a uniform dark overlay (60%) fades over it, then the title
-// block fades in, centred, in place. The stage sets --ov and --tt.
-export default function Hero({ on, scrolled, onNext }) {
+// After a short hold, a uniform dark overlay (60%) fades over it and the title
+// block fades in, centred, in place (`title`). The hero is one checkpoint.
+export default function Hero({ on, title, onNext }) {
   const track = useRef(null)
 
   // The subtitle fills the title's width: one line from 640px. On phones
@@ -46,7 +46,7 @@ export default function Hero({ on, scrolled, onNext }) {
   }, [])
 
   return (
-    <header ref={track} className={'beat beat-hero' + (on ? ' is-on' : '')} aria-hidden={!on}>
+    <header ref={track} className={'beat beat-hero' + (on ? ' is-on' : '') + (title ? ' has-title' : '')} aria-hidden={!on}>
       <div className="hero-stage">
         <figure className="hero-fig">
           <picture>
@@ -78,9 +78,8 @@ export default function Hero({ on, scrolled, onNext }) {
         <button
           type="button"
           onClick={onNext}
-          tabIndex={scrolled ? -1 : 0}
-          aria-label="Scroll to the title"
-          className={'hero-cue caps no-print absolute bottom-2 left-1/2 flex -translate-x-1/2 flex-col items-center rounded px-3 py-1 text-[11px] text-gold' + (scrolled ? ' is-hidden' : '')}
+          tabIndex={on ? 0 : -1}
+          className="hero-cue caps no-print absolute bottom-2 left-1/2 flex -translate-x-1/2 flex-col items-center rounded px-3 py-1 text-[11px] text-gold"
         >
           Scroll
           <svg aria-hidden="true" className="hero-chevron mt-0.5" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
