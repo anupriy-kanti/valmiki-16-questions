@@ -4,7 +4,7 @@ import { STORY, QUALITIES, CATS, CITES, COPY, NOTES, VERSE_NOTE, AUDIO_ENABLED, 
 import { Footer } from './Shell.jsx'
 import Lines, { tie, useFit, English } from './Lines.jsx'
 import Hero from './Hero.jsx'
-import Board from './Board.jsx'
+import Rail from './Rail.jsx'
 import Matrix from './Matrix.jsx'
 import Controls, { TRANS } from './Controls.jsx'
 import { AuthorHead, CopyLink } from './Author.jsx'
@@ -370,7 +370,7 @@ export default function Stage({ view }) {
 
   return (
     <div className="tl-track">
-      <div className={'tl-stage' + (boardOn ? ' has-board' : '')} style={vars} data-cp={idx} data-beat={beat.id} data-c={c} data-of={cps.length}>
+      <div className={'tl-stage' + (boardOn ? ' has-rail' : '')} style={vars} data-cp={idx} data-beat={beat.id} data-c={c} data-of={cps.length}>
         <Decor />
         {beats.map((b, j) => {
           if (Math.abs(j - cur.i) > 1) return null
@@ -396,7 +396,7 @@ export default function Stage({ view }) {
           if (b.type === 'author') return <Fit key={b.id} on={on} aria-labelledby="author-name"><AuthorHead /></Fit>
           return <Fit key={b.id} on={on}><CopyLink /><Footer /></Fit>
         })}
-        <Board n={vn} k={k} allAsked={view === 'answers'} shown={!!boardOn} />
+        <Rail view={view} n={vn} k={k} shown={!!boardOn} />
         <Controls which={which} setWhich={setWhich} sound={sound} setSound={setSound} />
       </div>
       <Transcript view={view} />
