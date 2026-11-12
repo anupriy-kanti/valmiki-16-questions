@@ -68,13 +68,13 @@ export default function Rail({ view, n, k, shown, sel }) {
             const gold = view === 'questions' && asked
             return (
               <li key={q.id} className={'slot' + (present ? ' is-in' : '') + (gold ? ' is-asked' : '') + (lit ? ' is-lit' : '') + (now ? ' is-now' : '') + (sel === q.id ? ' is-sel' : '')} style={{ '--c': c.dot, '--t': c.text, '--lv': LEVEL[q.grade] || 1 }} aria-hidden={!present}>
-                <span className="slot-g">{lit ? q.gloss : ''}</span>
                 <span className="slot-w">
                   <i lang="sa-Latn">{q.short}</i>
                   {lit && q.grade === 'turned' && <Turn />}
                   <span aria-hidden="true" className="slot-dot" />
                 </span>
                 <span lang="sa-Deva" className="slot-dev">{q.dev}</span>
+                <span className="slot-g">{lit ? q.gloss : ''}</span>
               </li>
             )
           })}

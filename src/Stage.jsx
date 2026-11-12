@@ -132,6 +132,9 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
         </div>
         <h2 id={`st${v.n}`} className="sr-only">Verse {v.ce}</h2>
         <div className="stage-verse">
+          {/* The full verse, for screen readers, before its selectable words. */}
+          <p lang="sa-Deva" className="sr-only">{v.lines.map(l => l.map(u => u.d).join(' ')).join(' । ')} ॥</p>
+          <p lang="sa-Latn" className="sr-only">{v.lines.map(l => l.map(u => u.i).join(' ')).join(' / ')}</p>
           {v.lines.map((line, li) => (
             <p key={li} className="stage-line">
               {line.map((u, ui) => {
@@ -179,8 +182,6 @@ const VerseBeat = memo(function VerseBeat({ v, k, on, note, done, which, vulgate
               })}
             </p>
           ))}
-          <p lang="sa-Deva" className="sr-only">{v.lines.map(l => l.map(u => u.d).join(' ')).join(' । ')} ॥</p>
-          <p lang="sa-Latn" className="sr-only">{v.lines.map(l => l.map(u => u.i).join(' ')).join(' / ')}</p>
         </div>
         <div ref={below} className={'vs-below' + (nd ? ' has-note' : '') + (note ? ' note-on' : '') + (flow ? ' en-flow' : '') + (tight ? ' is-tight' : '') + (vulgate >= 0 ? ' vul-on' : '')}>
           <div className="vs-body">
