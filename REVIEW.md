@@ -451,7 +451,7 @@ The card is checked on the first and the last selectable word of each verse (90 
 - The strip starts 0.35rem lower. The card under it moves with it.
 - The hidden English no longer takes taps while the note is shown.
 - The recitation credit is in the bottom left corner while sound is on, inside the band that the stage keeps free under every beat (two lines, up to 15rem wide on desktop). It was above the controls, bottom right. This is a change of place, not of words. Say if you want it somewhere else.
-- The credit does not show on the hero, where no verse is heard. It shows on every other beat while sound is on. (Changed after Anupriy's question: see "Does any recitation play on the hero?" at the end of this section.)
+- The credit does not show on the hero, where no verse is heard. It shows on every other beat while sound is on. (See "Does any recitation play on the hero?" and "Home stops the recitation at once" at the end of this section. This is the state that is live.)
 
 **Second run, on the live build of `1790386`.** At all ten sizes (1440 × 900, 1280 × 800, 1280 × 720, 1024 × 768, 1366 × 768, 1536 × 864, 1920 × 1080, 1024 × 700, 360 × 640, 768 × 1024): 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 console errors.
 
@@ -493,7 +493,7 @@ Anupriy accepted the credit at the bottom left. On the hero the rule is his: if 
 
 The Home key is the only way from a verse straight to the hero. A step back goes to the fold before the verse, a pager dot goes to a fold or a verse, and a tab in the nav stops the clip at once.
 
-**The change (`faaa053`).** The clock in `src/audio.js` now reports while the recitation fades out. On the hero the credit shows during that fade and goes when the fade ends. It is set narrower there, so that it keeps to the left of the `Scroll` button. On the other beats nothing changed.
+**The change (`faaa053`), taken out again in `08e642e`: see the next part.** The clock in `src/audio.js` now reports while the recitation fades out. On the hero the credit shows during that fade and goes when the fade ends. It is set narrower there, so that it keeps to the left of the `Scroll` button. On the other beats nothing changed.
 
 **Result on the live build of `faaa053`**, at 1440 × 900, 1024 × 768, 768 × 1024 and 360 × 640:
 
@@ -507,3 +507,36 @@ The Home key is the only way from a verse straight to the hero. A step back goes
 **Not run again on `faaa053`:** the other checkpoint walks, the timing of 1.1.5 to 1.1.19 and with sound off, selection, the Patterns checks, small phones, the unchanged rules, Lighthouse and the accessibility tree. The commit adds one value to the clock and one class to the credit.
 
 **Two limits.** A credit that shows for 0.3 s is too short to read. It meets the rule as written, and the same credit shows for the whole of every verse. And headless Chromium has no sound output here, so "heard" means that the clip is playing with its volume above 0, not that I heard it.
+
+### Home stops the recitation at once (Anupriy's decision)
+
+A credit that shows for 0.3 s cannot be read. Anupriy chose the alternative: nothing is heard on the hero, so no credit is needed there.
+
+**The change (`08e642e`).**
+
+- When the hero comes on stage, a recitation that is still playing or fading is stopped at once, with no fade (`silent` in `src/audio.js`). Home during a verse is the only way this happens.
+- The hero credit of `faaa053` is taken out: the fade report in the clock, the narrow placement and its CSS rule. `src/Controls.jsx` and `src/index.css` are the same as in `1790386`.
+- The CHANGELOG sentence is back to "it does not show on the hero".
+- Everywhere else the recitation fades out over 0.3 s as before, when a verse is left or completed.
+
+**Result on the live build of `08e642e`**, with sound on, at 1440 × 900, 1024 × 768, 768 × 1024 and 360 × 640. A frame counts as heard when the clip is not paused, not muted, and its volume is above 0. This time the script counts only frames in which the hero is the beat on stage.
+
+| Case | Frames heard on the hero | Credit on the hero |
+|---|---|---|
+| Sound is switched on with the hero on stage | 0 (the clip plays muted for 6 to 17 frames to unlock playback, then is paused) | None |
+| The reader waits on the hero (4 s) | 0 | None |
+| The reader presses Home while a verse is recited | 0 | None |
+| The reader steps back from the first fold to the hero | 0 | None |
+| Sound is switched off and on again on the hero | 0 | None |
+
+The same at all four sizes. In the Home case the verse (1.1.5, second checkpoint) was playing when the key was pressed, and the script saw one heard frame before the key, with the verse still on stage. The live JavaScript and CSS files contain no `on-hero` rule.
+
+**A correction to the earlier measurement.** The table under "Does any recitation play on the hero?" gave 20 heard frames for the Home case. That script did not read which beat was on stage in each frame, so its first frame was the one before the key. The fade on the hero was 19 frames, about 0.3 s. The answer was the same.
+
+**"Nothing is cut off" on the live build of `08e642e`**, at the same four sizes: 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 console errors (237 checkpoints and 90 cards for each size).
+
+**Also run again on `08e642e`**, all pass: stepping forward during a recitation still fades it (volume 0.53 after 0.15 s, paused after 0.75 s), the keys (Home, End, arrows, Page Up and Down, Space), touch, the pager and the deep link.
+
+**Not run again on `08e642e`:** the checkpoint walks, the timing runs, selection, the Patterns checks, small phones, the unchanged rules, Lighthouse and the accessibility tree. Against `1790386`, the code differs by one new effect in the clock and one argument in `src/Stage.jsx`.
+
+**The limit is the same as before.** This browser has no sound output, so "heard" is measured from the clip's state, not listened to.
