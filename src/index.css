@@ -79,8 +79,15 @@ h1, h2, h3 { text-wrap: balance; }
 /* The stage does not scroll: it is one screen, and the checkpoint engine
    (src/steps.js) moves it one step per gesture. The durations come from the
    engine's constants as --t-* on the stage. */
-.tl-stage { position: relative; height: 100vh; height: 100svh; overflow: hidden; touch-action: pan-x pinch-zoom; --out: calc(var(--t-fold) * .4); --in: calc(var(--t-fold) * .7); --in-at: calc(var(--t-fold) * .3); }
+.tl-stage { position: fixed; top: 0; left: 0; right: 0; height: 100vh; height: 100svh; overflow: hidden; touch-action: pan-x pinch-zoom; --out: calc(var(--t-fold) * .4); --in: calc(var(--t-fold) * .7); --in-at: calc(var(--t-fold) * .3); }
 html:has(.tl-stage) { overscroll-behavior: none; }
+/* The page must not scroll on a stage view. On an iPhone 100vh is taller than
+   the visible screen (Safari's toolbars), so a body of min-height 100vh let
+   the page scroll under the reader's swipe: the stage moved up and the strip
+   went under the nav. On a stage view the page is exactly as tall as the
+   stage (100svh) and cannot scroll, and the stage is fixed to the screen, so
+   that no scroll of any kind can move it. */
+html:has(.tl-stage), html:has(.tl-stage) body { height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
 .beat { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 1rem; opacity: 0; visibility: hidden; transform: scale(.985); filter: blur(5px); transition: opacity var(--out) ease, transform var(--out) ease, filter var(--out) ease, visibility 0s var(--out); }
 .beat.is-on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity var(--in) ease var(--in-at), transform var(--in) ease var(--in-at), filter var(--in) ease var(--in-at), visibility 0s; }
 .beat-fit { padding-top: 3rem; padding-bottom: 3.4rem; }
@@ -475,7 +482,8 @@ body:has(.tl-stage.has-rail) .side-byline { opacity: 0; visibility: hidden; tran
   .has-note .vs-pair { display: grid; }
   .has-note .vs-pair > * { grid-area: 1 / 1; }
   .has-note .vs-note { margin-top: 0; padding-top: 0; border-top: 0; align-self: start; }
-  .has-note.note-on .stage-trans.is-on { opacity: 0; }
+  /* Hidden for certain once it has faded: visibility as well as opacity. */
+  .has-note.note-on .stage-trans.is-on { opacity: 0; visibility: hidden; transition: opacity var(--t-start) ease, visibility 0s var(--t-start); }
   /* The hidden English must not lie over the note's link. */
   .has-note.note-on .stage-trans { pointer-events: none; }
 }
