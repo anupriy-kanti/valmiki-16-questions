@@ -589,3 +589,48 @@ The request came from mytwiki-C23. Anupriy had told this session four times to l
 - **Still open, outside the closing.** The decisions listed under "Look at and listen to these first", and the tests that are not possible here (Safari or WebKit, real phones, a real screen reader, the sync by ear).
 
 No site file changed in this commit. The live build is still that of `295ffc4`.
+
+### After the closing: two faults on Anupriy's iPhone, and two wording changes (13 Nov 2026)
+
+Anupriy looked at the site on his iPhone (iOS 26.6.2, build 23G90, Safari) after the milestone was closed, and sent screenshots of 1.1.17 and 1.1.19 in the Answers. They showed two faults. No check of this session could have shown them, because all checks ran in Chromium on a desktop machine. This is the first test on a real phone, which REVIEW §10 lists as not possible here.
+
+**Fault 1: the quality strip was missing.**
+
+- **Cause.** `body` had `min-height: 100vh`. On an iPhone `100vh` is the height of the screen without Safari's toolbars, so the page was taller than the visible screen, and the stage (`100svh`) was shorter than the page. A swipe therefore also scrolled the page. Measured on the first screenshot: the stage was about 44 points too high, which put the strip exactly under the nav.
+- **Correction (`6210959`).** On a stage view the page is as tall as the stage and cannot scroll, and the stage is fixed to the screen (`position: fixed`), so that no scroll of any kind can move it. Sources & method, About and Patterns scroll as before.
+- **Confirmed** by Anupriy on his iPhone: the strip shows.
+
+**Fault 2: the note showed on top of the English, and the English showed over a grey verse.**
+
+- **Cause.** A paint fault of iOS Safari. The page had hidden the English correctly, but Safari did not repaint the place where the English had been, so its old picture stayed on screen. One screenshot proves it: the English was gone exactly inside the box of the note, which Safari had repainted, and still showed to the left, to the right and below that box.
+- **First attempt (`6210959`, `37eb801`), not enough.** What fades out is now also set to hidden when its fade ends (the English, the vulgate line, the hero's caption, the eyebrow under a card). The overlap stayed, because the page state was already right. These rules are kept: they are correct and do no harm.
+- **Correction (`adc4d66`).** The English, the note, the vulgate line, the eyebrow, and the hero's caption and title each keep a paint layer of their own, always (`will-change: opacity`). A hidden text is then not drawn, and Safari has nothing to repaint.
+- **Confirmed** by Anupriy on his iPhone: no overlap at 1.1.17 and 1.1.19.
+- **Not reproduced here.** Chromium and WebKitGTK 2.52 (installed in this container for this fault) both showed the old build correctly, at 440 × 756, by direct link, by stepping forward and back, with touch events, with reduced motion and with the page scrolled. Eight earlier builds of 12 Nov did not show it either. So this correction rests on the screenshots and on Anupriy's check, not on a test of this session. [Inference] The same fault can exist on other iOS versions. Only real devices can show that.
+
+**Wording change 1: "MYT".** The short code means Mythematical, and a reader cannot know it. It is written out in the three places a reader sees it (`fb9cb8f`): the draft line on Sources & method ("…is a draft by Mythematical, under review."), "How the mapping was made" ("The split is Mythematical’s, not Goldman’s…"), and the source line under each verse with Goldman's English ("verse split by Mythematical, draft"). On Sources & method the name links to About, where Mythematical is explained. No other words were added. The built site files contain no "MYT" and no "mytwiki". `data/goldman-aligned-draft.json` still has a status note with both. It is in the repository, not on the site, and it is not changed.
+
+**Wording change 2: the count of sixteen.** On Sources & method, the two lines "Sixteen is the count tradition gives. Some readers divide the questions / differently, for instance by taking guṇavān as a heading for the rest." had a set break after "questions". They now run on as one paragraph (`8cf0ecc`). The words are the same. `COPY.count` in `src/content.js` still holds the two lines.
+
+**A new check** (in `MILESTONE-06.md` §7): the stage does not scroll. The document is made 140px taller than the screen, as on an iPhone, and the page is scrolled by touch, by wheel and by script. On the build before the correction the strip went 139px under the nav. On the corrected build the stage's top stays at 0 and the strip stays 1px under the nav, on the three stage views at 440 × 756, 360 × 640, 768 × 1024 and 1280 × 800.
+
+**Checks on the live build of `8cf0ecc`** (JavaScript `index-GnRtOxo0.js`, CSS `index-CBPT2mc6.css`). All pass:
+
+- The stage does not scroll (above).
+- Nothing is cut off, at 360 × 640, 360 × 560, 768 × 1024, 1024 × 768, 1280 × 800 and 1440 × 900: 0 texts cut off, 0 controls out of reach, 0 texts under the stage's furniture, 0 faults in the nav's tabs and the byline.
+- Three checkpoint walks (Answers with flings at 360 × 640, the Conversation with bursts at 768 × 1024, Questions with single events at 1280 × 800).
+- Keys, touch, pager, deep link, reduced motion, stepping during the recitation. Home and the hero: 0 frames heard in all five cases at four sizes.
+- Selection: 82 words at 360 × 640, 360 × 560 and 1280 × 800.
+- Small phones: lowest block 85.7% at 360 × 640 and 85.5% at 360 × 560. At 390 × 664 it is now 88.9% (it was 96.5%), because "Mythematical" makes the source line under the verse longer. At 1024 × 768, 1.1.19 with Goldman is at 84.7%, as before.
+- The rail's gaps and the strip (two rows, 9.7px at 360px). The verse is at the exact centre.
+- The Patterns fit check at its eight sizes.
+- Words in time with sound on, 1.1.1 to 1.1.5 (words at most 0.034 s after their time).
+- The unchanged rules at the four sizes: 0 lone last words except the known heading at 360px, 0 English lines ending on a §4 word, 0 vertical transforms, 0 console errors, 23 marks.
+- Sources & method at the four sizes: the paragraph on the count has no set break and no lone last word, both links go to About, and no "MYT" shows.
+- The accessibility tree reads the source line as "Goldman (CE) · verse split by Mythematical, draft".
+
+**Not run again on `8cf0ecc`:** nine of the twelve checkpoint walks, the timing with sound off and for 1.1.6 to 1.1.19, selection at three of the six sizes and with reduced motion, the cut-off check at five of the eleven sizes, and Lighthouse. The paint layers can change Lighthouse's performance numbers a little. That is not measured.
+
+**What this means for later milestones.** A check in Chromium on a desktop machine cannot stand for a phone. Two things were wrong on a real iPhone that eleven screen sizes in Chromium did not show. Each milestone needs one look on a real iPhone and a real Android phone before it is closed.
+
+**Status.** Milestone 06 stays closed, on the live build of `8cf0ecc`. Anupriy asked for the records and the closing after he had confirmed the iPhone faults as gone.
