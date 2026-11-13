@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { IMAGE_CREDIT } from './Hero.jsx'
 import { EDITORIAL, COPY, AUDIO_ENABLED } from './content.js'
 import { AudioCredit } from './Controls.jsx'
-import Lines from './Lines.jsx'
+import { tie } from './Lines.jsx'
 
 const A = ({ href, children }) => (
   <a className="text-accent underline" href={href}>{children}</a>
@@ -119,7 +119,8 @@ export default function Sources() {
 
       <section>
         <h2 className="text-2xl font-semibold">How the mapping was made</h2>
-        <Lines lines={COPY.count} className="my-3" />
+        {/* One paragraph: the two given lines run on, with no set break between them. */}
+        <p className="my-3">{tie(COPY.count.join(' '))}</p>
         <ul className="list-disc space-y-2 pl-5">
           <li>The sixteen questions are the qualities Vālmīki names in CE 1.1.2–4, numbered Q1 to Q16 in the order the verses give them.</li>
           <li>Each mark in the matrix is Anupriy Kanti’s reading of where a verse of Nārada’s answer meets one of the sixteen qualities. The readings are still being checked against the printed Critical Edition.</li>
