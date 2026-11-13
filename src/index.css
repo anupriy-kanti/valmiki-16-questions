@@ -209,6 +209,11 @@ body:has(.tl-stage.has-rail) .side-byline { opacity: 0; visibility: hidden; tran
 @media (max-width: 767px) and (max-height: 700px) { .u-d, .danda { font-size: 1.3rem; } .u-i { font-size: .85rem; } }
 /* What fades out is also set to hidden once the fade ends (visibility as well
    as opacity). On iOS Safari a fade to opacity 0 alone can stay on screen. */
+/* Each text that fades in or out under or above a verse keeps a paint layer
+   of its own, always. iOS Safari did not repaint the place of a text that had
+   faded out: its old picture stayed on screen, and the note showed on top of
+   the English. With its own layer, a hidden text is simply not drawn. */
+.stage-trans, .vs-note, .vs-vulgate p, .vs-above, .hero-credit, .hero-title, .lone-note { will-change: opacity; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .stage-trans { max-width: 640px; margin: 0 auto; opacity: 0; visibility: hidden; transition: opacity var(--t-start) ease, visibility 0s var(--t-start); }
 .stage-trans.is-on { opacity: 1; visibility: visible; transition: opacity var(--t-start) ease, visibility 0s; }
 .stage-trans-text { font-style: italic; font-size: 1rem; line-height: 1.5; }
