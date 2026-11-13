@@ -61,7 +61,7 @@ function Translation({ v, which }) {
     <>
       <English text={text} className="stage-trans-text" />
       <p className="stage-trans-meta">
-        {src === 'goldman' ? <>Goldman (CE) · <span className="italic">verse split by MYT, draft</span> · </> : <>Debroy (CE) · </>}
+        {src === 'goldman' ? <>Goldman (CE) · <span className="italic">verse split by Mythematical, draft</span> · </> : <>Debroy (CE) · </>}
         <Link to={`/sources?ref=${src}`} className="underline whitespace-nowrap">{CITES[src]}</Link>
         {missing && <span className="ln">{tie(COPY.debroy)}</span>}
       </p>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { IMAGE_CREDIT } from './Hero.jsx'
 import { EDITORIAL, COPY, AUDIO_ENABLED } from './content.js'
 import { AudioCredit } from './Controls.jsx'
@@ -36,7 +36,7 @@ export default function Sources() {
     <div className="space-y-8 py-6">
       <h1 className="text-4xl font-semibold">Sources &amp; method</h1>
       <p role="note" className="rounded-lg border border-gold bg-accent-soft/50 p-3 font-sans text-sm">
-        <b>Draft.</b> The verse-by-verse split of Goldman’s paragraphs is a draft by MYT, under review.
+        <b>Draft.</b> The verse-by-verse split of Goldman’s paragraphs is a draft by <Link to="/about" className="underline">Mythematical</Link>, under{' '}review.
       </p>
 
       <section>
@@ -125,7 +125,7 @@ export default function Sources() {
           <li>Each mark in the matrix is Anupriy Kanti’s reading of where a verse of Nārada’s answer meets one of the sixteen qualities. The readings are still being checked against the printed Critical Edition.</li>
           <li>A mark is graded by how closely Nārada’s words meet Vālmīki’s: the same word, other words with the same sense, in part, or turned around. A quality with no mark is not answered in these verses.</li>
           <li>The nine colour themes are one way of grouping the questions for this site, not a classification from the text itself.</li>
-          <li>Goldman translates in paragraphs that cover groups of verses (1.1.1–5, 6–11, 12–15, 16–24). This site splits each paragraph into one piece per verse, verbatim and in Goldman’s order. The split is MYT’s, not Goldman’s, and each piece links to the whole paragraph. Goldman carries 1.1.18b into the sentence shown under 1.1.19. The last paragraph is shown only to the end of 1.1.19, where this site ends.</li>
+          <li>Goldman translates in paragraphs that cover groups of verses (1.1.1–5, 6–11, 12–15, 16–24). This site splits each paragraph into one piece per verse, verbatim and in Goldman’s order. The split is <Link to="/about" className="underline">Mythematical</Link>’s, not Goldman’s, and each piece links to the whole paragraph. Goldman carries 1.1.18b into the sentence shown under 1.1.19. The last paragraph is shown only to the end of 1.1.19, where this site ends.</li>
           <li>Debroy also translates the Critical Edition. His English is shown at the verse it renders.</li>
           <li>Mapped by Anupriy Kanti with Claude (Anthropic) as research assistant. Readings are Anupriy’s.</li>
         </ul>
